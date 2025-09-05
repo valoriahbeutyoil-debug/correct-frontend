@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FAQ — DocuShop Template</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="reviews.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="products-new.css" />
+    <!-- Google Fonts for hero section -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a7cff'/%3E%3Cpath d='M16 20h32v6H16zM16 30h22v6H16zM16 40h28v6H16z' fill='white'/%3E%3C/svg%3E" />
+    <script defer src="main.js"></script>
+    <script defer src="products.js"></script>
+    <script defer src="cart.js"></script>
+    <style>
+      .accordion { display: grid; gap: 8px; margin: 20px 0 40px; }
+      .accordion-item { border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+      .accordion-button { width: 100%; text-align: left; padding: 12px 14px; background: none; border: 0; font: inherit; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+      .accordion-panel { display: none; padding: 0 14px 14px; color: var(--muted); }
+      .accordion-item.open .accordion-panel { display: block; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Top Banner Section -->
+      <div class="top-banner">
+        <div class="container">
+          <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+          <button class="close-banner" aria-label="Close banner">×</button>
+        </div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="header-countdown">
+        <div class="container countdown-flex">
+          <div class="countdown-left">
+            <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+            <div class="countdown" aria-label="Special offer countdown">
+              <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+              <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+              <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+              <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+            </div>
+          </div>
+          <div class="countdown-right">
+            <div class="social-header">
+              <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+            </div>
+            <a href="#" class="discount-btn">Get Lifetime Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header with Logo, Search, and Actions -->
+      <div class="site-header">
+        <div class="container">
+          <div class="header-row">
+            <div class="header-left">
+              <a href="index.html" class="brand" aria-label="Online Document Store Home">
+                <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+              </a>
+            </div>
+            
+            <div class="header-center">
+              <form class="search" role="search" aria-label="Site search">
+                <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+                <button type="submit" aria-label="Submit search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+            </div>
+            
+            <div class="header-right">
+              <div class="header-hours">
+                <i class="fas fa-clock"></i>
+                <span>24 HOURS</span>
+              </div>
+              
+              <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+              <a href="checkout.html" class="cart-section" aria-label="View cart">
+                <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="count" id="cart-count">0</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <nav class="site-nav-bar">
+        <div class="container">
+          <ul class="menu" id="primary-menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="shop.html">SHOP</a></li>
+            <li><a href="clone-cards.html">CLONE CARDS</a></li>
+            <li class="has-submenu">
+              <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+              <ul class="submenu">
+                <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+                <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+                <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+                <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+                <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+                <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+                <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+              </ul>
+            </li>
+            <li><a href="documents.html">DOCUMENTS</a></li>
+            <li><a href="faq.html" class="active">FAQ</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+            <li><a href="reviews.html">REVIEWS</a></li>
+            <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <section class="newsletter">
+      <div class="container news-grid">
+        <div class="news-copy">
+          <h3>Sign up for Newsletter</h3>
+          <p>Get notified about new arrivals and seasonal deals. You can unsubscribe anytime.</p>
+        </div>
+        <form class="news-form" id="newsletter-form">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input id="newsletter-email" type="email" placeholder="Enter your email" required />
+          <button type="submit">Subscribe</button>
+          <span class="form-note" id="newsletter-note" aria-live="polite"></span>
+        </form>
+      </div>
+    </section>
+
+    <main class="container" style="padding:20px 0 40px;">
+      <h1>Frequently Asked Questions</h1>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="avatar" aria-hidden="true" style="font-size:40px;color:#0a7cff;"><i class="fas fa-question-circle"></i></div>
+            <h2 class="product-title">Is delivery discreet?</h2>
+            <p class="product-desc">Yes, all orders are shipped in plain packaging with no indication of contents.</p>
+            <button class="quick-review-btn" onclick="openModal('faq1')" style="background: var(--brand); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">View Details</button>
+          </div>
+          <div class="product-card">
+            <div class="avatar" aria-hidden="true" style="font-size:40px;color:#0a7cff;"><i class="fas fa-truck"></i></div>
+            <h2 class="product-title">How long does shipping take?</h2>
+            <p class="product-desc">Shipping times vary by location, but most orders arrive within 3-7 business days.</p>
+            <button class="quick-review-btn" onclick="openModal('faq2')" style="background: var(--brand); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">View Details</button>
+          </div>
+          <div class="product-card">
+            <div class="avatar" aria-hidden="true" style="font-size:40px;color:#0a7cff;"><i class="fas fa-shield-alt"></i></div>
+            <h2 class="product-title">Are your products guaranteed?</h2>
+            <p class="product-desc">We guarantee the quality and authenticity of all our products. Satisfaction is our priority.</p>
+            <button class="quick-review-btn" onclick="openModal('faq3')" style="background: var(--brand); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">View Details</button>
+          </div>
+          <div class="product-card">
+            <div class="avatar" aria-hidden="true" style="font-size:40px;color:#0a7cff;"><i class="fas fa-file-alt"></i></div>
+            <h2 class="product-title">Sample Product: Utility Bill</h2>
+            <p class="product-desc">Get a realistic utility bill for proof of address or verification purposes.</p>
+            <button class="quick-review-btn" onclick="openModal('faq4')" style="background: var(--nav-bg); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Learn More</button>
+          </div>
+          <div class="product-card">
+            <div class="avatar" aria-hidden="true" style="font-size:40px;color:#0a7cff;"><i class="fas fa-certificate"></i></div>
+            <h2 class="product-title">Sample Product: Birth Certificate</h2>
+            <p class="product-desc">Order a novelty birth certificate for entertainment or replacement needs.</p>
+            <button class="quick-review-btn" onclick="openModal('faq5')" style="background: var(--nav-bg); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Learn More</button>
+          </div>
+        </div>
+        <div id="modal" class="modal" style="display:none;">
+          <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+          </div>
+        </div>
+        <style>
+          .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+          }
+          .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+          }
+          @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+          }
+          .close:hover, .close:focus {
+            color: #e53935;
+          }
+          .modal-content h2 {
+            color: var(--brand);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--brand);
+            padding-bottom: 10px;
+          }
+          .modal-content p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+          }
+          .modal-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+          }
+          .modal-content li {
+            margin-bottom: 8px;
+            color: #666;
+          }
+        </style>
+        <script>
+          function openModal(type) {
+            var body = document.getElementById('modal-body');
+            if(type === 'faq1') {
+              body.innerHTML = '<h2><i class="fas fa-shield-alt"></i> Is delivery discreet?</h2><p>Yes, absolutely! All orders are shipped in completely plain, unmarked packaging with no indication of contents whatsoever.</p><ul><li>Plain brown or white envelopes/boxes</li><li>No company logos or branding</li><li>Generic return addresses</li><li>Confidential handling throughout process</li></ul>';
+            } else if(type === 'faq2') {
+              body.innerHTML = '<h2><i class="fas fa-shipping-fast"></i> How long does shipping take?</h2><p>Shipping times vary by location and shipping method selected:</p><ul><li><strong>Standard:</strong> 5-10 business days</li><li><strong>Express:</strong> 3-5 business days</li><li><strong>Priority:</strong> 1-3 business days</li><li>International orders may take 7-14 days</li></ul>';
+            } else if(type === 'faq3') {
+              body.innerHTML = '<h2><i class="fas fa-certificate"></i> Are your products guaranteed?</h2><p>We stand behind the quality and authenticity of all our products with a comprehensive guarantee:</p><ul><li>100% satisfaction guarantee</li><li>Quality assurance on all documents</li><li>Replacement policy for defective items</li><li>24/7 customer support</li></ul>';
+            } else if(type === 'faq4') {
+              body.innerHTML = '<h2><i class="fas fa-file-invoice"></i> Sample Product: Utility Bill</h2><p>Professional utility bills for verification purposes:</p><ul><li>Customizable with your details</li><li>Multiple utility company templates</li><li>High-quality printing and materials</li><li>Fast 24-48 hour turnaround</li></ul><p><strong>Perfect for:</strong> Address verification, account setup, documentation needs</p>';
+            } else if(type === 'faq5') {
+              body.innerHTML = '<h2><i class="fas fa-id-card"></i> Sample Product: Birth Certificate</h2><p>Novelty birth certificates with authentic appearance:</p><ul><li>State-specific templates available</li><li>Official-looking seals and signatures</li><li>High-quality security paper</li><li>Customizable with your information</li></ul><p><strong>Note:</strong> For novelty and replacement purposes only</p>';
+            }
+            document.getElementById('modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          }
+          function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+          }
+          // Close modal when clicking outside
+          document.addEventListener('click', function(e) {
+            var modal = document.getElementById('modal');
+            if (e.target === modal) {
+              closeModal();
+            }
+          });
+          // Close modal with Escape key
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+              closeModal();
+            }
+          });
+        </script>
+    </main>
+
+    <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title" hidden>
+      <div class="modal-backdrop" data-login-close></div>
+      <div class="modal-dialog">
+        <button class="modal-close" aria-label="Close" data-login-close>×</button>
+        <h3 id="login-title">Login</h3>
+        <form id="login-form">
+          <label>Email or Username</label>
+          <input type="text" required />
+          <label>Password</label>
+          <input type="password" required />
+          <div class="form-row">
+            <label class="checkbox"><input type="checkbox" /> Remember me</label>
+            <a href="#" class="link">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn primary full">Log In</button>
+        </form>
+      </div>
+    </div>
+    <script src="frontend/js/category-init.js"></script>
+    <script>
+// Countdown timer: starts from 365 days
+function startCountdown(days) {
+  let totalSeconds = days * 24 * 60 * 60;
+  const d = document.querySelector('.header-countdown .num#d');
+  const h = document.querySelector('.header-countdown .num#h');
+  const m = document.querySelector('.header-countdown .num#m');
+  const s = document.querySelector('.header-countdown .num#s');
+  function updateCountdown() {
+    let days = Math.floor(totalSeconds / (24 * 60 * 60));
+    let hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+    let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+    let seconds = totalSeconds % 60;
+    d.textContent = String(days);
+    h.textContent = String(hours).padStart(2, '0');
+    m.textContent = String(minutes).padStart(2, '0');
+    s.textContent = String(seconds).padStart(2, '0');
+    if (totalSeconds > 0) {
+      totalSeconds--;
+    }
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+document.addEventListener('DOMContentLoaded', function() {
+  startCountdown(365);
+
+  // Shop submenu toggle
+  var shopMenu = document.querySelector('.has-submenu > a');
+  var shopSubmenu = document.querySelector('.has-submenu .submenu');
+  var shopLi = document.querySelector('.has-submenu');
+  if (shopMenu && shopSubmenu && shopLi) {
+    shopMenu.addEventListener('click', function(e) {
+      e.preventDefault();
+      var expanded = shopLi.getAttribute('aria-expanded') === 'true';
+      shopLi.setAttribute('aria-expanded', String(!expanded));
+      shopLi.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!shopLi.contains(e.target)) {
+        shopLi.setAttribute('aria-expanded', 'false');
+        shopLi.classList.remove('open');
+      }
+    });
+  }
+});
+
+      document.querySelectorAll('.accordion-button').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          const item = btn.closest('.accordion-item');
+          const open = item.classList.contains('open');
+          document.querySelectorAll('.accordion-item').forEach(function(i){ i.classList.remove('open'); i.querySelector('.accordion-button').setAttribute('aria-expanded','false'); });
+          if (!open) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+        });
+      });
+    </script>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="container">
+          <div class="footer-grid">
+            <!-- Company Info -->
+            <div class="footer-col company-info">
+              <div class="footer-logo">
+                <img src="logo.png" alt="DocuShop Logo" />
+              </div>
+              <p class="company-desc">Your trusted partner for secure, authentic documents worldwide. Fast service, discreet delivery, and guaranteed quality.</p>
+              <div class="social-links">
+                <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Contact us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="documents.html">Documents</a></li>
+                <li><a href="how-to-order.html">How to Order</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+              </ul>
+            </div>
+
+            <!-- Our Products -->
+            <div class="footer-col">
+              <h4>Our Products</h4>
+              <ul>
+                <li><a href="shop.html#passports">Passports</a></li>
+                <li><a href="shop.html#drivers-license">Driver's License</a></li>
+                <li><a href="shop.html#id-cards">ID Cards</a></li>
+                <li><a href="shop.html#certificates">Certificates</a></li>
+                <li><a href="shop.html#documents">Legal Documents</a></li>
+                <li><a href="shop.html#cards">Payment Cards</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-col contact-info">
+              <h4>Contact Information</h4>
+              <ul>
+                <li>
+                  <i class="fas fa-phone"></i>
+                  <span>24/7 Support: +1 (800) 555‑0199</span>
+                </li>
+                <li>
+                  <i class="fas fa-envelope"></i>
+                  <span>support@docushop.com</span>
+                </li>
+                <li>
+                  <i class="fas fa-clock"></i>
+                  <span>Available 24/7</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="footer-col newsletter">
+              <h4>Newsletter</h4>
+              <p>Subscribe to get special offers and updates</p>
+              <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required />
+                <button type="submit">Subscribe</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="container">
+          <p>&copy; 2025 DocuShop. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="shipping.html">Shipping Policy</a>
+          </div>
+          <div class="payment-methods">
+            <span>We Accept:</span>
+            <img src="logo.png" alt="Accepted Payment Methods" />
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

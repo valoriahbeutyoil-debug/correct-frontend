@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSD Chemicals — DocuShop</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="reviews.css" />
+  <link rel="stylesheet" href="footer.css" />
+  <link rel="stylesheet" href="products-new.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script defer src="main.js"></script>
+  <script defer src="products.js"></script>
+</head>
+<body>
+  <header>
+    <!-- Top Banner Section -->
+    <div class="top-banner">
+      <div class="container">
+        <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+        <button class="close-banner" aria-label="Close banner">×</button>
+      </div>
+    </div>
+
+    <!-- Countdown Timer Section -->
+    <div class="header-countdown">
+      <div class="container countdown-flex">
+        <div class="countdown-left">
+          <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+          <div class="countdown" aria-label="Special offer countdown">
+            <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+            <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+            <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+            <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+          </div>
+        </div>
+        <div class="countdown-right">
+          <div class="social-header">
+            <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+          </div>
+          <a href="#" class="discount-btn">Get Lifetime Deal</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header with Logo, Search, and Actions -->
+    <div class="site-header">
+      <div class="container">
+        <div class="header-row">
+          <div class="header-left">
+            <a href="index.html" class="brand" aria-label="Online Document Store Home">
+              <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+            </a>
+          </div>
+
+          <div class="header-center">
+            <form class="search" role="search" aria-label="Site search">
+              <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+              <button type="submit" aria-label="Submit search">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+
+          <div class="header-right">
+            <div class="header-hours">
+              <i class="fas fa-clock"></i>
+              <span>24 HOURS</span>
+            </div>
+            
+            <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+            <a href="checkout.html" class="cart-section" aria-label="View cart">
+              <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+              <i class="fas fa-shopping-cart"></i>
+              <span class="count" id="cart-count">0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+                <script src="frontend/js/category-init.js"></script>
+    <nav class="site-nav-bar">
+      <div class="container">
+        <ul class="menu" id="primary-menu">
+          <li><a href="index.html" class="active">HOME</a></li>
+          <li><a href="shop.html">SHOP</a></li>
+          <li><a href="clone-cards.html">CLONE CARDS</a></li>
+          <li class="has-submenu">
+            <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+            <ul class="submenu">
+              <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+              <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+              <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+              <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+              <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+              <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+              <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+            </ul>
+          </li>
+          <li><a href="documents.html">DOCUMENTS</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+          <li><a href="reviews.html">REVIEWS</a></li>
+          <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container" style="padding:24px 0;">
+  <h1>SSD Chemicals</h1>
+  <div class="product-grid" id="products-container">
+    <!-- Products will be loaded here dynamically -->
+  </div>
+</main>
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Company Info -->
+          <div class="footer-col company-info">
+            <div class="footer-logo">
+              <img src="logo.png" alt="DocuShop Logo" />
+            </div>
+            <p class="company-desc">Your trusted partner for secure, authentic documents worldwide. Fast service, discreet delivery, and guaranteed quality.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Contact us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="documents.html">Documents</a></li>
+              <li><a href="how-to-order.html">How to Order</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Our Products -->
+          <div class="footer-col">
+            <h4>Our Products</h4>
+            <ul>
+              <li><a href="shop.html#passports">Passports</a></li>
+              <li><a href="shop.html#drivers-license">Driver's License</a></li>
+              <li><a href="shop.html#id-cards">ID Cards</a></li>
+              <li><a href="shop.html#certificates">Certificates</a></li>
+              <li><a href="shop.html#documents">Legal Documents</a></li>
+              <li><a href="shop.html#cards">Payment Cards</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="footer-col contact-info">
+            <h4>Contact Information</h4>
+            <ul>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span>24/7 Support: +1 (800) 555‑0199</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span>support@docushop.com</span>
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                <span>Available 24/7</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="footer-col newsletter">
+            <h4>Newsletter</h4>
+            <p>Subscribe to get special offers and updates</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Enter your email" required />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2025 DocuShop. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="shipping.html">Shipping Policy</a>
+        </div>
+        <div class="payment-methods">
+          <span>We Accept:</span>
+          <img src="payment-methods.png" alt="Accepted Payment Methods" />
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title" hidden>
+    <div class="modal-backdrop" data-login-close></div>
+    <div class="modal-dialog">
+      <button class="modal-close" aria-label="Close" data-login-close>×</button>
+      <h3 id="login-title">Login</h3>
+      <form id="login-form">
+        <label>Email or Username</label>
+        <input type="text" required />
+        <label>Password</label>
+        <input type="password" required />
+        <div class="form-row">
+          <label class="checkbox"><input type="checkbox" /> Remember me</label>
+          <a href="#" class="link">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn primary full">Log In</button>
+      </form>
+    </div>
+  </div>
+<!-- Quick Review Modal -->
+<div class="modal" id="quick-review-modal" style="display:none;">
+  <div class="modal-backdrop" id="quick-review-backdrop"></div>
+  <div class="modal-dialog">
+    <button class="modal-close" id="quick-review-close" aria-label="Close">×</button>
+    <div id="quick-review-content"></div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Shop submenu dropdown
+  var shopMenu = document.querySelector('.has-submenu > a');
+  var shopSubmenu = document.querySelector('.has-submenu .submenu');
+  var shopLi = document.querySelector('.has-submenu');
+  if (shopMenu && shopSubmenu && shopLi) {
+    shopMenu.addEventListener('click', function(e) {
+      e.preventDefault();
+      var expanded = shopLi.getAttribute('aria-expanded') === 'true';
+      shopLi.setAttribute('aria-expanded', String(!expanded));
+      shopLi.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!shopLi.contains(e.target)) {
+        shopLi.setAttribute('aria-expanded', 'false');
+        shopLi.classList.remove('open');
+      }
+    });
+  }
+
+  // Quick Review modal logic
+  var modal = document.getElementById('quick-review-modal');
+  var backdrop = document.getElementById('quick-review-backdrop');
+  var closeBtn = document.getElementById('quick-review-close');
+  var content = document.getElementById('quick-review-content');
+  var reviews = {
+    ssd: '<h2>Premium SSD Solution</h2><p>High-quality SSD chemical for cleaning black notes. <strong>Volume:</strong> 500ml</p><ul><li>Effective cleaning</li><li>Safe formula</li><li>Fast results</li></ul>',
+    cleaning: '<h2>Universal Cleaning Chemical</h2><p>Multi-purpose cleaning chemical for all currencies. <strong>Volume:</strong> 1L</p><ul><li>Universal use</li><li>Non-toxic</li><li>Easy application</li></ul>',
+    powder: '<h2>Advanced Activation Powder</h2><p>Activates SSD solution for best results. <strong>Weight:</strong> 100g</p><ul><li>High activation</li><li>Long shelf life</li><li>Easy to use</li></ul>'
+  };
+  document.querySelectorAll('[data-quick-review]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var type = btn.getAttribute('data-product');
+      content.innerHTML = reviews[type] || '<h2>Product Preview</h2><p>No details available.</p>';
+      modal.style.display = 'block';
+    });
+  });
+  [closeBtn, backdrop].forEach(function(el) {
+    el.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var shopMenu = document.querySelector('.has-submenu > a');
+  var shopSubmenu = document.querySelector('.has-submenu .submenu');
+  var shopLi = document.querySelector('.has-submenu');
+  if (shopMenu && shopSubmenu && shopLi) {
+    shopMenu.addEventListener('click', function(e) {
+      e.preventDefault();
+      var expanded = shopLi.getAttribute('aria-expanded') === 'true';
+      shopLi.setAttribute('aria-expanded', String(!expanded));
+      shopLi.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!shopLi.contains(e.target)) {
+        shopLi.setAttribute('aria-expanded', 'false');
+        shopLi.classList.remove('open');
+      }
+    });
+  }
+});
+</script>
+<script>
+  async function fetchProducts() {
+    try {
+      const response = await fetch('/products?category=ssd-chemicals');
+      const products = await response.json();
+      renderProducts(products);
+    } catch (error) {
+      document.getElementById('products-container').innerHTML = '<p>Failed to load products.</p>';
+    }
+  }
+  function renderProducts(products) {
+    const container = document.getElementById('products-container');
+    if (!products.length) {
+      container.innerHTML = '<p>No products available.</p>';
+      return;
+    }
+    container.innerHTML = products.map(product => `
+      <article class="product bill-item">
+        <div class="thumb"><img src="${product.image || 'placeholder-images.html'}" alt="${product.name}" /></div>
+        <div class="product-category">${product.category || 'SSD CHEMICALS'}</div>
+        <h3>${product.name}</h3>
+        <p class="price">$${product.price}</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+    `).join('');
+  }
+  window.addEventListener('DOMContentLoaded', fetchProducts);
+</script>
+</body>
+</html>

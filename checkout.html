@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout • DocuShop</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="products-new.css" />
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="main.js"></script>
+    <script defer src="cart.js"></script>
+    <script defer src="auth-guard.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background: #f8fafc;
+      }
+
+      .checkout-wrapper {
+        min-height: 100vh;
+        padding: 40px 0;
+      }
+
+      .checkout-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr 480px;
+        gap: 60px;
+        align-items: start;
+      }
+
+      .checkout-header {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .checkout-progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .progress-step {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 500;
+        color: #64748b;
+        position: relative;
+      }
+
+      .progress-step.active {
+        color: #0f172a;
+      }
+
+      .progress-step.completed {
+        color: #059669;
+      }
+
+      .step-circle {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        margin-right: 12px;
+      }
+
+      .progress-step.active .step-circle {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .progress-step.completed .step-circle {
+        background: #059669;
+        color: white;
+      }
+
+      .progress-arrow {
+        margin: 0 20px;
+        color: #cbd5e1;
+        font-size: 18px;
+      }
+
+      .page-title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+      }
+
+      .billing-section {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f1f5f9;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .required {
+        color: #ef4444;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        padding: 14px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        background: white;
+        font-family: inherit;
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .checkbox-group {
+        margin: 25px 0;
+      }
+
+      .checkbox-wrapper {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .checkbox-input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        accent-color: #3b82f6;
+      }
+
+      .checkbox-label {
+        font-size: 14px;
+        color: #374151;
+        cursor: pointer;
+        line-height: 1.5;
+      }
+
+      .order-summary {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 40px;
+        overflow: hidden;
+      }
+
+      .summary-header {
+        padding: 30px 30px 20px;
+        border-bottom: 2px solid #f1f5f9;
+      }
+
+      .summary-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+      }
+
+      .order-items {
+        padding: 0 30px;
+      }
+
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .item-info {
+        flex: 1;
+      }
+
+      .item-name {
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 4px;
+      }
+
+      .item-quantity {
+        font-size: 14px;
+        color: #64748b;
+      }
+
+      .item-price {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 16px;
+      }
+
+      .order-totals {
+        padding: 25px 30px;
+        background: #f8fafc;
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 16px;
+      }
+
+      .total-row.subtotal {
+        color: #64748b;
+      }
+
+      .total-row.shipping {
+        color: #64748b;
+        font-size: 14px;
+      }
+
+      .total-row.final {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0f172a;
+        padding-top: 15px;
+        border-top: 2px solid #e5e7eb;
+        margin-top: 15px;
+        margin-bottom: 0;
+      }
+
+      .payment-section {
+        padding: 30px;
+        border-top: 2px solid #f1f5f9;
+      }
+
+      .payment-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 20px;
+      }
+
+      .payment-methods {
+        margin-bottom: 25px;
+      }
+
+      .payment-option {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: white;
+      }
+
+      .payment-option:hover {
+        border-color: #3b82f6;
+        background: #f8faff;
+      }
+
+      .payment-option.selected {
+        border-color: #3b82f6;
+        background: #f8faff;
+        box-shadow: 0 0 0 1px #3b82f6;
+      }
+
+      .payment-radio {
+        margin-right: 12px;
+        accent-color: #3b82f6;
+      }
+
+      .payment-label {
+        font-weight: 600;
+        color: #0f172a;
+        flex: 1;
+      }
+
+      .payment-description {
+        font-size: 13px;
+        color: #64748b;
+        margin-left: 32px;
+        margin-top: 8px;
+      }
+
+      .place-order-btn {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .place-order-btn:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+      }
+
+      .place-order-btn:active {
+        transform: translateY(0);
+      }
+
+      .privacy-notice {
+        font-size: 12px;
+        color: #64748b;
+        text-align: center;
+        line-height: 1.5;
+        margin-top: 20px;
+      }
+
+      .privacy-notice a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+
+      .privacy-notice a:hover {
+        text-decoration: underline;
+      }
+
+      .coupon-toggle {
+        background: #f1f5f9;
+        border: 2px dashed #cbd5e1;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+      }
+
+      .coupon-toggle:hover {
+        background: #e2e8f0;
+        border-color: #94a3b8;
+      }
+
+      .coupon-text {
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .coupon-highlight {
+        color: #3b82f6;
+      }
+
+      @media (max-width: 1024px) {
+        .checkout-container {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        
+        .order-summary {
+          position: static;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .checkout-container {
+          padding: 0 16px;
+        }
+        
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .billing-section {
+          padding: 30px 20px;
+        }
+        
+        .checkout-header {
+          padding: 20px;
+        }
+        
+        .progress-step {
+          font-size: 13px;
+        }
+        
+        .progress-arrow {
+          margin: 0 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Main Header with Logo, Search, and Actions -->
+      <!-- Top Banner Section -->
+      <div class="top-banner">
+        <div class="container">
+          <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+          <button class="close-banner" aria-label="Close banner">×</button>
+        </div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="header-countdown">
+        <div class="container countdown-flex">
+          <div class="countdown-left">
+            <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+            <div class="countdown" aria-label="Special offer countdown">
+              <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+              <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+              <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+              <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+            </div>
+          </div>
+          <div class="countdown-right">
+            <div class="social-header">
+              <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+            </div>
+            <a href="#" class="discount-btn">Get Lifetime Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header with Logo, Search, and Actions -->
+      <div class="site-header">
+        <div class="container">
+          <div class="header-row">
+            <div class="header-left">
+              <a href="index.html" class="brand" aria-label="Online Document Store Home">
+                <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+              </a>
+            </div>
+
+            <div class="header-center">
+              <form class="search" role="search" aria-label="Site search">
+                <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+                <button type="submit" aria-label="Submit search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+            </div>
+
+            <div class="header-right">
+              <div class="header-hours">
+                <i class="fas fa-clock"></i>
+                <span>24 HOURS</span>
+              </div>
+              <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+              <a href="checkout.html" class="cart-section" aria-label="View cart">
+                <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="count" id="cart-count">0</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <nav class="site-nav-bar">
+        <div class="container">
+          <ul class="menu" id="primary-menu">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="shop.html">SHOP</a></li>
+            <li><a href="clone-cards.html">CLONE CARDS</a></li>
+            <li class="has-submenu">
+              <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+              <ul class="submenu">
+                <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+                <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+                <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+                <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+                <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+                <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+                <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+              </ul>
+            </li>
+            <li><a href="documents.html">DOCUMENTS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+            <li><a href="reviews.html">REVIEWS</a></li>
+            <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div class="checkout-wrapper">
+      <div class="checkout-container">
+        <!-- Left Column - Checkout Form -->
+        <div class="checkout-left">
+          <!-- Header Section -->
+          <div class="checkout-header">
+            <div class="checkout-progress">
+              <div class="progress-step completed">
+                <div class="step-circle">✓</div>
+                <span>Shopping Cart</span>
+              </div>
+              <div class="progress-arrow">→</div>
+              <div class="progress-step active">
+                <div class="step-circle">2</div>
+                <span>Checkout Details</span>
+              </div>
+              <div class="progress-arrow">→</div>
+              <div class="progress-step">
+                <div class="step-circle">3</div>
+                <span>Order Complete</span>
+              </div>
+            </div>
+            <h1 class="page-title">Secure Checkout</h1>
+          </div>
+
+          <!-- Coupon Section -->
+          <div class="coupon-toggle" onclick="toggleCoupon()">
+            <div class="coupon-text">
+              <i class="fas fa-tag"></i> 
+              Have a coupon code? <span class="coupon-highlight">Click here to apply it</span>
+            </div>
+          </div>
+
+          <!-- Billing Details -->
+          <div class="billing-section">
+            <h2 class="section-title">
+              <i class="fas fa-user-circle"></i> Billing Information
+            </h2>
+            
+            <form id="checkout-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="firstName">
+                    First Name <span class="required">*</span>
+                  </label>
+                  <input type="text" id="firstName" name="firstName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="lastName">
+                    Last Name <span class="required">*</span>
+                  </label>
+                  <input type="text" id="lastName" name="lastName" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="company">Company Name (Optional)</label>
+                <input type="text" id="company" name="company" class="form-input">
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="country">
+                  Country / Region <span class="required">*</span>
+                </label>
+                <select id="country" name="country" class="form-select" required>
+                  <option value="">Select Country</option>
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="AU">Australia</option>
+                  <option value="DE">Germany</option>
+                  <option value="FR">France</option>
+                  <option value="NL">Netherlands</option>
+                  <option value="SE">Sweden</option>
+                  <option value="NO">Norway</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="address">
+                  Street Address <span class="required">*</span>
+                </label>
+                <input type="text" id="address" name="address" class="form-input" placeholder="House number and street name" required>
+              </div>
+
+              <div class="form-group full-width">
+                <input type="text" id="address2" name="address2" class="form-input" placeholder="Apartment, suite, unit, etc. (optional)">
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="city">
+                    City <span class="required">*</span>
+                  </label>
+                  <input type="text" id="city" name="city" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="state">
+                    State / Province <span class="required">*</span>
+                  </label>
+                  <input type="text" id="state" name="state" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="zip">
+                    ZIP / Postal Code <span class="required">*</span>
+                  </label>
+                  <input type="text" id="zip" name="zip" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="phone">
+                    Phone Number <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="phone" name="phone" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="email">
+                  Email Address <span class="required">*</span>
+                </label>
+                <input type="email" id="email" name="email" class="form-input" required>
+              </div>
+
+              <div class="checkbox-group">
+                <div class="checkbox-wrapper">
+                  <input type="checkbox" id="shipDifferent" name="shipDifferent" class="checkbox-input">
+                  <label for="shipDifferent" class="checkbox-label">
+                    Ship to a different address?
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="orderNotes">Order Notes (Optional)</label>
+                <textarea id="orderNotes" name="orderNotes" class="form-textarea" placeholder="Special instructions for delivery, packaging preferences, etc."></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column - Order Summary -->
+        <div class="order-summary">
+          <div class="summary-header">
+            <h3 class="summary-title">
+              <i class="fas fa-receipt"></i> Order Summary
+            </h3>
+          </div>
+
+          <div class="order-items" id="checkout-order-items">
+            <!-- Cart items will be dynamically loaded here -->
+          </div>
+
+          <div class="order-totals">
+            <div class="total-row subtotal">
+              <span>Subtotal</span>
+              <span id="checkout-subtotal">$0.00</span>
+            </div>
+            <div class="total-row shipping">
+              <span>Shipping (Discreet Express)</span>
+              <span>$30.00</span>
+            </div>
+            <div class="total-row final">
+              <span>Total</span>
+              <span id="checkout-total">$30.00</span>
+            </div>
+          </div>
+
+          <div class="payment-section">
+            <h4 class="payment-title">
+              <i class="fas fa-credit-card"></i> Payment Method
+            </h4>
+
+            <label for="crypto-select" class="payment-label">
+              Select Cryptocurrency:
+            </label>
+            <select id="crypto-select" class="payment-select" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+              <option value="">--Choose a cryptocurrency--</option>
+              <option value="bitcoin" data-address="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">Bitcoin</option>
+              <option value="ethereum" data-address="0x32Be343B94f860124dC4fEe278FDCBD38C102D88">Ethereum</option>
+              <option value="litecoin" data-address="LcWbmH6v9t5H8RuHxQjy36dpLe5sSRk7Sq">Litecoin</option>
+            </select>
+
+            <div id="crypto-address" class="payment-address" style="margin-top: 15px; display: none;">
+              <h4>Payment Address:</h4>
+              <p id="address-text"></p>
+            </div>
+          </div>
+
+          <script>
+            document.getElementById('crypto-select').addEventListener('change', function() {
+              const selectedOption = this.options[this.selectedIndex];
+              const paymentAddressDiv = document.getElementById('crypto-address');
+              const addressText = document.getElementById('address-text');
+
+              if (this.value) {
+                const paymentAddress = selectedOption.getAttribute('data-address');
+                addressText.textContent = paymentAddress;
+                paymentAddressDiv.style.display = 'block';
+              } else {
+                paymentAddressDiv.style.display = 'none';
+                addressText.textContent = '';
+              }
+            });
+
+            // Set an initial default address (optional for admin/CEO)
+            const defaultAddress = "Please use the address shown above based on your selection."; // This can be set dynamically from backend
+            document.getElementById('address-text').textContent = defaultAddress;
+          </script>
+            <button type="button" class="place-order-btn" onclick="placeOrder()">
+              <i class="fas fa-lock"></i> Place Secure Order
+            </button>
+
+            <div class="privacy-notice">
+              <i class="fas fa-shield-alt"></i>
+              Your personal information is protected with 256-bit SSL encryption. 
+              View our <a href="privacy.html">Privacy Policy</a> for details.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-bottom">
+        <div class="container">
+          <p>&copy; 2025 DocuShop. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="shipping.html">Shipping Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      function toggleCoupon() {
+        alert('Coupon functionality will be available soon! Stay tuned for special offers.');
+      }
+
+      async function placeOrder() {
+        const form = document.getElementById('checkout-form');
+        if (!form.checkValidity()) {
+          alert('⚠️ Please fill in all required fields to continue with your order.');
+          form.reportValidity();
+          return;
+        }
+        // Gather billing info
+        const billing = {};
+        Array.from(form.elements).forEach(el => {
+          if (el.name) billing[el.name] = el.value;
+        });
+        // Get cart items from localStorage
+        let cart = [];
+        try {
+          cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
+        } catch {}
+        // Send to backend
+        try {
+          const res = await fetch('http://localhost:4000/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ billing, cart })
+          });
+          if (!res.ok) throw new Error('Order failed');
+          const data = await res.json();
+          // Clear cart
+          localStorage.removeItem('docushop_cart_items');
+          alert('🎉 Order placed successfully!\n\nOrder ID: #' + (data.orderId || 'N/A') + '\nPayment instructions have been sent to your email address.');
+          window.location.href = 'index.html';
+        } catch (err) {
+          alert('❌ Error placing order: ' + err.message);
+        }
+      }
+
+      // Payment method selection
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove selected class from all options
+          document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+          
+          // Add selected class to clicked option
+          this.classList.add('selected');
+          
+          // Check the radio button
+          this.querySelector('input[type="radio"]').checked = true;
+        });
+      });
+
+      // Form validation styling
+      document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
+        input.addEventListener('blur', function() {
+          if (this.hasAttribute('required') && !this.value.trim()) {
+            this.style.borderColor = '#ef4444';
+          } else {
+            this.style.borderColor = '#e5e7eb';
+          }
+        });
+
+        input.addEventListener('focus', function() {
+          this.style.borderColor = '#3b82f6';
+        });
+      });
+
+      const API_BASE_URL = 'https://backend-crqd.onrender.com';
+async function loadPaymentOptions() {
+  const paymentSection = document.querySelector('.payment-section');
+  if (!paymentSection) return;
+  let html = '<h4 class="payment-title"><i class="fas fa-credit-card"></i> Payment Method</h4>';
+  html += '<div class="payment-methods" id="dynamic-payment-methods"></div>';
+  paymentSection.innerHTML = html + paymentSection.innerHTML;
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/payment-methods`);
+    const methods = await res.json();
+    let optionsHtml = '';
+    methods.forEach(method => {
+      if (method.type === 'Bank') {
+        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="bank" class="payment-radio"> <span class="payment-label">Bank Transfer</span><span class="payment-description">${method.credentials.bankName} - ${method.credentials.accountName} (${method.credentials.accountNumber})</span></div>`;
+      } else if (method.type === 'Skype') {
+        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="skype" class="payment-radio"> <span class="payment-label">Skype</span><span class="payment-description">Skype ID: ${method.credentials.skypeId}</span></div>`;
+      } else if (method.type === 'PayPal') {
+        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="paypal" class="payment-radio"> <span class="payment-label">PayPal</span><span class="payment-description">PayPal Email: ${method.credentials.paypalEmail}</span></div>`;
+      } else if (method.type === 'Crypto') {
+        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="crypto" class="payment-radio"> <span class="payment-label">Crypto</span><span class="payment-description">Bitcoin: ${method.credentials.bitcoin}<br>Ethereum: ${method.credentials.ethereum}<br>USDT: ${method.credentials.usdt}</span></div>`;
+      }
+    });
+    document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
+    // Add radio selection logic
+    document.querySelectorAll('.payment-option').forEach(option => {
+      option.addEventListener('click', function() {
+        document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input[type="radio"]').checked = true;
+      });
+    });
+  } catch (err) {
+    document.getElementById('dynamic-payment-methods').innerHTML = '<div style="color:red">Unable to load payment methods.</div>';
+  }
+}
+window.addEventListener('DOMContentLoaded', loadPaymentOptions);
+    </script>
+    <script>
+      document.getElementById('crypto-select').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const paymentAddressDiv = document.getElementById('crypto-address');
+        const addressText = document.getElementById('address-text');
+
+        if (this.value) {
+          const paymentAddress = selectedOption.getAttribute('data-address');
+          addressText.textContent = paymentAddress;
+          paymentAddressDiv.style.display = 'block';
+        } else {
+          paymentAddressDiv.style.display = 'none';
+          addressText.textContent = '';
+        }
+      });
+    </script>
+  </body>
+</html>

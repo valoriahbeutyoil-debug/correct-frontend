@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shipping Policy • DocuShop</title>
+    <meta name="description" content="Shipping policy, delivery times, and tracking information." />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="reviews.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="products-new.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a7cff'/%3E%3Cpath d='M16 20h32v6H16zM16 30h22v6H16zM16 40h28v6H16z' fill='white'/%3E%3C/svg%3E" />
+    <script defer src="main.js"></script>
+    <script defer src="products.js"></script>
+  </head>
+  <body>
+    <header>
+      <!-- Top Banner Section -->
+      <div class="top-banner">
+        <div class="container">
+          <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+          <button class="close-banner" aria-label="Close banner">×</button>
+        </div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="header-countdown">
+        <div class="container countdown-flex">
+          <div class="countdown-left">
+            <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+            <div class="countdown" aria-label="Special offer countdown">
+              <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+              <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+              <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+              <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+            </div>
+          </div>
+          <div class="countdown-right">
+            <div class="social-header">
+              <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+            </div>
+            <a href="#" class="discount-btn">Get Lifetime Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header with Logo, Search, and Actions -->
+      <div class="site-header">
+        <div class="container">
+          <div class="header-row">
+            <div class="header-left">
+              <a href="index.html" class="brand" aria-label="Online Document Store Home">
+                <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+              </a>
+            </div>
+            
+            <div class="header-center">
+              <form class="search" role="search" aria-label="Site search">
+                <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+                <button type="submit" aria-label="Submit search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+            </div>
+            
+            <div class="header-right">
+              <div class="header-hours">
+                <i class="fas fa-clock"></i>
+                <span>24 HOURS</span>
+              </div>
+              <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+              <a href="checkout.html" class="cart-section" aria-label="View cart">
+                <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="count" id="cart-count">0</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <nav class="site-nav-bar">
+        <div class="container">
+          <ul class="menu" id="primary-menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="shop.html">SHOP</a></li>
+            <li><a href="clone-cards.html">CLONE CARDS</a></li>
+            <li class="has-submenu">
+              <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+              <ul class="submenu">
+                <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+                <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+                <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+                <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+                <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+                <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+                <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+              </ul>
+            </li>
+            <li><a href="documents.html">DOCUMENTS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+            <li><a href="reviews.html">REVIEWS</a></li>
+            <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container" style="padding:40px 16px;max-width:1000px;">
+      <h1>Shipping Policy</h1>
+      <p style="color:#555;margin-bottom:24px;">Last updated: <span id="year"></span></p>
+
+      <h2>Processing Times</h2>
+      <p>Orders are typically processed within 1–3 business days.</p>
+
+      <h2>Delivery Estimates</h2>
+      <ul>
+        <li>Standard: 5–10 business days</li>
+        <li>Express: 2–5 business days</li>
+        <li>International: 7–15 business days</li>
+      </ul>
+
+      <h2>Tracking</h2>
+      <p>Tracking information will be sent to the email on file when your order ships.</p>
+
+      <h2>Support</h2>
+      <p>For shipping issues, contact <a href="mailto:support@docushop.com">support@docushop.com</a>.</p>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="container">
+          <div class="footer-grid">
+            <div class="footer-col company-info">
+              <div class="footer-logo">
+                <img src="logo.png" alt="DocuShop Logo" />
+              </div>
+              <p class="company-desc">Your trusted partner for secure, authentic documents worldwide. Fast service, discreet delivery, and guaranteed quality.</p>
+              <div class="social-links">
+                <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Contact us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="documents.html">Documents</a></li>
+                <li><a href="how-to-order.html">How to Order</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Our Products</h4>
+              <ul>
+                <li><a href="shop.html#passports">Passports</a></li>
+                <li><a href="shop.html#drivers-license">Driver's License</a></li>
+                <li><a href="shop.html#id-cards">ID Cards</a></li>
+                <li><a href="shop.html#certificates">Certificates</a></li>
+                <li><a href="shop.html#documents">Legal Documents</a></li>
+                <li><a href="shop.html#cards">Payment Cards</a></li>
+              </ul>
+            </div>
+            <div class="footer-col contact-info">
+              <h4>Contact Information</h4>
+              <ul>
+                <li><i class="fas fa-phone"></i><span>24/7 Support: +1 (800) 555‑0199</span></li>
+                <li><i class="fas fa-envelope"></i><span>support@docushop.com</span></li>
+                <li><i class="fas fa-clock"></i><span>Available 24/7</span></li>
+              </ul>
+            </div>
+            <div class="footer-col newsletter">
+              <h4>Newsletter</h4>
+              <p>Subscribe to get special offers and updates</p>
+              <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required />
+                <button type="submit">Subscribe</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <p>&copy; 2025 DocuShop. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="shipping.html" aria-current="page">Shipping Policy</a>
+          </div>
+          <div class="payment-methods">
+            <span>We Accept:</span>
+            <img src="payment-methods.png" alt="Accepted Payment Methods" />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function(){
+        var y = new Date().getFullYear();
+        var el1 = document.getElementById('year');
+        var el2 = document.getElementById('year2');
+        if (el1) el1.textContent = String(y);
+        if (el2) el2.textContent = String(y);
+      })();
+    </script>
+  </body>
+</html>
+
+

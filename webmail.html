@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Webmail • DocuShop</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        var form = document.getElementById('mail-form');
+        var notice = document.getElementById('mail-notice');
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          notice.textContent = 'Message queued (demo). We\'ll notify you by email.';
+          form.reset();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <nav class="site-nav-bar"><div class="container"><ul class="menu" id="primary-menu"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="webmail.html" class="active">Webmail</a></li><li><a href="contact.html">Contact</a></li></ul></div></nav>
+    </header>
+    <main class="container" style="max-width:900px;padding:24px 0;">
+      <h1>Webmail</h1>
+      <p class="lead">Send us a secure message.</p>
+      <form id="mail-form" style="display:grid;gap:12px;">
+        <label>From Email<input type="email" required /></label>
+        <label>Subject<input type="text" required /></label>
+        <label>Message<textarea rows="6" required></textarea></label>
+        <button class="btn primary" type="submit">Send</button>
+        <span id="mail-notice" style="color:#2e7d32;font-weight:600;"></span>
+      </form>
+    </main>
+    <footer class="site-footer"><div class="footer-bottom"><div class="container"><p>&copy; 2025 DocuShop. All rights reserved.</p></div></div></footer>
+      <script src="frontend/js/category-init.js"></script>
+    </body>
+</html>
+
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="frontend/css/products.css">
+    <link rel="stylesheet" href="frontend/css/styles.css">
+    <style>
+        .cart-container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(30,41,59,0.08); padding: 2rem; }
+        .cart-title { font-size: 2rem; font-weight: bold; color: #2563eb; margin-bottom: 1.5rem; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb; padding: 1rem 0; }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-info { display: flex; align-items: center; gap: 1rem; }
+        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+        .cart-item-name { font-weight: 500; }
+        .cart-item-price { color: #1e293b; font-weight: 600; }
+        .cart-remove-btn { background: none; border: none; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
+        .cart-remove-btn:hover { color: #b91c1c; }
+        .cart-total { text-align: right; font-size: 1.2rem; font-weight: bold; margin-top: 1.5rem; }
+        .cart-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
+        .btn-checkout { background: #2563eb; color: #fff; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-checkout:hover { background: #1e40af; }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <div class="cart-title">Your Cart</div>
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total"></div>
+        <div class="cart-actions">
+            <button class="btn-checkout" id="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+    <script src="/frontend/js/cart.js"></script>
+        <script src="frontend/js/category-init.js"></script>
+    </body>
+</html>

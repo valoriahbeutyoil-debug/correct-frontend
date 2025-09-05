@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script defer src="product-api.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buy Counterfeit Canadian Dollars — DocuShop</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="footer.css" />
+  <link rel="stylesheet" href="products-new.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a7cff'/%3E%3Cpath d='M16 20h32v6H16zM16 30h22v6H16zM16 40h28v6H16z' fill='white'/%3E%3C/svg%3E" />
+  <script defer src="main.js"></script>
+  <script src="product.js"></script>
+  <script src="cart.js"></script>
+  <script src="admin.js"></script>
+  <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const pageToCategory = {
+    'shop.html': 'shop',
+    'clone-cards.html': 'clone-cards',
+    'us-dollar-bills.html': 'us-dollar-bills',
+    'euro-bills.html': 'euro-bills',
+    'british-pounds.html': 'british-pounds',
+    'australian-dollars.html': 'australian-dollars',
+    'canadian-dollars.html': 'canadian-dollars',
+    'swiss-franc.html': 'swiss-franc',
+    'kuwaiti-dinar.html': 'kuwaiti-dinar',
+    'documents.html': 'documents',
+    'counterfeit-notes.html': 'counterfeit-notes'
+  };
+  const page = location.pathname.split('/').pop();
+  const category = pageToCategory[page];
+  if (category && typeof window.renderCategoryProducts === 'function') {
+    window.renderCategoryProducts(category);
+  }
+});
+</script>
+</head>
+<body>
+  <script src="frontend/js/category-init.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        fetchProducts('canadian-dollars').then(products => renderProducts(products, '.product-grid'));
+      });
+    </script>
+  <header>
+    <!-- Top Banner Section -->
+    <div class="top-banner">
+      <div class="container">
+        <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+        <button class="close-banner" aria-label="Close banner">×</button>
+      </div>
+    </div>
+
+    <!-- Countdown Timer Section -->
+    <div class="header-countdown">
+      <div class="container countdown-flex">
+        <div class="countdown-left">
+          <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+          <div class="countdown" aria-label="Special offer countdown">
+            <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+            <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+            <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+            <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+          </div>
+        </div>
+        <div class="countdown-right">
+          <div class="social-header">
+            <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+          </div>
+          <a href="#" class="discount-btn">Get Lifetime Deal</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header with Logo, Search, and Actions -->
+    <div class="site-header">
+      <div class="container">
+        <div class="header-row">
+          <div class="header-left">
+            <a href="index.html" class="brand" aria-label="Online Document Store Home">
+              <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+            </a>
+          </div>
+
+          <div class="header-center">
+            <form class="search" role="search" aria-label="Site search">
+              <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+              <button type="submit" aria-label="Submit search">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+
+          <div class="header-right">
+            <div class="header-hours">
+              <i class="fas fa-clock"></i>
+              <span>24 HOURS</span>
+            </div>
+            <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+            <a href="checkout.html" class="cart-section" aria-label="View cart">
+              <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+              <i class="fas fa-shopping-cart"></i>
+              <span class="count" id="cart-count">0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Menu Bar -->
+    <nav class="site-nav-bar">
+      <div class="container">
+        <ul class="menu" id="primary-menu">
+          <li><a href="index.html" class="active">HOME</a></li>
+          <li><a href="shop.html">SHOP</a></li>
+          <li><a href="clone-cards.html">CLONE CARDS</a></li>
+          <li class="has-submenu">
+            <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+            <ul class="submenu">
+              <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+              <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+              <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+              <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+              <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+              <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+              <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+            </ul>
+          </li>
+          <li><a href="documents.html">DOCUMENTS</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+          <li><a href="reviews.html">REVIEWS</a></li>
+          <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container" style="padding:40px 0;">
+    <h1>Buy Counterfeit Canadian Dollars</h1>
+    <div class="product-grid">
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="$5 CAD Notes" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>$5 CAD Notes</h3>
+        <p class="price">$65.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="$10 CAD Notes" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>$10 CAD Notes</h3>
+        <p class="price">$125.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="$20 CAD Notes" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>$20 CAD Notes</h3>
+        <p class="price">$250.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="$50 CAD Notes" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>$50 CAD Notes</h3>
+        <p class="price">$580.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="$100 CAD Notes" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>$100 CAD Notes</h3>
+        <p class="price">$1,120.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Mixed Bundle A" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>Mixed CAD Bundle A</h3>
+        <p class="price">$1,380.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Mixed Bundle B" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>Mixed CAD Bundle B</h3>
+        <p class="price">$1,950.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Collector Set" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>CAD Collector Set</h3>
+        <p class="price">$1,580.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Starter Pack" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>CAD Starter Pack</h3>
+        <p class="price">$720.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Premium Bundle" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>Premium CAD Bundle</h3>
+        <p class="price">$2,680.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Business Pack" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>CAD Business Pack</h3>
+        <p class="price">$3,450.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+      
+      <article class="product bill-item">
+        <div class="thumb">
+          <img src="sideimage.jpg" alt="Professional Set" loading="lazy">
+        </div>
+        <div class="product-category">QUALITY BILLS</div>
+        <h3>CAD Professional Set</h3>
+        <p class="price">$4,180.00</p>
+        <button class="btn add add-to-cart">Add to cart</button>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Company Info -->
+          <div class="footer-col company-info">
+            <div class="footer-logo">
+              <img src="logo.png" alt="DocuShop Logo" />
+            </div>
+            <p class="company-desc">Your trusted partner for secure, authentic documents worldwide. Fast service, discreet delivery, and guaranteed quality.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Contact us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="documents.html">Documents</a></li>
+              <li><a href="how-to-order.html">How to Order</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Our Products -->
+          <div class="footer-col">
+            <h4>Our Products</h4>
+            <ul>
+              <li><a href="shop.html#passports">Passports</a></li>
+              <li><a href="shop.html#drivers-license">Driver's License</a></li>
+              <li><a href="shop.html#id-cards">ID Cards</a></li>
+              <li><a href="shop.html#certificates">Certificates</a></li>
+              <li><a href="shop.html#documents">Legal Documents</a></li>
+              <li><a href="shop.html#cards">Payment Cards</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="footer-col contact-info">
+            <h4>Contact Information</h4>
+            <ul>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span>24/7 Support: +1 (800) 555‑0199</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span>support@docushop.com</span>
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                <span>Available 24/7</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="footer-col newsletter">
+            <h4>Newsletter</h4>
+            <p>Subscribe to get special offers and updates</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Enter your email" required />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2025 DocuShop. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="shipping.html">Shipping Policy</a>
+        </div>
+        <div class="payment-methods">
+          <span>We Accept:</span>
+          <img src="logo.png" alt="Accepted Payment Methods" />
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Countdown timer functionality
+    function startCountdown(days) {
+      let totalSeconds = days * 24 * 60 * 60;
+      const d = document.querySelector('.header-countdown .num#d');
+      const h = document.querySelector('.header-countdown .num#h');
+      const m = document.querySelector('.header-countdown .num#m');
+      const s = document.querySelector('.header-countdown .num#s');
+      
+      function updateCountdown() {
+        let days = Math.floor(totalSeconds / (24 * 60 * 60));
+        let hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+        let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+        let seconds = totalSeconds % 60;
+        
+        d.textContent = String(days);
+        h.textContent = String(hours).padStart(2, '0');
+        m.textContent = String(minutes).padStart(2, '0');
+        s.textContent = String(seconds).padStart(2, '0');
+        
+        if (totalSeconds > 0) {
+          totalSeconds--;
+        }
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      startCountdown(365);
+
+      // Shop submenu toggle
+      var shopMenu = document.querySelector('.has-submenu > a');
+      var shopSubmenu = document.querySelector('.has-submenu .submenu');
+      var shopLi = document.querySelector('.has-submenu');
+      if (shopMenu && shopSubmenu && shopLi) {
+        shopMenu.addEventListener('click', function(e) {
+          e.preventDefault();
+          var expanded = shopLi.getAttribute('aria-expanded') === 'true';
+          shopLi.setAttribute('aria-expanded', String(!expanded));
+          shopLi.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!shopLi.contains(e.target)) {
+            shopLi.setAttribute('aria-expanded', 'false');
+            shopLi.classList.remove('open');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

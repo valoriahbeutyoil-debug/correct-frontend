@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Counterfeit Notes • DocuShop</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="products-new.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="main.js"></script>
+    <script src="product.js"></script>
+    <script src="cart.js"></script>
+    <script src="admin.js"></script>
+  </head>
+  <body>
+  <script src="frontend/js/category-init.js"></script>
+    <header>
+      <!-- Top Banner Section -->
+      <div class="top-banner">
+        <div class="container">
+          <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+          <button class="close-banner" aria-label="Close banner">×</button>
+        </div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="header-countdown">
+        <div class="container countdown-flex">
+          <div class="countdown-left">
+            <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+            <div class="countdown" aria-label="Special offer countdown">
+              <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+              <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+              <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+              <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+            </div>
+          </div>
+          <div class="countdown-right">
+            <div class="social-header">
+              <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+            </div>
+            <a href="#" class="discount-btn">Get Lifetime Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header with Logo, Search, and Actions -->
+      <div class="site-header">
+        <div class="container">
+          <div class="header-row">
+            <div class="header-left">
+              <a href="index.html" class="brand" aria-label="Online Document Store Home">
+                <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+              </a>
+            </div>
+
+            <div class="header-center">
+              <form class="search" role="search" aria-label="Site search">
+                <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+                <button type="submit" aria-label="Submit search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+            </div>
+
+            <div class="header-right">
+              <div class="header-hours">
+                <i class="fas fa-clock"></i>
+                <span>24 HOURS</span>
+              </div>
+              <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+              <a href="checkout.html" class="cart-section" aria-label="View cart">
+                <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="count" id="cart-count">0</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <nav class="site-nav-bar">
+        <div class="container">
+          <ul class="menu" id="primary-menu">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="shop.html">SHOP</a></li>
+            <li><a href="clone-cards.html">CLONE CARDS</a></li>
+            <li class="has-submenu">
+              <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+              <ul class="submenu">
+                <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+                <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+                <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+                <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+                <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+                <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+                <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+              </ul>
+            </li>
+            <li><a href="documents.html">DOCUMENTS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+            <li><a href="reviews.html">REVIEWS</a></li>
+            <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main class="container" style="padding:24px 0;">
+      <h1>Counterfeit Notes</h1>
+      <div class="product-grid" id="products-container">
+        <!-- Products will be loaded here dynamically -->
+      </div>
+    </main>
+
+    <footer class="site-footer"><div class="footer-bottom"><div class="container"><p>&copy; 2025 DocuShop. All rights reserved.</p></div></div></footer>
+    <script src="frontend/js/products.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        const pageToCategory = {
+          'shop.html': 'shop',
+          'clone-cards.html': 'clone-cards',
+          'us-dollar-bills.html': 'us-dollar-bills',
+          'euro-bills.html': 'euro-bills',
+          'british-pounds.html': 'british-pounds',
+          'australian-dollars.html': 'australian-dollars',
+          'canadian-dollars.html': 'canadian-dollars',
+          'swiss-franc.html': 'swiss-franc',
+          'kuwaiti-dinar.html': 'kuwaiti-dinar',
+          'documents.html': 'documents',
+          'counterfeit-notes.html': 'counterfeit-notes'
+        };
+        const page = location.pathname.split('/').pop();
+        const category = pageToCategory[page];
+        if (category) {
+          window.renderCategoryProducts(category);
+        }
+      });
+    </script>
+  </body>
+</html>

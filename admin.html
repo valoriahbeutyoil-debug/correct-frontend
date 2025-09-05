@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuShop Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <h2><i class="fas fa-shield-alt"></i> DocuShop Admin</h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a></li>
+                    <li><a href="#products" class="nav-link" data-section="products">
+                        <i class="fas fa-box"></i> Products
+                    </a></li>
+                    <li><a href="#users" class="nav-link" data-section="users">
+                        <i class="fas fa-users"></i> Users
+                    </a></li>
+                    <li><a href="#content" class="nav-link" data-section="content">
+                        <i class="fas fa-edit"></i> Site Content
+                    </a></li>
+                    <li><a href="#orders" class="nav-link" data-section="orders">
+                        <i class="fas fa-shopping-cart"></i> Orders
+                    </a></li>
+                    <li><a href="#settings" class="nav-link" data-section="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </a></li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <a href="#" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+        <!-- Sidebar Backdrop for mobile -->
+        <div class="sidebar-backdrop"></div>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="sidebar-toggle" class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <span>Welcome, Admin</span>
+                        <img src="logo.png" alt="Admin" class="admin-avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Total Users</h3>
+                                <p class="stat-number" id="total-users">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Total Products</h3>
+                                <p class="stat-number" id="total-products">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Total Orders</h3>
+                                <p class="stat-number" id="total-orders">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Revenue</h3>
+                                <p class="stat-number" id="total-revenue">$0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-charts">
+                        <div class="chart-container">
+                            <h3>Recent Activity</h3>
+                            <div class="activity-list" id="recent-activity">
+                                <!-- Activity items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Products</h2>
+                        <button class="btn btn-primary" id="add-product-btn">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                        <select id="product-category-filter" style="margin-left:20px; padding:8px;">
+                            <option value="">All Categories</option>
+                            <option value="shop">Shop</option>
+                            <option value="clone-cards">Clone Cards</option>
+                            <option value="us-dollar-bills">US Dollar Bills</option>
+                            <option value="euro-bills">Euro Bills</option>
+                            <option value="british-pounds">British Pounds</option>
+                            <option value="australian-dollars">Australian Dollars</option>
+                            <option value="canadian-dollars">Canadian Dollars</option>
+                            <option value="swiss-franc">Swiss Franc</option>
+                            <option value="kuwaiti-dinar">Kuwaiti Dinar</option>
+                            <option value="documents">Documents</option>
+                            <option value="counterfeit-notes">Counterfeit Notes</option>
+                        </select>
+                    </div>
+                    <div class="products-grid" id="products-grid">
+                        <!-- Products will be populated here -->
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Users</h2>
+                        <button class="btn btn-primary" id="add-user-btn">
+                            <i class="fas fa-plus"></i> Add New User
+                        </button>
+                    </div>
+                    
+                    <div class="users-table-container">
+                        <table class="users-table" id="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <!-- Users will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Site Content Section -->
+                <section id="content" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Site Content</h2>
+                    </div>
+                    
+                    <div class="content-editor">
+                        <div class="editor-section">
+                            <h3>Homepage Hero Section</h3>
+                            <div class="form-group">
+                    <label>Quick Review</label>
+                    <textarea name="quickReview" rows="2" placeholder="Enter a short review or highlight for this product"></textarea>
+                                <label>Hero Title</label>
+                                <input type="text" id="hero-title" value="WELCOME TO ONLINE DOCUMENT STORE">
+                            </div>
+                            <div class="form-group">
+                                <label>Hero Description</label>
+                                <textarea id="hero-description" rows="4">We provide 100% authentic documents, ensuring you have reliable and legal identification.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Hero Button Text</label>
+                                <input type="text" id="hero-button" value="ORDER PASSPORT ONLINE G+">
+                            </div>
+                        </div>
+                        
+                        <div class="editor-section">
+                            <h3>Site Settings</h3>
+                            <div class="form-group">
+                                <label>Site Title</label>
+                                <input type="text" id="site-title" value="DocuShop Template — Clean Placeholder Site">
+                            </div>
+                            <div class="form-group">
+                                <label>Site Description</label>
+                                <textarea id="site-description" rows="3">A clean, legal placeholder template replicating a typical shop layout for offline demo.</textarea>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="save-content-btn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="orders" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Orders</h2>
+                    </div>
+                    
+                    <div class="orders-table-container">
+                        <table class="orders-table" id="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <!-- Orders will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section">
+                    <div class="section-header">
+                        <h2>Admin Settings</h2>
+                    </div>
+                    
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>Admin Email</label>
+                            <input type="email" id="admin-email" value="admin@docushop.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Site Maintenance Mode</label>
+                            <select id="maintenance-mode">
+                                <option value="false">Disabled</option>
+                                <option value="true">Enabled</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Default Currency</label>
+                            <select id="default-currency">
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="GBP">GBP (£)</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="save-settings-btn">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                        <hr>
+                        <h4>Change Admin Login Details</h4>
+                        <form id="admin-change-login-form" class="form-inline">
+                            <div class="form-group">
+                                <label for="admin-new-email">New Email</label>
+                                <input type="email" id="admin-new-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-new-password">New Password</label>
+                                <input type="password" id="admin-new-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Login</button>
+                        </form>
+                        <button class="btn btn-secondary" id="manage-payment-methods-btn" style="margin-left:16px;">
+                            <i class="fas fa-credit-card"></i> Manage Payment Methods
+                        </button>
+                    </div>
+                </div>
+                <!-- Payment Methods Modal -->
+                <div id="payment-methods-modal" class="modal">
+                    <div class="modal-content" style="max-width:600px;">
+                        <div class="modal-header">
+                            <h3>Manage Payment Methods</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-tabs">
+                            <button class="tab-btn" data-tab="bank">Bank</button>
+                            <button class="tab-btn" data-tab="skype">Skype</button>
+                            <button class="tab-btn" data-tab="paypal">PayPal</button>
+                            <button class="tab-btn" data-tab="crypto">Crypto</button>
+                        </div>
+                        <div class="modal-tab-content" id="tab-bank">
+                            <form id="bank-method-form">
+                                <div class="form-group">
+                                    <label>Bank Name</label>
+                                    <input type="text" name="bankName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Number</label>
+                                    <input type="text" name="accountNumber" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Name</label>
+                                    <input type="text" name="accountName" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Bank Method</button>
+                            </form>
+                        </div>
+                        <div class="modal-tab-content" id="tab-skype" style="display:none;">
+                            <form id="skype-method-form">
+                                <div class="form-group">
+                                    <label>Skype ID</label>
+                                    <input type="text" name="skypeId" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Skype Method</button>
+                            </form>
+                        </div>
+                        <div class="modal-tab-content" id="tab-paypal" style="display:none;">
+                            <form id="paypal-method-form">
+                                <div class="form-group">
+                                    <label>PayPal Email</label>
+                                    <input type="email" name="paypalEmail" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save PayPal Method</button>
+                            </form>
+                        </div>
+                        <div class="modal-tab-content" id="tab-crypto" style="display:none;">
+                            <form id="crypto-method-form">
+                                <div class="form-group">
+                                    <label>Bitcoin Address</label>
+                                    <input type="text" name="bitcoin" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ethereum Address</label>
+                                    <input type="text" name="ethereum" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>USDT Address</label>
+                                    <input type="text" name="usdt" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Crypto Method</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </section>
+
+                <!-- Crypto Payment Settings Section -->
+                <section id="crypto-settings" class="content-section">
+                    <h2>Crypto Payment Settings</h2>
+                    <form id="crypto-address-form">
+                        <div class="form-group">
+                            <label for="bitcoin-address">Bitcoin Address</label>
+                            <input type="text" id="bitcoin-address" name="bitcoin" placeholder="Enter Bitcoin address">
+                        </div>
+                        <div class="form-group">
+                            <label for="ethereum-address">Ethereum Address</label>
+                            <input type="text" id="ethereum-address" name="ethereum" placeholder="Enter Ethereum address">
+                        </div>
+                        <div class="form-group">
+                            <label for="usdt-address">USDT Address</label>
+                            <input type="text" id="usdt-address" name="usdt" placeholder="Enter USDT address">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Crypto Addresses</button>
+                        </div>
+                    </form>
+                    <div id="crypto-address-notification"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Product</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category" required>
+                        <option value="shop">Shop</option>
+                        <option value="clone-cards">Clone Cards</option>
+                        <option value="us-dollar-bills">US Dollar Bills</option>
+                        <option value="euro-bills">Euro Bills</option>
+                        <option value="british-pounds">British Pounds</option>
+                        <option value="australian-dollars">Australian Dollars</option>
+                        <option value="canadian-dollars">Canadian Dollars</option>
+                        <option value="swiss-franc">Swiss Franc</option>
+                        <option value="kuwaiti-dinar">Kuwaiti Dinar</option>
+                        <option value="documents">Documents</option>
+                        <option value="counterfeit-notes">Counterfeit Notes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price ($)</label>
+                    <input type="number" name="price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="add-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="add-user-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select name="role" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="product.js"></script>
+    <script src="cart.js"></script>
+    <script src="admin.js"></script>
+    <script src="auth-guard.js"></script>
+</body>
+</html>

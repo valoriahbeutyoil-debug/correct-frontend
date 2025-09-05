@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DocuShop Template — Clean Placeholder Site</title>
+    <meta name="description" content="A clean, legal placeholder template replicating a typical shop layout for offline demo." />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="reviews.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="products-new.css" />
+    <!-- Google Fonts for hero section -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a7cff'/%3E%3Cpath d='M16 20h32v6H16zM16 30h22v6H16zM16 40h28v6H16z' fill='white'/%3E%3C/svg%3E" />
+    <script defer src="main.js"></script>
+    <script defer src="products.js"></script>
+  </head>
+  <body>
+    <header>
+      <!-- Top Banner Section -->
+      <div class="top-banner">
+        <div class="container">
+          <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+          <button class="close-banner" aria-label="Close banner">×</button>
+        </div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="header-countdown">
+        <div class="container countdown-flex">
+          <div class="countdown-left">
+            <span class="discount-text">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+            <div class="countdown" aria-label="Special offer countdown">
+              <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+              <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+              <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+              <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+            </div>
+          </div>
+          <div class="countdown-right">
+            <div class="social-header">
+              <a href="#" aria-label="Newsletter"><i class="fas fa-envelope"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Email"><i class="fas fa-at"></i></a>
+            </div>
+            <a href="#" class="discount-btn">Get Lifetime Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header with Logo, Search, and Actions -->
+      <div class="site-header">
+        <div class="container">
+          <div class="header-row">
+            <div class="header-left">
+              <a href="index.html" class="brand" aria-label="Online Document Store Home">
+                <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+              </a>
+            </div>
+            
+            <div class="header-center">
+              <form class="search" role="search" aria-label="Site search">
+                <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+                <button type="submit" aria-label="Submit search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+            </div>
+            
+            <div class="header-right">
+              <div class="header-hours">
+                <i class="fas fa-clock"></i>
+                <span>24 HOURS</span>
+              </div>
+              <a href="login.html" class="btn secondary login-btn" aria-label="Login or Register" id="login-btn">LOGIN</a>
+              <a href="#" class="btn secondary logout-btn" aria-label="Logout" id="logout-btn" style="display: none;">LOGOUT</a>
+              <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+              <a href="cart.html" class="cart-section" aria-label="View cart">
+                <span class="cart-text">CART / $<span id="cart-total">0.00</span></span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="count" id="cart-count">0</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <nav class="site-nav-bar">
+        <div class="container">
+          <ul class="menu" id="primary-menu">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="shop.html">SHOP</a></li>
+            <li><a href="clone-cards.html">CLONE CARDS</a></li>
+            <li class="has-submenu">
+              <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+              <ul class="submenu">
+                <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+                <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+                <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+                <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+                <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+                <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+                <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+              </ul>
+            </li>
+            <li><a href="documents.html">DOCUMENTS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+            <li><a href="reviews.html">REVIEWS</a></li>
+            <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <section class="newsletter">
+      <div class="container news-grid">
+        <div class="news-copy">
+          <h3>Sign up for Newsletter</h3>
+          <p>Get notified about new arrivals and seasonal deals. You can unsubscribe anytime.</p>
+        </div>
+        <form class="news-form" id="newsletter-form">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input id="newsletter-email" type="email" placeholder="Enter your email" required />
+          <button type="submit">Subscribe</button>
+          <span class="form-note" id="newsletter-note" aria-live="polite"></span>
+        </form>
+      </div>
+    </section>
+
+    <main>
+     <!-- Hero Section -->
+<section class="hero animated-bg">
+  <div class="hero-content">
+    <h1 class="hero-heading fade-in">
+      <span class="hero-heading-top">WELCOME TO ONLINE</span><br>
+      <span class="hero-heading-bottom">DOCUMENT STORE</span>
+    </h1>
+    <p class="fade-in-delay">
+      We provide 100% authentic documents, ensuring you have reliable and legal identification.<br>
+      From European driver's licenses to North American passports, our selection covers a wide
+      range of countries. Our top priority is customer satisfaction. <br> We offer secure transactions
+      and fast delivery.
+    </p>
+    <a href="#" class="btn hero-btn-red pulse">ORDER PASSPORT ONLINE G+</a>
+  </div>
+  <div class="animated-gradient"></div>
+</section>
+    
+<section class="document-section">
+  <div class="content-wrapper">
+    <div class="text-content">
+      <h2>Buy Authentic Passports Online</h2>
+      <p>Looking to Buy Passports, driver’s license, visas, and European residence documents online? Look no further than Online Document Store. At Real Passports LLC, we specialize in providing high-quality, genuine passports, driver’s licenses, and ID cards from various countries around the world. Whether you’re looking to buy a German driver’s license, a UK passport, or an EU driver’s license, our extensive range of products and our commitment to customer satisfaction ensure you receive the best service and authentic documents to meet your needs.</p>
+      <h3><a href="#" class="hero-btn-red">Buy ID card online</a></h3>
+    </div>
+    <div class="image-content">
+      <img src="sideimage.jpg" alt="Passport and ID documents" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+
+      <!-- Products Section -->
+      <section class="products-section" id="featured">
+        <div class="container">
+          <h2>Browse Our Products</h2>
+          
+          <!-- Category Filters -->
+          <div class="category-filters">
+            <button class="category-filter active" data-category="all">All Products</button>
+            <button class="category-filter" data-category="counterfeit-notes">Counterfeit Notes</button>
+            <button class="category-filter" data-category="clone-cards">Clone Cards</button>
+            <button class="category-filter" data-category="documents">Documents</button>
+          </div>
+          
+          <!-- Product Grid -->
+          <div class="product-grid">
+            <!-- Products will be dynamically populated by JavaScript -->
+          </div>
+        </div>
+          <!-- Additional Products -->
+          <div class="product-grid">
+            <!-- Notebook Set -->
+            <article class="product-card">
+              <div class="product-image">
+                <img src="sideimage.jpg" alt="Notebook Set" loading="lazy">
+                <button class="quick-view-btn" data-product-id="notebook">Quick View</button>
+              </div>
+              <div class="product-info">
+                <h3>Notebook Set</h3>
+                <div class="price">$18.00</div>
+                <p class="description">Professional notebook set for your daily needs</p>
+                <button class="add-to-cart-btn" data-product-id="notebook">
+                  <i class="fas fa-shopping-cart"></i>
+                  Add to Cart
+                </button>
+              </div>
+            </article>
+
+            <!-- Premium Pens -->
+            <article class="product-card">
+              <div class="product-image">
+                <img src="sideimage.jpg" alt="Premium Pens" loading="lazy">
+                <button class="quick-view-btn" data-product-id="pens">Quick View</button>
+              </div>
+              <div class="product-info">
+                <h3>Premium Pens (5-pack)</h3>
+                <div class="price">$12.00</div>
+                <p class="description">High-quality premium pens, set of 5</p>
+                <button class="add-to-cart-btn" data-product-id="pens">
+                  <i class="fas fa-shopping-cart"></i>
+                  Add to Cart
+                </button>
+              </div>
+            </article>
+
+            <!-- Headphones -->
+            <article class="product-card">
+              <div class="product-image">
+                <img src="sideimage.jpg" alt="Noise-Canceling Headphones" loading="lazy">
+                <button class="quick-view-btn" data-product-id="headphones">Quick View</button>
+              </div>
+              <div class="product-info">
+                <h3>Noise-Canceling Headphones</h3>
+                <div class="price">$129.00</div>
+                <p class="description">Premium noise-canceling headphones for immersive audio</p>
+                <button class="add-to-cart-btn" data-product-id="headphones">
+                  <i class="fas fa-shopping-cart"></i>
+                  Add to Cart
+                </button>
+              </div>
+            </article>
+
+            <!-- Desk Chair -->
+            <article class="product-card">
+              <div class="product-image">
+                <img src="sideimage.jpg" alt="Ergonomic Desk Chair" loading="lazy">
+                <button class="quick-view-btn" data-product-id="chair">Quick View</button>
+              </div>
+              <div class="product-info">
+                <h3>Ergonomic Desk Chair</h3>
+                <div class="price">$279.00</div>
+                <p class="description">Comfortable ergonomic chair for long work hours</p>
+                <button class="add-to-cart-btn" data-product-id="chair">
+                  <i class="fas fa-shopping-cart"></i>
+                  Add to Cart
+                </button>
+              </div>
+            </article>
+
+            <!-- USB Hub -->
+            <article class="product-card">
+              <div class="product-image">
+                <img src="sideimage.jpg" alt="USB-C Hub" loading="lazy">
+                <button class="quick-view-btn" data-product-id="usb-hub">Quick View</button>
+              </div>
+              <div class="product-info">
+                <h3>USB-C Hub</h3>
+                <div class="price">$39.00</div>
+                <p class="description">Versatile USB-C hub with multiple ports</p>
+                <button class="add-to-cart-btn" data-product-id="usb-hub">
+                  <i class="fas fa-shopping-cart"></i>
+                  Add to Cart
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-board">
+  <div class="review-board-container">
+    <div class="review-header-area">
+      <h2 class="review-title">Customer Reviews</h2>
+      <div class="review-rating-summary">
+        <span class="review-stars-large">★★★★★</span>
+        <span class="review-score">5.0</span>
+        <span class="review-count">(1,245 reviews)</span>
+      </div>
+      <div class="review-summary-desc">Rated 5 stars by thousands of satisfied customers for fast, secure, and authentic document delivery.</div>
+    </div>
+    <div class="reviews-list-horizontal">
+      <!-- Review Card 1 -->
+      <div class="review-card">
+        <div class="review-card-profile">
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="K. T. profile" loading="lazy" />
+        </div>
+        <div class="review-card-content">
+          <div class="review-card-header">
+            <span class="review-card-name">K. T.</span>
+            <span class="review-card-date">Jul 7, 2025</span>
+            <span class="review-card-stars">★★★★★</span>
+          </div>
+          <div class="review-card-text">Professional, quick, and trustworthy. Highly recommend for urgent document needs.</div>
+        </div>
+      </div>
+      <!-- Review Card 2 -->
+      <div class="review-card">
+        <div class="review-card-profile">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Shane Smart profile" loading="lazy" />
+        </div>
+        <div class="review-card-content">
+          <div class="review-card-header">
+            <span class="review-card-name">Shane Smart</span>
+            <span class="review-card-date">Jul 2, 2025</span>
+            <span class="review-card-stars">★★★★★</span>
+          </div>
+          <div class="review-card-text">Received my passport in less than a week. Excellent support and service!</div>
+        </div>
+      </div>
+      <!-- Review Card 3 -->
+      <div class="review-card">
+        <div class="review-card-profile">
+          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Rokvet profile" loading="lazy" />
+        </div>
+        <div class="review-card-content">
+          <div class="review-card-header">
+            <span class="review-card-name">Rokvet</span>
+            <span class="review-card-date">Jul 1, 2025</span>
+            <span class="review-card-stars">★★★★★</span>
+          </div>
+          <div class="review-card-text">Smooth process and friendly staff. Will use again!</div>
+        </div>
+      </div>
+      <!-- Review Card 4 -->
+      <div class="review-card">
+        <div class="review-card-profile">
+          <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Luis Calderin profile" loading="lazy" />
+        </div>
+        <div class="review-card-content">
+          <div class="review-card-header">
+            <span class="review-card-name">Luis Calderin</span>
+            <span class="review-card-date">Jun 24, 2025</span>
+            <span class="review-card-stars">★★★★★</span>
+          </div>
+          <div class="review-card-text">Super fast and reliable. Jenny was amazing!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Slide Presentation Section -->
+    <section class="slide-presentation">
+      <div class="slide-content">
+        <h2 class="section-title">Real US Passport: Your Trusted Source for Legitimate, Registered Passports</h2>
+        <p>At Online Documents Store, we specialize in providing genuine, registered passports that are secure, fully functional, and officially recognized. A real US passport from us means that you’re not just receiving a document—it’s a tool for safe travel, obtaining residency, or securing citizenship.</p>
+        <p>We cater to a range of clients looking to secure essential documents that allow them to live, work, and travel with ease. Whether you need to buy a real passport, diplomatic passport, or purchase a legal passport replacement, our team ensures that every document we deliver adheres to the highest standards of authenticity and security.</p>
+
+        <h2 class="section-title">The Importance of Real, Registered Passports</h2>
+        <p>A real passport serves as your key to international travel. It’s an essential document for securing visas, traveling between countries, and confirming your identity. At Digital Novelty Documents, our real US passports come with all the necessary legal registrations in government databases, ensuring their authenticity and legality. This means they are accepted by immigration authorities and border control around the world.</p>
+        <p>When you buy a real passport online, you’re not just purchasing a piece of paper—you’re acquiring a highly secure document with embedded security features such as chips, holograms, watermarks, and biometric data. These features ensure that your passport is safe from counterfeit attempts and complies with global travel standards.</p>
+
+        <h2 class="section-title">Real Passport Security Features</h2>
+        <p>The security measures embedded in a real passport go beyond its appearance. Today’s passports are equipped with a variety of advanced features designed to protect both the passport holder and the document itself. Here’s what you can expect from our genuine, registered passports:</p>
+        <ul>
+          <li><strong>Biometric Data:</strong> A biometric passport stores information such as facial recognition data, fingerprints, and other personal identifiers that make it harder for anyone to forge or misuse.</li>
+          <li><strong>Embedded Chip:</strong> The biometric chip in our passports holds critical personal information, which can be read and verified by passport control and border agents. This makes your real US passport more secure and reliable.</li>
+          <li><strong>Holograms and Watermarks:</strong> One of the most important anti-counterfeit features. Our real passports include high-level holograms and watermarks that are virtually undetectable to the naked eye, ensuring that the passport remains safe and secure in any circumstance.</li>
+          <li><strong>UV Light Features:</strong> A hidden UV light feature embedded in the real passport reveals additional security markings that are invisible under normal light, but visible under UV light, ensuring that authorities can verify the passport’s authenticity.</li>
+        </ul>
+        <p>These security features are why our real US passports are trusted by governments and accepted internationally.</p>
+
+        <h2 class="section-title">Types of Real Passports Available</h2>
+        <p>We provide a range of real passports tailored to meet different needs. Whether you are traveling, applying for residency, or securing a second passport for international business, we have a solution for you. Here’s a look at some of the real passport options we offer:</p>
+        <ol>
+          <li><strong>Real US Passport for Travel</strong><br>The most common type of passport, the real US passport for travel is designed for individuals who need to travel abroad. If you’re planning a vacation, attending a business conference, or studying overseas, a genuine US passport is required.</li>
+          <li><strong>Real US Passport for Residency</strong><br>If you’re relocating to another country and need proof of your identity and citizenship, our real US passport for residency is the perfect solution. Many countries require a valid passport as part of the immigration process, and having a real passport ensures that you meet these legal requirements.</li>
+          <li><strong>Second Real US Passport</strong><br>A second real US passport can be invaluable for individuals who frequently travel or need additional documents for visa applications. If you’ve faced restrictions with your current passport due to visas or other documentation issues, a second passport gives you the flexibility to manage your international commitments.</li>
+          <li><strong>Diplomatic Passport</strong><br>For diplomats or individuals involved in international relations, a real diplomatic US passport is required. These passports come with a range of privileges, including immunity and special status in some countries.</li>
+        </ol>
+
+        <h2 class="section-title">How to Buy a Real Passport Online</h2>
+        <p>The process of obtaining a real US passport online is straightforward with Digital Novelty Documents. If you’re wondering, “Where can I buy a real passport?” or “How can I order a real passport online?” here’s a breakdown of the process:</p>
+        <ol>
+          <li><strong>Step 1: Determine the Type of Passport You Need</strong><br>First, decide on the type of passport you require. Whether you need a real US passport for travel, second passport, or diplomatic passport, we can guide you through the selection process.</li>
+          <li><strong>Step 2: Provide Documentation</strong><br>To obtain a real passport, we require documentation to verify your identity and eligibility. Depending on the passport type, you may need to provide personal identification, proof of citizenship, or other supporting documents.</li>
+          <li><strong>Step 3: Place Your Order</strong><br>Once you’ve gathered the necessary documentation, you can buy a real passport online by filling out our simple order form. Our user-friendly process ensures that obtaining a genuine passport is hassle-free.</li>
+          <li><strong>Step 4: Passport Registration and Delivery</strong><br>After submitting your order, we’ll register your real passport in the official government database. Once registered, we’ll ship your passport securely to your address. You can expect prompt delivery with tracking information, so you’ll know when your real passport arrives.</li>
+        </ol>
+
+        <h2 class="section-title">Buy a Real Passport with Cryptocurrency</h2>
+        <p>In today’s digital age, many people prefer to use cryptocurrency for their purchases. If you’re looking for an easy way to buy a real passport with cryptocurrency, we accept Bitcoin and other major cryptocurrencies for passport purchases. This offers a secure, fast, and private way to acquire your real passport without the need for traditional payment methods.</p>
+        <p>We ensure that your transaction is safe and that your genuine passport is delivered to you swiftly, with all the necessary security features.</p>
+
+        <h2 class="section-title">Related Documents Available for Sale</h2>
+        <ul>
+          <li><strong>Real Green Cards:</strong> If you need proof of permanent residency in the US, we provide real Green Cards that are registered and recognized by immigration authorities.</li>
+          <li><strong>Real Social Security Cards (SSN):</strong> Whether you’re applying for a job or need a replacement, we offer real SSN cards for individuals.</li>
+          <li><strong>Real Driver’s Licenses:</strong> Our real driver’s licenses are fully registered and valid, making them perfect for use as official ID.</li>
+          <li><strong>Real Birth Certificates:</strong> We also offer real birth certificates that are registered in official databases, ideal for various legal processes such as visa applications or establishing citizenship.</li>
+        </ul>
+      </div>
+    </section>
+    </main>
+ 
+    <main>
+     <!-- Hero Section -->
+<!-- ...existing code... -->
+    <section class="slide-presentation">
+      <div class="slide-content">
+        <!-- ...existing code... -->
+      </div>
+    </section>
+
+    <!-- Section with background image and horizontal content blocks -->
+    <section class="passport-section-bg">
+      <div class="passport-section-row">
+        <div class="passport-block">
+          <h2 class="passport-title">Buy or Apply for Travel Passport Online | Buy Fake Passport</h2>
+          <p>Whether you’re looking to buy a new passport, change your identity, or finally get the travel freedom you deserve, TravelPassportss.com is your trusted partner. We deliver real, registered passports in just a few days no embassy visits, no stress.</p>
+        </div>
+        <div class="passport-block">
+          <p>With years of experience in the industry, we understand the importance of providing high-quality documents to our customers. You can buy 100% authentic passports, visas, driver’s license, ID cards, and residency permits in few simple steps.</p>
+        </div>
+        <div class="passport-block">
+          <p>We understand how busy life can get. That’s why we offer convenient options to buy a passport online or apply for a passport online. Our platform is designed to simplify the entire application process. You can even choose our fast-track passport service if you’re in a rush. Need a passport for your furry friend? We also make it easy to buy pet passports quickly and securely. Contact us !!</p>
+        </div>
+      </div>
+    </section>
+      <!-- Top Products Section -->
+      <section class="catalog" id="top-products">
+        <div class="container">
+          <h2>BROWSE OUR TOP PRODUCTS</h2>
+          
+          <!-- Product Categories -->
+          <div class="category-filters">
+            <button class="category-btn active" data-category="all">All Products</button>
+            <button class="category-btn" data-category="documents">Documents</button>
+            <button class="category-btn" data-category="cards">Clone Cards</button>
+            <button class="category-btn" data-category="bills">Quality Bills</button>
+            <button class="category-btn" data-category="devices">Devices</button>
+          </div>
+
+          <div class="product-grid">
+            <!-- Documents -->
+            <article class="product document-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Grade A Passport" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">DOCUMENTS</div>
+              <h3>Grade A Passports</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(124)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-17%</span>
+                <span class="original">$1,500.00</span>
+                <span class="current">$1,250.00</span>
+              </p>
+              <div class="product-actions">
+              <button class="btn add-to-cart" aria-label="Add Grade a passport to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple variants available</span>
+            </article>
+
+            <!-- Clone Cards -->
+            <article class="product card-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Premium Clone Card" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">CLONE CARDS</div>
+              <h3>Premium Clone Card (20K Balance)</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(89)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-6%</span>
+                <span class="original">$1,600.00</span>
+                <span class="current">$1,500.00</span>
+              </p>
+              <div>
+              <button class="btn add-to-cart" aria-label="Add Premium Clone Card to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple variants available</span>
+            </article>
+
+            <!-- Quality Bills -->
+            <article class="product bill-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Premium Bills" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">QUALITY BILLS</div>
+              <h3>Premium USD Bills</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(156)</span>
+              </div>
+              <p class="price">$500.00 – $3,500.00</p>
+              <div class="product-actions">
+               <button class="btn add-to-cart" aria-label="Add Grade a passport to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple denominations available</span>
+            </article>
+            <!-- ID Cards -->
+            <article class="product document-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Premium ID Cards" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">DOCUMENTS</div>
+              <h3>Premium ID Cards</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(92)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-23%</span>
+                <span class="original">$1,300.00</span>
+                <span class="current">$1,000.00</span>
+              </p>
+              <div class="product-actions">
+                <button class="btn add-to-cart" aria-label="Add Premium ID Cards to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple countries available</span>
+            </article>
+            <!-- Devices -->
+            <article class="product device-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Card Reader" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">DEVICES</div>
+              <h3>Professional Card Reader</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(67)</span>
+              </div>
+              <p class="price">$2,500.00</p>
+              <button class="btn add-to-cart" aria-label="Add Premium ID Cards to cart">Add to Cart</button>
+          </article>
+          </div>
+        </div>
+      </section>
+   
+    <section class="catalog" id="top-products">
+        <div class="container">
+          <h2>BUY 100 CAD ONLINE</h2>
+      <div class="product-grid">
+  
+            <!-- More Documents -->
+            <article class="product document-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Resident Permits" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">DOCUMENTS</div>
+              <h3>Resident Permits</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(78)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-17%</span>
+                <span class="original">$1,450.00</span>
+                <span class="current">$1,200.00</span>
+              </p>
+              <div class="product-actions">
+                <button class="btn add-to-cart" aria-label="Add Resident Permit to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple countries available</span>
+            </article>
+            
+                         
+             <article class="product document-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Resident Permits" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">COUNTERFEIT NOTE</div>
+              <h3>BUY 50 GBP NOTE</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(83)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-17%</span>
+                <span class="original">$2,550.00</span>
+                <span class="current">$2,116.50</span>
+              </p>
+              <div class="product-actions">
+                <button class="btn add-to-cart" aria-label="Add 50 GBP NOTE to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple countries Note Available</span>
+            </article>
+           
+           <!-- Product 3 (discount) -->
+             <article class="product document-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Resident Permits" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">Clone cards for sale Near Me</div>
+              <h3>Clone Cards</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(83)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-17%</span>
+                <span class="original">$2,550.00</span>
+                <span class="current">$2,116.50</span>
+              </p>
+              <div class="product-actions">
+                <button class="btn add-to-cart" aria-label="Add 50 GBP NOTE to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">Multiple countries Note Available</span>
+            </article>
+           
+            <!-- Product 4 (discount) -->
+            <article class="product document-item">
+              <div class="thumb">
+                <img src="sideimage.jpg" alt="Resident Permits" loading="lazy">
+                <div class="quick-view">Quick View</div>
+              </div>
+              <div class="product-category">Buy Drivers License Online</div>
+              <h3>Drivers License</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">(83)</span>
+              </div>
+              <p class="price">
+                <span class="discount">-17%</span>
+                <span class="original">$2,550.00</span>
+                <span class="current">$2,116.50</span>
+              </p>
+              <div class="product-actions">
+                <button class="btn add-to-cart" aria-label="Add 50 GBP NOTE to cart">Add to Cart</button>
+              </div>
+              <span class="variant-note">This product has multiple variants. The options may be chosen on the product page</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title" hidden>
+      <div class="modal-backdrop" data-login-close></div>
+      <div class="modal-dialog">
+        <button class="modal-close" aria-label="Close" data-login-close>×</button>
+        <h3 id="login-title">Login</h3>
+        <form id="login-form">
+          <label>Email or Username</label>
+          <input type="text" required />
+          <label>Password</label>
+          <input type="password" required />
+          <div class="form-row">
+            <label class="checkbox"><input type="checkbox" /> Remember me</label>
+            <a href="#" class="link">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn primary full">Log In</button>
+        </form>
+      </div>
+    </div>
+    <script>
+// Countdown timer: starts from 365 days
+function startCountdown(days) {
+  let totalSeconds = days * 24 * 60 * 60;
+  const d = document.querySelector('.header-countdown .num#d');
+  const h = document.querySelector('.header-countdown .num#h');
+  const m = document.querySelector('.header-countdown .num#m');
+  const s = document.querySelector('.header-countdown .num#s');
+  function updateCountdown() {
+    let days = Math.floor(totalSeconds / (24 * 60 * 60));
+    let hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+    let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+    let seconds = totalSeconds % 60;
+    d.textContent = String(days);
+    h.textContent = String(hours).padStart(2, '0');
+    m.textContent = String(minutes).padStart(2, '0');
+    s.textContent = String(seconds).padStart(2, '0');
+    if (totalSeconds > 0) {
+      totalSeconds--;
+    }
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+document.addEventListener('DOMContentLoaded', function() {
+  startCountdown(365);
+
+  // Shop submenu toggle
+  var shopMenu = document.querySelector('.has-submenu > a');
+  var shopSubmenu = document.querySelector('.has-submenu .submenu');
+  var shopLi = document.querySelector('.has-submenu');
+  if (shopMenu && shopSubmenu && shopLi) {
+    shopMenu.addEventListener('click', function(e) {
+      e.preventDefault();
+      var expanded = shopLi.getAttribute('aria-expanded') === 'true';
+      shopLi.setAttribute('aria-expanded', String(!expanded));
+      shopLi.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!shopLi.contains(e.target)) {
+        shopLi.setAttribute('aria-expanded', 'false');
+        shopLi.classList.remove('open');
+      }
+    });
+  }
+});
+    </script>
+    <script defer src="cart.js"></script>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="container">
+          <div class="footer-grid">
+            <!-- Company Info -->
+            <div class="footer-col company-info">
+              <div class="footer-logo">
+                <img src="logo.png" alt="DocuShop Logo" />
+              </div>
+              <p class="company-desc">Your trusted partner for secure, authentic documents worldwide. Fast service, discreet delivery, and guaranteed quality.</p>
+              <div class="social-links">
+                <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Contact us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="documents.html">Documents</a></li>
+                <li><a href="how-to-order.html">How to Order</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+              </ul>
+            </div>
+
+            <!-- Our Products -->
+            <div class="footer-col">
+              <h4>Our Products</h4>
+              <ul>
+                <li><a href="shop.html#passports">Passports</a></li>
+                <li><a href="shop.html#drivers-license">Driver's License</a></li>
+                <li><a href="shop.html#id-cards">ID Cards</a></li>
+                <li><a href="shop.html#certificates">Certificates</a></li>
+                <li><a href="shop.html#documents">Legal Documents</a></li>
+                <li><a href="shop.html#cards">Payment Cards</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-col contact-info">
+              <h4>Contact Information</h4>
+              <ul>
+                <li>
+                  <i class="fas fa-phone"></i>
+                  <span>24/7 Support: +1 (800) 555‑0199</span>
+                </li>
+                <li>
+                  <i class="fas fa-envelope"></i>
+                  <span>support@docushop.com</span>
+                </li>
+                <li>
+                  <i class="fas fa-clock"></i>
+                  <span>Available 24/7</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="footer-col newsletter">
+              <h4>Newsletter</h4>
+              <p>Subscribe to get special offers and updates</p>
+              <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required />
+                <button type="submit">Subscribe</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="container">
+          <p>&copy; 2025 DocuShop. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="shipping.html">Shipping Policy</a>
+          </div>
+          <div class="payment-methods">
+            <span>We Accept:</span>
+            <img src="logo.png" alt="Accepted Payment Methods" />
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

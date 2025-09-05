@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Live Chat • DocuShop</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        var form = document.getElementById('chat-form');
+        var log = document.getElementById('chat-log');
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          var text = form.message.value.trim(); if(!text) return;
+          var me = document.createElement('div'); me.className='chat-msg me'; me.textContent = text; log.appendChild(me);
+          form.reset();
+          setTimeout(function(){ var bot = document.createElement('div'); bot.className='chat-msg bot'; bot.textContent='Thanks! An agent will reply shortly.'; log.appendChild(bot); log.scrollTop = log.scrollHeight; }, 600);
+        });
+      });
+    </script>
+    <style>
+      .chat-wrap{max-width:900px;margin:24px auto;padding:16px;border:1px solid #ddd;border-radius:8px}
+      #chat-log{height:360px;overflow:auto;border:1px solid #eee;border-radius:6px;padding:8px;margin-bottom:12px;background:#fafafa}
+      .chat-msg{padding:8px 10px;border-radius:12px;margin:6px 0;max-width:75%}
+      .chat-msg.me{background:#0a7cff;color:#fff;margin-left:auto}
+      .chat-msg.bot{background:#e9edf5;color:#222;margin-right:auto}
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Top Banner Section -->
+      <div class="top-banner">
+        <div class="container">
+          <p>This is default text for notification bar. <a href="#" class="learn-more">Learn more.</a></p>
+        </div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="header-countdown">
+        <div class="container countdown-flex">
+          <div class="countdown" aria-label="Special offer countdown">
+            <div><span class="num" id="d">351</span><span class="lbl">Days</span></div>
+            <div><span class="num" id="h">20</span><span class="lbl">Hours</span></div>
+            <div><span class="num" id="m">49</span><span class="lbl">Minutes</span></div>
+            <div><span class="num" id="s">36</span><span class="lbl">Seconds</span></div>
+          </div>
+          <div class="discount-offer-group">
+            <span class="discount-offer">10% DISCOUNT OFF CRYPTO PAYMENTS!</span>
+            <a href="#" class="discount-btn">Get Lifetime Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header with Logo, Search, and Actions -->
+      <div class="site-header">
+        <div class="container">
+          <div class="header-row">
+            <div class="header-left">
+              <a href="index.html" class="brand" aria-label="Online Document Store Home">
+                <img src="logo.png" alt="Online Document Store" class="brand-logo" />
+              </a>
+            </div>
+
+            <div class="header-center">
+              <form class="search" role="search" aria-label="Site search">
+                <input type="search" placeholder="Search..." aria-label="Search" autocomplete="off" />
+                <button type="submit" aria-label="Submit search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+              </div>
+
+            <div class="header-right">
+              <button class="btn primary buy-now-btn" aria-label="Buy products now">BUY NOW</button>
+              <a href="checkout.html" class="cart" aria-label="View cart">
+                <span class="cart-text">CART / $1,500.00</span>
+                <span class="count" id="cart-count">1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <nav class="site-nav-bar">
+        <div class="container">
+          <ul class="menu" id="primary-menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="shop.html">SHOP</a></li>
+            <li><a href="clone-cards.html">CLONE CARDS</a></li>
+            <li class="has-submenu">
+              <a href="counterfeit-notes.html">COUNTERFEIT NOTES</a>
+              <ul class="submenu">
+                <li><a href="us-dollar-bills.html">Buy Counterfeit US Dollar Bills</a></li>
+                <li><a href="euro-bills.html">Buy Counterfeit Euro Bills</a></li>
+                <li><a href="british-pounds.html">Buy Counterfeit British Pounds</a></li>
+                <li><a href="australian-dollars.html">Buy Counterfeit Australian Dollars</a></li>
+                <li><a href="canadian-dollars.html">Buy Counterfeit Canadian Dollars</a></li>
+                <li><a href="swiss-franc.html">Buy Counterfeit Swiss Franc</a></li>
+                <li><a href="kuwaiti-dinar.html">Buy Counterfeit Kuwaiti Dinar</a></li>
+              </ul>
+            </li>
+            <li><a href="documents.html">DOCUMENTS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="how-to-order.html">HOW TO ORDER</a></li>
+            <li><a href="reviews.html">REVIEWS</a></li>
+            <li><a href="checkout.html" class="checkout-btn">CHECKOUT</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <div class="chat-wrap">
+        <h1>Customer Support Chat</h1>
+        <div id="chat-log" aria-live="polite"></div>
+        <form id="chat-form" style="display:flex;gap:8px;align-items:center">
+          <input name="message" type="text" placeholder="Type your message..." style="flex:1" required />
+          <button class="btn primary" type="submit">Send</button>
+        </form>
+      </div>
+    </main>
+    <footer class="site-footer"><div class="footer-bottom"><div class="container"><p>&copy; 2025 DocuShop. All rights reserved.</p></div></div></footer>
+  </body>
+</html>
