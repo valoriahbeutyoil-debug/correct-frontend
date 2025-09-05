@@ -1,5 +1,5 @@
 // Set API base URL for easy switching between local and deployed environments
-const API_BASE_URL = 'https://backend-crqd.onrender.com'; // Live backend URL
+const API_BASE_URL = 'https://correct-backend-gu05.onrender.com/'; // Live backend URL
 // Admin Panel JavaScript
 class AdminPanel {
     constructor() {
@@ -789,3 +789,4 @@ document.head.appendChild(styleSheet);
         savePaymentMethod('Crypto');
     });
 })();
+
