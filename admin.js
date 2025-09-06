@@ -667,7 +667,7 @@ document.head.appendChild(styleSheet);
 
 // --- Payment Methods Modal Logic ---
 (function() {
-    const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
+     // use the global API_BASE_URL from the top of the file
     const paymentModal = document.getElementById('payment-methods-modal');
     const openPaymentBtn = document.getElementById('manage-payment-methods-btn');
     if (!paymentModal || !openPaymentBtn) return;
@@ -789,6 +789,7 @@ document.head.appendChild(styleSheet);
         savePaymentMethod('Crypto');
     });
 })();
+
 
 
 
