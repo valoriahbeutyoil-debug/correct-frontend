@@ -1,5 +1,5 @@
 // Login and Registration JavaScript
-const API_BASE_URL = 'https://backend-crqd.onrender.com'; // Live backend URL
+const API_BASE_URL = 'https://correct-backend-gu05.onrender.com'; // Live backend URL
 
 class AuthManager {
     constructor() {
@@ -569,3 +569,4 @@ const logoutStyles = `
 const styleSheet = document.createElement('style');
 styleSheet.textContent = logoutStyles;
 document.head.appendChild(styleSheet);
+
