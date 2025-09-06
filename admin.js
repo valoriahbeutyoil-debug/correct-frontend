@@ -667,7 +667,7 @@ document.head.appendChild(styleSheet);
 
 // --- Payment Methods Modal Logic ---
 (function() {
-    const API_BASE_URL = 'https://backend-crqd.onrender.com';
+    const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
     const paymentModal = document.getElementById('payment-methods-modal');
     const openPaymentBtn = document.getElementById('manage-payment-methods-btn');
     if (!paymentModal || !openPaymentBtn) return;
@@ -789,5 +789,6 @@ document.head.appendChild(styleSheet);
         savePaymentMethod('Crypto');
     });
 })();
+
 
 
