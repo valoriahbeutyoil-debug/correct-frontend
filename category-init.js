@@ -1,5 +1,23 @@
 // category-init.js
 // Auto-load products for each category page
+// Robust session check for user-facing pages
+function getSession() {
+  let session = sessionStorage.getItem('docushop_session');
+  if (!session) session = localStorage.getItem('docushop_session');
+  if (!session) return null;
+  try {
+    const data = JSON.parse(session);
+    if (data.userId && data.isActive) return data;
+  } catch {}
+  return null;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const session = getSession();
+  if (!session) {
+    window.location.href = 'login.html';
+  }
+});
 
 const categoryMap = {
   'shop.html': 'shop',

@@ -13,7 +13,11 @@ function renderProducts(products, containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
   container.innerHTML = '';
-  products.forEach(product => {
+    if (!products || products.length === 0) {
+      container.innerHTML = '<div class="no-products">No products found for this category.</div>';
+      return;
+    }
+    products.forEach(product => {
     const el = document.createElement('article');
     el.className = 'product-card';
     el.dataset.category = product.category;
