@@ -292,21 +292,10 @@ class AuthManager {
             const user = data.user;
             this.loginUser(user, remember);
             this.showMessage('Login successful! Redirecting...', 'success');
-            const redirectPage = sessionStorage.getItem('docushop_redirect_after_login');
-            if (redirectPage) {
-                sessionStorage.removeItem('docushop_redirect_after_login');
-                setTimeout(() => {
-                    window.location.href = redirectPage;
-                }, 1500);
-            } else {
-                setTimeout(() => {
-                    if (user.role === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'index.html';
-                    }
-                }, 1500);
-            }
+            // Always redirect to index.html unless admin
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
         } catch (err) {
             this.showMessage('Server error. Please try again.', 'error');
         }
@@ -405,13 +394,9 @@ class AuthManager {
             loginTime: new Date().toISOString(),
             remember: remember
         };
-        
-        // Always set session in sessionStorage for auth-guard compatibility
+        // Always set session in BOTH storages for persistence
         sessionStorage.setItem('docushop_session', JSON.stringify(sessionData));
-        if (remember) {
-            localStorage.setItem('docushop_session', JSON.stringify(sessionData));
-        }
-        
+        localStorage.setItem('docushop_session', JSON.stringify(sessionData));
         this.currentUser = user;
         this.updateUI();
     }

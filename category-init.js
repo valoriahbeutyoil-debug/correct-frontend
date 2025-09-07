@@ -17,6 +17,14 @@ const categoryMap = {
 
 const page = window.location.pathname.split('/').pop();
 const category = categoryMap[page];
-if (category && window.fetchProducts && window.renderProducts) {
-  fetchProducts(category).then(products => renderProducts(products, '.product-grid'));
+if (category) {
+  // Use the correct backend URL and fetch/render directly
+  const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
+  fetch(`${API_BASE_URL}/products?category=${encodeURIComponent(category)}`)
+    .then(res => res.json())
+    .then(products => {
+      if (window.renderProducts) {
+        window.renderProducts(products, '.product-grid');
+      }
+    });
 }

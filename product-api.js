@@ -2,7 +2,7 @@
 // Reusable script to fetch and render products from backend API
 
 async function fetchProducts(category = null) {
-  let url = 'https://backend-crqd.onrender.com/products';
+  let url = 'https://correct-backend-gu05.onrender.com/products';
   if (category) url += `?category=${encodeURIComponent(category)}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error('Failed to fetch products');
@@ -10,8 +10,6 @@ async function fetchProducts(category = null) {
 }
 
 function renderProducts(products, containerSelector) {
-// ...existing code...
-}
   const container = document.querySelector(containerSelector);
   if (!container) return;
   container.innerHTML = '';
@@ -25,22 +23,12 @@ function renderProducts(products, containerSelector) {
       </div>
       <div class="product-info">
         <h3>${product.name}</h3>
-        <div class="price">$${product.price.toFixed(2)}</div>
-        <div class="product-review">
-          <span class="review-icon">&#9998;</span> ${product.quickReview ? product.quickReview : ''}
-        </div>
+        <div class="price">$${Number(product.price).toFixed(2)}</div>
         <p class="description">${product.description || ''}</p>
-        <button class="add-to-cart-btn" data-product-id="${product._id || product.id}">
-          <i class="fas fa-shopping-cart"></i> Add to Cart
-        </button>
-        <button class="quick-review-btn" data-product-id="${product._id || product.id}">
-          <i class="fas fa-eye"></i> Quick Review
-        </button>
       </div>
     `;
     container.appendChild(el);
   });
-
   // Add event listeners for Add to Cart and Quick Review
   container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
