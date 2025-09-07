@@ -33,59 +33,6 @@
     return PROTECTED_PAGES.includes(currentPage);
   }
 
-  // Check if user is authenticated
-  function isAuthenticated() {
-    const session = sessionStorage.getItem('docushop_session');
-    if (!session) return false;
-    
-    try {
-      const sessionData = JSON.parse(session);
-      return sessionData.userId && sessionData.isActive;
-    } catch {
-      return false;
-    }
-  }
-
-  // Redirect to login page
-  function redirectToLogin() {
-    // Store the intended destination for after login
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    if (currentPage === 'admin.html') {
-      window.location.href = 'admin-login.html';
-      return;
-    }
-    if (currentPage !== 'index.html' && currentPage !== 'login.html') {
-      sessionStorage.setItem('docushop_redirect_after_login', currentPage);
-    }
-    window.location.href = 'login.html';
-  }
-
-  // Main authentication check
-  function checkAuth() {
-    // Skip check for index.html and login.html
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    if (currentPage === 'index.html' || currentPage === 'login.html') {
-      return;
-    }
-
-    // If page is protected and user is not authenticated, redirect to login
-    if (isProtectedPage() && !isAuthenticated()) {
-      redirectToLogin();
-    }
-  }
-
-  // Run authentication check when DOM is loaded
-  document.addEventListener('DOMContentLoaded', checkAuth);
-
-  // Also check on page load for single-page applications
-  window.addEventListener('load', checkAuth);
-
-  // Export functions for use in other scripts
-  window.AuthGuard = {
-    isAuthenticated,
-    isProtectedPage,
-    redirectToLogin,
-    checkAuth
-  };
+    // User login removed. Only admin-login logic remains. No user authentication or redirects.
 
 })();

@@ -13,10 +13,7 @@ function getSession() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  const session = getSession();
-  if (!session) {
-    window.location.href = 'login.html';
-  }
+  // Session check removed. Users can browse without logging in.
 });
 
 const categoryMap = {
@@ -35,14 +32,21 @@ const categoryMap = {
 
 const page = window.location.pathname.split('/').pop();
 const category = categoryMap[page];
+console.log('[DEBUG] Current page:', page, 'Mapped category:', category);
 if (category) {
-  // Use the correct backend URL and fetch/render directly
   const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
   fetch(`${API_BASE_URL}/products?category=${encodeURIComponent(category)}`)
-    .then(res => res.json())
+    .then(res => {
+      console.log('[DEBUG] Product fetch response status:', res.status);
+      return res.json();
+    })
     .then(products => {
+      console.log('[DEBUG] Products fetched:', products);
       if (window.renderProducts) {
         window.renderProducts(products, '.product-grid');
       }
+    })
+    .catch(err => {
+      console.error('[DEBUG] Product fetch error:', err);
     });
 }

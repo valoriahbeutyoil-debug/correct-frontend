@@ -16,29 +16,7 @@
     writeCart(items);
     updateCartDetails();
     updateCartTotal();
-    renderCheckoutItems();
-  }
-
-  function removeItem(id, variant){
-    writeCart(readCart().filter(x => !(x.id === id && x.variant === variant)));
-    updateCartDetails();
-    updateCartTotal();
-    renderCheckoutItems();
-  }
-
-  function setQty(id, variant, qty){
-    const items = readCart();
-    const it = items.find(x => x.id === id && x.variant === variant);
-    if (it){ it.qty = Math.max(1, qty|0); }
-    writeCart(items);
-    updateCartDetails();
-    updateCartTotal();
-    renderCheckoutItems();
-  }
-
-  function clearCart(){
-    writeCart([]);
-    updateCartDetails();
+    // User login removed. Anyone can checkout.
     updateCartTotal();
     renderCheckoutItems();
   }

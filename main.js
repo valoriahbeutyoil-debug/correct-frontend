@@ -227,5 +227,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-
 })();
