@@ -429,17 +429,17 @@ class AuthManager {
     }
 
     getCurrentUser() {
-        const session = localStorage.getItem('docushop_session') || sessionStorage.getItem('docushop_session');
-        if (session) {
-            try {
-                const sessionData = JSON.parse(session);
-                return this.users.find(user => user.id === sessionData.user.id);
-            } catch (e) {
-                return null;
-            }
+    const session = localStorage.getItem('docushop_session') || sessionStorage.getItem('docushop_session');
+    if (session) {
+        try {
+            const sessionData = JSON.parse(session);
+            return sessionData.user; // ✅ return the actual user stored in session
+        } catch (e) {
+            return null;
         }
-        return null;
     }
+    return null;
+}
 
     updateUI() {
         // Update header if user is logged in
@@ -569,4 +569,5 @@ const logoutStyles = `
 const styleSheet = document.createElement('style');
 styleSheet.textContent = logoutStyles;
 document.head.appendChild(styleSheet);
+
 
