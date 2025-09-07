@@ -294,7 +294,7 @@ class AuthManager {
             this.showMessage('Login successful! Redirecting...', 'success');
             // Always redirect to index.html unless admin
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = '/index.html';
             }, 1500);
         } catch (err) {
             this.showMessage('Server error. Please try again.', 'error');
