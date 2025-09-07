@@ -4,20 +4,26 @@
 async function fetchProducts(category = null) {
   let url = 'https://correct-backend-gu05.onrender.com/products';
   if (category) url += `?category=${encodeURIComponent(category)}`;
+  console.log('[DEBUG] fetchProducts URL:', url);
   const res = await fetch(url);
+  console.log('[DEBUG] fetchProducts response status:', res.status);
   if (!res.ok) throw new Error('Failed to fetch products');
-  return await res.json();
+  const data = await res.json();
+  console.log('[DEBUG] fetchProducts data:', data);
+  return data;
 }
 
 function renderProducts(products, containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
   container.innerHTML = '';
-    if (!products || products.length === 0) {
-      container.innerHTML = '<div class="no-products">No products found for this category.</div>';
-      return;
-    }
-    products.forEach(product => {
+  console.log('[DEBUG] renderProducts called with:', products);
+  if (!products || products.length === 0) {
+    container.innerHTML = '<div class="no-products">No products found for this category.</div>';
+    return;
+  }
+  products.forEach(product => {
+    console.log('[DEBUG] Rendering product:', product);
     const el = document.createElement('article');
     el.className = 'product-card';
     el.dataset.category = product.category;
