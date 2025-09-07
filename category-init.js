@@ -7,7 +7,7 @@ function getSession() {
   if (!session) return null;
   try {
     const data = JSON.parse(session);
-    if (data.userId && data.isActive) return data;
+    if (data.userId) return data;
   } catch {}
   return null;
 }
