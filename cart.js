@@ -248,5 +248,11 @@ document.addEventListener('DOMContentLoaded', function() {
   updateCartTotal();       // refresh totals
   renderCheckoutItems();   // refresh checkout items (if on checkout page)
 });
+// Expose cart functions globally so other scripts/pages can access them
+window.updateCartDetails = updateCartDetails;
+window.updateCartTotal = updateCartTotal;
+window.addItem = addItem;
+window.renderCheckoutItems = renderCheckoutItems;
+
 
 
