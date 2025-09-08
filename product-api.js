@@ -18,84 +18,53 @@ function renderProducts(products, containerSelector) {
   if (!container) return;
   container.innerHTML = '';
   console.log('[DEBUG] renderProducts called with:', products);
+
   if (!products || products.length === 0) {
     container.innerHTML = '<div class="no-products">No products found for this category.</div>';
     return;
   }
+
   products.forEach(product => {
     console.log('[DEBUG] Rendering product:', product);
     const el = document.createElement('article');
     el.className = 'product-card';
     el.dataset.category = product.category;
-  el.innerHTML = `
-  <div class="product-image">
-    <img src="${product.image}" alt="${product.name}" loading="lazy" 
-         style="width:220px;height:220px;object-fit:cover;">
-  </div>
-  <div class="product-info">
-    <h3>${product.name}</h3>
-    <div class="price">$${Number(product.price).toFixed(2)}</div>
-    <p class="description">${product.description || ''}</p>
-    <button class="add-to-cart-btn" data-product-id="${product._id || product.id}">Add to Cart</button>
-    <button class="quick-review-btn" data-product-id="${product._id || product.id}">Quick Review</button>
-  </div>
-`;
-// Add to Cart buttons
-container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    const productId = btn.getAttribute('data-product-id');
-    const product = products.find(p => (p._id || p.id) == productId);
-    if (!product) return;
 
-    // Call cart.js logic
-    if (window.addItem) {
-      window.addItem({
-        id: product._id || product.id,
-        name: product.name,
-        price: product.price,
-        qty: 1
-      });
-    }
-
-    // Button feedback
-    btn.textContent = 'Added!';
-    btn.style.background = '#28a745';
-    setTimeout(() => {
-      btn.textContent = 'Add to Cart';
-      btn.style.background = '';
-    }, 1500);
-  });
-});
-
-  <div class="product-info">
-    <h3>${product.name}</h3>
-    <div class="price">$${Number(product.price).toFixed(2)}</div>
-    <p class="description">${product.description || ''}</p>
-    <button class="add-to-cart-btn" data-product-id="${product._id || product.id}">Add to Cart</button>
-    <button class="quick-review-btn" data-product-id="${product._id || product.id}">Quick Review</button>
-  </div>
-  
+    el.innerHTML = `
+      <div class="product-image">
+        <img src="${product.image}" alt="${product.name}" loading="lazy" 
+             style="width:220px;height:220px;object-fit:cover;">
+      </div>
+      <div class="product-info">
+        <h3>${product.name}</h3>
+        <div class="price">$${Number(product.price).toFixed(2)}</div>
+        <p class="description">${product.description || ''}</p>
+        <button class="add-to-cart-btn" data-product-id="${product._id || product.id}">Add to Cart</button>
+        <button class="quick-review-btn" data-product-id="${product._id || product.id}">Quick Review</button>
+      </div>
     `;
+
     container.appendChild(el);
   });
-  // Add event listeners for Add to Cart and Quick Review
+
+  // ✅ Add to Cart buttons
   container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
       const productId = btn.getAttribute('data-product-id');
       const product = products.find(p => (p._id || p.id) == productId);
       if (!product) return;
-      // Add to cart using cart.js logic
+
       if (window.addItem) {
         window.addItem({
           id: product._id || product.id,
           name: product.name,
           price: product.price,
-          variant: '',
           qty: 1
         });
       }
+
+      // Feedback
       btn.textContent = 'Added!';
       btn.style.background = '#28a745';
       setTimeout(() => {
@@ -105,7 +74,7 @@ container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     });
   });
 
-  // Professional Quick Review modal
+  // ✅ Quick Review modal
   if (!document.getElementById('quick-review-modal')) {
     const modal = document.createElement('div');
     modal.id = 'quick-review-modal';
@@ -129,6 +98,7 @@ container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
       modal.style.display = 'none';
     };
   }
+
   const modal = document.getElementById('quick-review-modal');
   container.querySelectorAll('.quick-review-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
@@ -137,13 +107,9 @@ container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
       const product = products.find(p => (p._id || p.id) == productId);
       if (!product) return;
       document.getElementById('quick-review-title').textContent = product.name;
-      document.getElementById('quick-review-content').textContent = product.description || product.quickReview || 'No review available.';
+      document.getElementById('quick-review-content').textContent =
+        product.description || product.quickReview || 'No review available.';
       modal.style.display = 'flex';
     });
   });
 }
-
-// Usage example (to be placed in each product page):
-// fetchProducts('documents').then(products => renderProducts(products, '.product-grid'));
-
-
