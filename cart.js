@@ -228,6 +228,13 @@
     const cartContainer = document.getElementById('cart-container');
     if (cartContainer) renderCartTable(cartContainer);
   }
+  // Make core cart functions global so product-api.js can call them
+window.addItem = addItem;
+window.removeItem = removeItem;
+window.updateCartDetails = updateCartDetails;
+window.updateCartTotal = updateCartTotal;
+window.renderCheckoutItems = renderCheckoutItems;
+
 
   document.addEventListener('DOMContentLoaded', init);
 })();
@@ -236,3 +243,4 @@ document.addEventListener('DOMContentLoaded', function() {
   updateCartDetails();
   updateCartTotal();
 });
+
