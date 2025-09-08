@@ -1,3 +1,4 @@
+  <!-- Product loader handled by category-init.js -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -205,35 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
   // Fetch and render products for Australian Dollars category
-  async function fetchProducts() {
-    try {
-      const response = await fetch('/products?category=australian-dollars');
-      const products = await response.json();
-      renderProducts(products);
-    } catch (error) {
-      document.getElementById('products-container').innerHTML = '<p>Failed to load products.</p>';
-    }
-  }
-
-  function renderProducts(products) {
-    const container = document.getElementById('products-container');
-    if (!products.length) {
-      container.innerHTML = '<p>No products available.</p>';
-      return;
-    }
-    container.innerHTML = products.map(product => `
-      <article class="product bill-item">
-        <div class="thumb"><img src="${product.image || 'placeholder-images.html'}" alt="${product.name}" /></div>
-        <div class="product-category">${product.category || 'QUALITY BILLS'}</div>
-        <h3>${product.name}</h3>
-        <p class="price">$${product.price}</p>
-        <button class="btn add add-to-cart">Add to cart</button>
-      </article>
-    `).join('');
-  }
-
-  // Run on page load
-  window.addEventListener('DOMContentLoaded', fetchProducts);
 
   window.addEventListener('DOMContentLoaded', function() {
   const pageToCategory = {

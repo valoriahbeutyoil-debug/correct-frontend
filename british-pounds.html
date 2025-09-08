@@ -3,11 +3,7 @@
 <html lang="en">
 <head>
   <script src="product.js"></script>
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        fetchProducts('british-pounds').then(products => renderProducts(products, '.product-grid'));
-      });
-    </script>
+  <!-- Product loader handled by category-init.js -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Buy Counterfeit British Pounds — DocuShop</title>
@@ -24,28 +20,7 @@
   <script src="frontend/js/products.js"></script>
   <script src="cart.js"></script>
   <script src="admin.js"></script>
-  <script>
-window.addEventListener('DOMContentLoaded', function() {
-  const pageToCategory = {
-    'shop.html': 'shop',
-    'clone-cards.html': 'clone-cards',
-    'us-dollar-bills.html': 'us-dollar-bills',
-    'euro-bills.html': 'euro-bills',
-    'british-pounds.html': 'british-pounds',
-    'australian-dollars.html': 'australian-dollars',
-    'canadian-dollars.html': 'canadian-dollars',
-    'swiss-franc.html': 'swiss-franc',
-    'kuwaiti-dinar.html': 'kuwaiti-dinar',
-    'documents.html': 'documents',
-    'counterfeit-notes.html': 'counterfeit-notes'
-  };
-  const page = location.pathname.split('/').pop();
-  const category = pageToCategory[page];
-  if (category) {
-    window.renderCategoryProducts(category);
-  }
-});
-</script>
+  <!-- Product loader handled by category-init.js -->
 </head>
   <header>
     <!-- Top Banner Section -->
