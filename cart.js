@@ -243,4 +243,10 @@ document.addEventListener('DOMContentLoaded', function() {
   updateCartDetails();
   updateCartTotal();
 });
+document.addEventListener('DOMContentLoaded', function() {
+  updateCartDetails();     // refresh cart icon count
+  updateCartTotal();       // refresh totals
+  renderCheckoutItems();   // refresh checkout items (if on checkout page)
+});
+
 
