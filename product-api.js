@@ -27,11 +27,47 @@ function renderProducts(products, containerSelector) {
     const el = document.createElement('article');
     el.className = 'product-card';
     el.dataset.category = product.category;
-   el.innerHTML = `
+  el.innerHTML = `
   <div class="product-image">
     <img src="${product.image}" alt="${product.name}" loading="lazy" 
          style="width:220px;height:220px;object-fit:cover;">
   </div>
+  <div class="product-info">
+    <h3>${product.name}</h3>
+    <div class="price">$${Number(product.price).toFixed(2)}</div>
+    <p class="description">${product.description || ''}</p>
+    <button class="add-to-cart-btn" data-product-id="${product._id || product.id}">Add to Cart</button>
+    <button class="quick-review-btn" data-product-id="${product._id || product.id}">Quick Review</button>
+  </div>
+`;
+// Add to Cart buttons
+container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const productId = btn.getAttribute('data-product-id');
+    const product = products.find(p => (p._id || p.id) == productId);
+    if (!product) return;
+
+    // Call cart.js logic
+    if (window.addItem) {
+      window.addItem({
+        id: product._id || product.id,
+        name: product.name,
+        price: product.price,
+        qty: 1
+      });
+    }
+
+    // Button feedback
+    btn.textContent = 'Added!';
+    btn.style.background = '#28a745';
+    setTimeout(() => {
+      btn.textContent = 'Add to Cart';
+      btn.style.background = '';
+    }, 1500);
+  });
+});
+
   <div class="product-info">
     <h3>${product.name}</h3>
     <div class="price">$${Number(product.price).toFixed(2)}</div>
@@ -109,4 +145,5 @@ function renderProducts(products, containerSelector) {
 
 // Usage example (to be placed in each product page):
 // fetchProducts('documents').then(products => renderProducts(products, '.product-grid'));
+
 
