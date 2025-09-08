@@ -27,15 +27,19 @@ function renderProducts(products, containerSelector) {
     const el = document.createElement('article');
     el.className = 'product-card';
     el.dataset.category = product.category;
-    el.innerHTML = `
-      <div class="product-image">
-        <img src="${product.image}" alt="${product.name}" loading="lazy" style="width:220px;height:220px;object-fit:cover;">
-      </div>
-      <div class="product-info">
-        <h3>${product.name}</h3>
-        <div class="price">$${Number(product.price).toFixed(2)}</div>
-        <p class="description">${product.description || ''}</p>
-      </div>
+   el.innerHTML = `
+  <div class="product-image">
+    <img src="${product.image}" alt="${product.name}" loading="lazy" 
+         style="width:220px;height:220px;object-fit:cover;">
+  </div>
+  <div class="product-info">
+    <h3>${product.name}</h3>
+    <div class="price">$${Number(product.price).toFixed(2)}</div>
+    <p class="description">${product.description || ''}</p>
+    <button class="add-to-cart-btn" data-product-id="${product._id || product.id}">Add to Cart</button>
+    <button class="quick-review-btn" data-product-id="${product._id || product.id}">Quick Review</button>
+  </div>
+  
     `;
     container.appendChild(el);
   });
@@ -105,3 +109,4 @@ function renderProducts(products, containerSelector) {
 
 // Usage example (to be placed in each product page):
 // fetchProducts('documents').then(products => renderProducts(products, '.product-grid'));
+
