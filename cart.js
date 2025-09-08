@@ -72,36 +72,75 @@
   }
 
   // --- Enhanced Checkout Item Rendering ---
-  function renderCheckoutItems(){
-    const items = readCart();
-    const container = document.getElementById('checkout-order-items');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    if (items.length === 0) {
-      container.innerHTML = '<div class="order-item"><div class="item-info"><div class="item-name">No items in cart</div></div><div class="item-price">$0.00</div></div>';
-      return;
-    }
-    
-    items.forEach(item => {
-      const orderItem = document.createElement('div');
-      orderItem.className = 'order-item';
-      orderItem.innerHTML = `
+  function renderCheckoutItems() {
+  const items = readCart();
+  const container = document.getElementById('checkout-order-items');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  if (items.length === 0) {
+    container.innerHTML = `
+      <div class="order-item">
         <div class="item-info">
-          <div class="item-name">${item.name}</div>
-          <div class="item-quantity">Quantity: ${item.qty}${item.variant && item.variant !== 'default' ? ` (${item.variant})` : ''}</div>
+          <div class="item-name">No items in cart</div>
         </div>
-        <div class="item-price">$${(item.price * item.qty).toFixed(2)}</div>
-        <button class="remove-item-btn" title="Remove" style="background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;margin-left:12px;">&times;</button>
-      `;
-      // Remove button logic
-      orderItem.querySelector('.remove-item-btn').addEventListener('click', function(){
-        removeItem(item.id, item.variant);
-      });
-      container.appendChild(orderItem);
-    });
+        <div class="item-price">$0.00</div>
+      </div>`;
+    return;
   }
+
+  items.forEach(item => {
+    const orderItem = document.createElement('div');
+    orderItem.className = 'order-item';
+    orderItem.innerHTML = `
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-quantity">
+          Quantity: ${item.qty}${item.variant && item.variant !== 'default' ? ` (${item.variant})` : ''}
+        </div>
+      </div>
+      <div class="item-price">$${(item.price * item.qty).toFixed(2)}</div>
+      <button 
+        class="remove-item-btn" 
+        data-product-id="${item.id}" 
+        data-variant="${item.variant || ''}" 
+        title="Remove" 
+        style="background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;margin-left:12px;">
+        &times;
+      </button>
+    `;
+    container.appendChild(orderItem);
+  });
+
+  // Attach remove button events
+  container.querySelectorAll('.remove-item-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const productId = btn.getAttribute('data-product-id');
+      const variant = btn.getAttribute('data-variant');
+      removeItem(productId, variant);   // ✅ this now knows what to remove
+    });
+  });
+}
+
+      // Remove button logic
+     function removeItem(productId, variant = null) {
+  let items = readCart();
+
+  items = items.filter(item => {
+    if (variant) {
+      return item.id !== productId || item.variant !== variant;
+    } else {
+      return item.id !== productId;
+    }
+  });
+
+  writeCart(items);
+  updateCartDetails();
+  updateCartTotal();
+  renderCheckoutItems();
+}
+
 
   function bindAddToCart(){
     document.querySelectorAll('.add-to-cart-btn, .btn.add, .add-to-cart').forEach(btn => {
@@ -255,6 +294,7 @@ window.updateCartDetails = updateCartDetails;
 window.updateCartTotal = updateCartTotal;
 window.addItem = addItem;
 window.renderCheckoutItems = renderCheckoutItems;
+
 
 
 
