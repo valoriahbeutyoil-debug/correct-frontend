@@ -15,6 +15,11 @@
   </head>
   <body>
   <script src="category-init.js"></script>
+      <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    fetchProducts('shop').then(products => renderProducts(products, '.product-grid'));
+  });
+</script>
     <header>
       <!-- Top Banner Section -->
       <div class="top-banner">
