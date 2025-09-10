@@ -733,9 +733,7 @@
           <!-- ✅ Dynamic Payment Section -->
           <div class="payment-section">
             <h4 class="payment-title"><i class="fas fa-credit-card"></i> Payment Method</h4>
-            <label for="payment-method-select" class="payment-label">Select Payment Method</label>
-            <select id="payment-method-select" class="payment-select"></select>
-            <div id="payment-method-details" class="payment-details"></div>
+            <div id="payment-methods-list"></div>
           </div>
 
           <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
@@ -796,66 +794,57 @@
 
   // ...existing code...
 
-  async function loadPaymentOptions() {
-    const select = document.getElementById('payment-method-select');
-    const details = document.getElementById('payment-method-details');
-    select.innerHTML = '';
-    details.innerHTML = '';
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/payment-methods`);
-      const data = await res.json();
-
-      const options = [];
-      if (data.bank) options.push({ value: 'bank', label: 'Bank Transfer' });
-      if (data.paypal) options.push({ value: 'paypal', label: 'PayPal' });
-      if (data.skype) options.push({ value: 'skype', label: 'Skype' });
-      if (data.bitcoin || data.ethereum || data.usdt) options.push({ value: 'crypto', label: 'Cryptocurrency' });
-
-      if (options.length === 0) {
-        select.innerHTML = '<option disabled>No payment methods available</option>';
-        return;
-      }
-
-      options.forEach(opt => {
-        const option = document.createElement('option');
-        option.value = opt.value;
-        option.textContent = opt.label;
-        select.appendChild(option);
-      });
-
-      select.addEventListener('change', () => showDetails(select.value, data));
-      showDetails(select.value, data); // Show details for first option
-
-    } catch (err) {
-      select.innerHTML = '<option disabled>Error loading payment methods</option>';
-    }
-  }
-
-  function showDetails(type, data) {
-    const details = document.getElementById('payment-method-details');
-    let html = '';
-    if (type === 'bank' && data.bank) {
-      html = `<div class="details-row"><strong>Bank Details:</strong> <span>${data.bank}</span></div>`;
-    } else if (type === 'paypal' && data.paypal) {
-      html = `<div class="details-row"><strong>PayPal Email:</strong> <span>${data.paypal}</span></div>`;
-    } else if (type === 'skype' && data.skype) {
-      html = `<div class="details-row"><strong>Skype ID:</strong> <span>${data.skype}</span></div>`;
-    } else if (type === 'crypto' && (data.bitcoin || data.ethereum || data.usdt)) {
-      html = `<div class="details-row"><strong>Cryptocurrency Addresses:</strong>
-        <ul>
-          ${data.bitcoin ? `<li><strong>BTC:</strong> ${data.bitcoin}</li>` : ''}
-          ${data.ethereum ? `<li><strong>ETH:</strong> ${data.ethereum}</li>` : ''}
-          ${data.usdt ? `<li><strong>USDT (TRC20):</strong> ${data.usdt}</li>` : ''}
-        </ul>
-      </div>`;
-    }
-    details.innerHTML = html;
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', function() {
     renderCheckoutItems();
-    loadPaymentOptions();
+    const API_URL = '/api/payment-methods';
+    const paymentList = document.getElementById('payment-methods-list');
+
+    async function fetchPaymentMethods() {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) {
+          console.error('[ERROR] Failed to fetch payment methods:', res.status);
+          paymentList.innerHTML = '<div style="color:red;">Failed to load payment methods.</div>';
+          return;
+        }
+        const methods = await res.json();
+        console.log('[DEBUG] Payment methods fetched:', methods);
+
+        if (!methods || methods.length === 0) {
+          paymentList.innerHTML = '<div>No payment methods available.</div>';
+          return;
+        }
+
+        paymentList.innerHTML = methods.map((method, idx) => {
+          let details = '';
+          if (method.type === 'Crypto') {
+            details = [
+              method.credentials.bitcoin ? `<div><strong>BTC:</strong> ${method.credentials.bitcoin}</div>` : '',
+              method.credentials.ethereum ? `<div><strong>ETH:</strong> ${method.credentials.ethereum}</div>` : '',
+              method.credentials.usdt ? `<div><strong>USDT (TRC20):</strong> ${method.credentials.usdt}</div>` : ''
+            ].join('');
+          } else if (method.type === 'PayPal') {
+            details = `<div><strong>PayPal Email:</strong> ${method.credentials.email}</div>`;
+          } else if (method.type === 'Bank') {
+            details = `<div><strong>Bank Account:</strong> ${method.credentials.account}</div>`;
+          } else if (method.type === 'Skype') {
+            details = `<div><strong>Skype ID:</strong> ${method.credentials.id}</div>`;
+          }
+          return `
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="${method.type}" ${idx === 0 ? 'checked' : ''}>
+              <span class="payment-label">${method.type}</span>
+              <span class="payment-description">${details}</span>
+            </label>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('[ERROR] Exception fetching payment methods:', err);
+        paymentList.innerHTML = '<div style="color:red;">Error loading payment methods.</div>';
+      }
+    }
+
+    fetchPaymentMethods();
   });
 </script>
     <style>
@@ -898,6 +887,7 @@
         margin-bottom: 4px;
       }
     </style>
-          </div>
+  // ...existing code...
+        </div>`;
   </body>
 </html>
