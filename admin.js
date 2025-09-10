@@ -543,6 +543,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // (notificationStyles + payment methods modal logic stays same as before...)
+// ===== Payment Methods Modal Handling =====
+
+// Open modal
+document.getElementById('manage-payment-methods-btn')
+    .addEventListener('click', () => {
+        document.getElementById('payment-methods-modal').style.display = 'block';
+    });
+
+// Close modal (clicking ×)
+document.querySelector('#payment-methods-modal .modal-close')
+    .addEventListener('click', () => {
+        document.getElementById('payment-methods-modal').style.display = 'none';
+    });
+
+// Close modal (clicking outside the modal)
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('payment-methods-modal');
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Handle form submit
+document.getElementById('payment-methods-form')
+    .addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveSettings(); // Call the save function we wrote earlier
+    });
+
 
 
 
