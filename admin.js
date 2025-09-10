@@ -547,9 +547,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Open modal
 document.getElementById('manage-payment-methods-btn')
-    .addEventListener('click', () => {
-        document.getElementById('payment-methods-modal').style.display = 'block';
+    .addEventListener('click', async () => {
+        const modal = document.getElementById('payment-methods-modal');
+        modal.style.display = 'block';
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/payment-methods`);
+            if (!res.ok) throw new Error("Failed to load payment methods");
+            const data = await res.json();
+
+            // Fill form fields if data exists
+            document.getElementById('bank').value = data.bank || '';
+            document.getElementById('paypal').value = data.paypal || '';
+            document.getElementById('skype').value = data.skype || '';
+            document.getElementById('bitcoin').value = data.bitcoin || '';
+            document.getElementById('eth-address').value = data.ethereum || '';
+            document.getElementById('usdt-address').value = data.usdt || '';
+        } catch (err) {
+            console.error(err);
+            this.showNotification("Error loading payment methods: " + err.message, "error");
+        }
     });
+
 
 // Close modal (clicking ×)
 document.querySelector('#payment-methods-modal .modal-close')
@@ -571,6 +590,7 @@ document.getElementById('payment-methods-form')
         e.preventDefault();
         saveSettings(); // Call the save function we wrote earlier
     });
+
 
 
 
