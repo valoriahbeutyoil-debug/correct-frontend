@@ -755,27 +755,6 @@
   </div>
 </div>
 
-          <div class="payment-section">
-            <h4 class="payment-title">
-              <i class="fas fa-credit-card"></i> Payment Method
-            </h4>
-
-            <label for="crypto-select" class="payment-label">
-              Select Cryptocurrency:
-            </label>
-            <select id="crypto-select" class="payment-select" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
-              <option value="">--Choose a cryptocurrency--</option>
-              <option value="bitcoin" data-address="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">Bitcoin</option>
-              <option value="ethereum" data-address="0x32Be343B94f860124dC4fEe278FDCBD38C102D88">Ethereum</option>
-              <option value="litecoin" data-address="LcWbmH6v9t5H8RuHxQjy36dpLe5sSRk7Sq">Litecoin</option>
-            </select>
-
-            <div id="crypto-address" class="payment-address" style="margin-top: 15px; display: none;">
-              <h4>Payment Address:</h4>
-              <p id="address-text"></p>
-            </div>
-          </div>
-
           <script>
             document.getElementById('crypto-select').addEventListener('change', function() {
               const selectedOption = this.options[this.selectedIndex];
