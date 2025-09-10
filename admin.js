@@ -296,7 +296,7 @@ class AdminPanel {
         const tbody = document.getElementById('users-tbody');
         tbody.innerHTML = this.users.map(user => `
             <tr>
-                <td>${user.id}</}</td>
+                <td>${user.id}</td>
                 <td>${user.username}</td>
                 <td>${user.email}</td>
                 <td><span class="role-badge ${user.role}">${user.role}</span></td>
