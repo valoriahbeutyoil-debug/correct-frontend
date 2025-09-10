@@ -289,7 +289,54 @@
                     </div>
                 </div>
                 <!-- Payment Methods Modal -->
-                <div id="payment-methods-modal" class="modal">
+                <div <div id="payment-methods-modal" class="modal">
+  <div class="modal-content" style="max-width:600px;">
+    <div class="modal-header">
+      <h3>Manage Payment Methods</h3>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="payment-methods-form">
+        <!-- Bank -->
+        <div class="form-group">
+          <label for="bank">Bank Account</label>
+          <input type="text" id="bank" name="bank" placeholder="Enter bank details">
+        </div>
+
+        <!-- PayPal -->
+        <div class="form-group">
+          <label for="paypal">PayPal</label>
+          <input type="text" id="paypal" name="paypal" placeholder="Enter PayPal email">
+        </div>
+
+        <!-- Skype -->
+        <div class="form-group">
+          <label for="skype">Skype</label>
+          <input type="text" id="skype" name="skype" placeholder="Enter Skype ID">
+        </div>
+
+        <!-- Crypto -->
+        <div class="form-group">
+          <label for="bitcoin">Bitcoin (BTC)</label>
+          <input type="text" id="bitcoin" name="bitcoin" placeholder="Enter Bitcoin address">
+        </div>
+
+        <div class="form-group">
+          <label for="ethereum">Ethereum (ETH)</label>
+          <input type="text" id="ethereum" name="ethereum" placeholder="Enter Ethereum address">
+        </div>
+
+        <div class="form-group">
+          <label for="usdt">USDT (TRC20)</label>
+          <input type="text" id="usdt" name="usdt" placeholder="Enter USDT (TRC20) address">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Methods</button>
+      </form>
+    </div>
+  </div>
+</div>
+ class="modal">
                     <div class="modal-content" style="max-width:600px;">
                         <div class="modal-header">
                             <h3>Manage Payment Methods</h3>
@@ -449,4 +496,5 @@
     <script src="auth-guard.js"></script>
 </body>
 </html>
+
 
