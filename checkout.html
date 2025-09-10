@@ -702,84 +702,43 @@
           </div>
         </div>
 
-        <!-- Right Column - Order Summary -->
-<div class="order-summary">
-  <div class="summary-header">
-    <h2 class="summary-title">
-      <i class="fas fa-receipt"></i> Order Summary
-    </h2>
-  </div>
+ <!-- Right Column - Order Summary -->
+        <div class="order-summary">
+          <div class="summary-header">
+            <h2 class="summary-title">
+              <i class="fas fa-receipt"></i> Order Summary
+            </h2>
+          </div>
 
-  <!-- 🛒 Order Items -->
-  <div class="order-items">
-    <div id="checkout-order-items"></div>
-  </div>
+          <div class="order-items">
+            <div id="checkout-order-items"></div>
+          </div>
 
-  <!-- 🧾 Totals -->
-  <div class="order-totals">
-    <div class="total-row subtotal">
-      <span>Subtotal</span>
-      <span id="checkout-subtotal">$0.00</span>
-    </div>
-    <div class="total-row shipping">
-      <span>Shipping</span>
-      <span id="checkout-shipping">$30.00</span>
-    </div>
-    <div class="total-row final">
-      <span>Total</span>
-      <span id="checkout-total">$0.00</span>
-    </div>
-  </div>
-
-<!-- 💳 Payment -->
-<select id="payment-select" name="paymentType" class="form-select" required>
-  <option value="">-- Choose a Payment Method --</option>
-  <optgroup label="Traditional Payments">
-    <option value="card">Credit / Debit Card</option>
-    <option value="bank">Bank Transfer</option>
-  </optgroup>
-  <optgroup id="crypto-group" label="Crypto Payments">
-    <!-- Crypto methods will be loaded here dynamically -->
-  </optgroup>
-</select>
-
-    <!-- Dynamic options from backend will be inserted here -->
-  </select>
-  <div id="payment-description" class="payment-description"></div>
-</div>
-  <button class="place-order-btn">Place Order</button>
-    <p class="privacy-notice">
-      Your personal data will be used to process your order and support your shopping experience.
-    </p>
-  </div>
-</div>
-
-          <script>
-            document.getElementById('crypto-select').addEventListener('change', function() {
-              const selectedOption = this.options[this.selectedIndex];
-              const paymentAddressDiv = document.getElementById('crypto-address');
-              const addressText = document.getElementById('address-text');
-
-              if (this.value) {
-                const paymentAddress = selectedOption.getAttribute('data-address');
-                addressText.textContent = paymentAddress;
-                paymentAddressDiv.style.display = 'block';
-              } else {
-                paymentAddressDiv.style.display = 'none';
-                addressText.textContent = '';
-              }
-            });
-
-            // Set an initial default address (optional for admin/CEO)
-            const defaultAddress = "Please use the address shown above based on your selection."; // This can be set dynamically from backend
-            document.getElementById('address-text').textContent = defaultAddress;
-          </script>
-                       <div class="privacy-notice">
-              <i class="fas fa-shield-alt"></i>
-              Your personal information is protected with 256-bit SSL encryption. 
-              View our <a href="privacy.html">Privacy Policy</a> for details.
+          <div class="order-totals">
+            <div class="total-row subtotal">
+              <span>Subtotal</span>
+              <span id="checkout-subtotal">$0.00</span>
+            </div>
+            <div class="total-row shipping">
+              <span>Shipping</span>
+              <span id="checkout-shipping">$30.00</span>
+            </div>
+            <div class="total-row final">
+              <span>Total</span>
+              <span id="checkout-total">$0.00</span>
             </div>
           </div>
+
+          <!-- ✅ Dynamic Payment Section -->
+          <div class="payment-section">
+            <h4 class="payment-title"><i class="fas fa-credit-card"></i> Payment Method</h4>
+            <div class="payment-methods" id="dynamic-payment-methods"></div>
+          </div>
+
+          <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
+          <p class="privacy-notice">
+            Your personal data will be used to process your order and support your shopping experience.
+          </p>
         </div>
       </div>
     </div>
@@ -796,6 +755,7 @@
         </div>
       </div>
     </footer>
+
     <script>
       function toggleCoupon() {
         alert('Coupon functionality will be available soon! Stay tuned for special offers.');
@@ -808,17 +768,14 @@
           form.reportValidity();
           return;
         }
-        // Gather billing info
         const billing = {};
         Array.from(form.elements).forEach(el => {
           if (el.name) billing[el.name] = el.value;
         });
-        // Get cart items from localStorage
         let cart = [];
         try {
           cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
         } catch {}
-        // Send to backend
         try {
           const res = await fetch('https://correct-backend-gu05.onrender.com/order', {
             method: 'POST',
@@ -827,92 +784,79 @@
           });
           if (!res.ok) throw new Error('Order failed');
           const data = await res.json();
-          // Clear cart
           localStorage.removeItem('docushop_cart_items');
-          alert('🎉 Order placed successfully!\n\nOrder ID: #' + (data.orderId || 'N/A') + '\nPayment instructions have been sent to your email address.');
+          alert('🎉 Order placed successfully!\n\nOrder ID: #' + (data.orderId || 'N/A'));
           window.location.href = 'index.html';
         } catch (err) {
           alert('❌ Error placing order: ' + err.message);
         }
       }
 
-     <script>
-const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
+      const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
 
-async function loadPaymentOptions() {
-  const paymentSection = document.querySelector('.payment-section');
-  if (!paymentSection) return;
+      async function loadPaymentOptions() {
+        const paymentSection = document.querySelector('.payment-section');
+        if (!paymentSection) return;
 
-  let html = '<h4 class="payment-title"><i class="fas fa-credit-card"></i> Payment Method</h4>';
-  html += '<div class="payment-methods" id="dynamic-payment-methods"></div>';
-  paymentSection.innerHTML = html;
+        try {
+          const res = await fetch(`${API_BASE_URL}/payment-methods/active`);
+          const methods = await res.json();
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/payment-methods/active`);
-    const methods = await res.json();
+          if (!methods || methods.length === 0) {
+            document.getElementById('dynamic-payment-methods').innerHTML =
+              '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
+            return;
+          }
 
-    if (!methods || methods.length === 0) {
-      document.getElementById('dynamic-payment-methods').innerHTML =
-        '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
-      return;
-    }
+          let optionsHtml = '';
+          methods.forEach(method => {
+            if (method.type === 'Bank') {
+              optionsHtml += `
+                <div class="payment-option">
+                  <input type="radio" name="paymentType" value="bank" class="payment-radio">
+                  <span class="payment-label">Bank Transfer</span>
+                  <span class="payment-description">Account: ${method.credentials.account}</span>
+                </div>`;
+            } else if (method.type === 'PayPal') {
+              optionsHtml += `
+                <div class="payment-option">
+                  <input type="radio" name="paymentType" value="paypal" class="payment-radio">
+                  <span class="payment-label">PayPal</span>
+                  <span class="payment-description">Email: ${method.credentials.email}</span>
+                </div>`;
+            } else if (method.type === 'Skype') {
+              optionsHtml += `
+                <div class="payment-option">
+                  <input type="radio" name="paymentType" value="skype" class="payment-radio">
+                  <span class="payment-label">Skype</span>
+                  <span class="payment-description">ID: ${method.credentials.id}</span>
+                </div>`;
+            } else if (method.type === 'Crypto') {
+              optionsHtml += `
+                <div class="payment-option">
+                  <input type="radio" name="paymentType" value="crypto" class="payment-radio">
+                  <span class="payment-label">Cryptocurrency</span>
+                  <div class="payment-description">
+                    ${method.credentials.bitcoin ? `<div>BTC: ${method.credentials.bitcoin}</div>` : ''}
+                    ${method.credentials.ethereum ? `<div>ETH: ${method.credentials.ethereum}</div>` : ''}
+                    ${method.credentials.usdt ? `<div>USDT: ${method.credentials.usdt}</div>` : ''}
+                  </div>
+                </div>`;
+            }
+          });
 
-    let optionsHtml = '';
-    methods.forEach(method => {
-      if (method.type === 'Bank') {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="bank" class="payment-radio">
-            <span class="payment-label">Bank Transfer</span>
-            <span class="payment-description">Account: ${method.credentials.account}</span>
-          </div>`;
-      } else if (method.type === 'PayPal') {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="paypal" class="payment-radio">
-            <span class="payment-label">PayPal</span>
-            <span class="payment-description">Email: ${method.credentials.email}</span>
-          </div>`;
-      } else if (method.type === 'Skype') {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="skype" class="payment-radio">
-            <span class="payment-label">Skype</span>
-            <span class="payment-description">ID: ${method.credentials.id}</span>
-          </div>`;
-      } else if (method.type === 'Crypto') {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="crypto" class="payment-radio">
-            <span class="payment-label">Crypto</span>
-            <span class="payment-description">
-              ${method.credentials.bitcoin ? `Bitcoin: ${method.credentials.bitcoin}<br>` : ""}
-              ${method.credentials.ethereum ? `Ethereum: ${method.credentials.ethereum}<br>` : ""}
-              ${method.credentials.usdt ? `USDT: ${method.credentials.usdt}<br>` : ""}
-            </span>
-          </div>`;
+          document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
+        } catch (err) {
+          console.error('Error loading payment methods:', err);
+          document.getElementById('dynamic-payment-methods').innerHTML =
+            '<div style="color:red">❌ Failed to load payment options.</div>';
+        }
       }
-    });
 
-    document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
-
-    // Radio button styling
-    document.querySelectorAll('.payment-option').forEach(option => {
-      option.addEventListener('click', function() {
-        document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-        this.classList.add('selected');
-        this.querySelector('input[type="radio"]').checked = true;
+      document.addEventListener('DOMContentLoaded', () => {
+        renderCheckoutItems();
+        loadPaymentOptions();
       });
-    });
-
-  } catch (err) {
-    document.getElementById('dynamic-payment-methods').innerHTML =
-      '<div style="color:red">❌ Unable to load payment methods.</div>';
-  }
-}
-
-window.addEventListener('DOMContentLoaded', loadPaymentOptions);
-</script>
-
+    </script>
   </body>
 </html>
