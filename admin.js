@@ -454,33 +454,29 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-    async saveSettings() {
-        const bank = document.getElementById('bank').value;
-        const paypal = document.getElementById('paypal').value;
-        const skype = document.getElementById('skype').value;
-        const bitcoin = document.getElementById('bitcoin').value;
-        const ethereum = document.getElementById('eth-address').value;
-        const usdt = document.getElementById('usdt-address').value;
+   async saveSettings() {
+    const bank = document.getElementById('bank').value;
+    const paypal = document.getElementById('paypal').value;
+    const skype = document.getElementById('skype').value;
+    const bitcoin = document.getElementById('bitcoin').value;
+    const ethereum = document.getElementById('eth-address').value;
+    const usdt = document.getElementById('usdt-address').value;
 
-        try {
-            const res = await fetch(`${API_BASE_URL}/payment-methods`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
-            });
+    try {
+        const res = await fetch(`${API_BASE_URL}/payment-methods`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
+        });
 
-            if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.error || 'Failed to save payment methods');
-            }
+        if (!res.ok) throw new Error('Failed to save payment methods');
 
-            this.showNotification('Payment methods updated successfully!', 'success');
-            document.getElementById('payment-methods-modal').style.display = 'none';
-
-        } catch (err) {
-            this.showNotification('Error saving settings: ' + err.message, 'error');
-        }
+        this.showNotification('Payment methods updated successfully!', 'success');
+        document.getElementById('payment-methods-modal').style.display = 'none';
+    } catch (err) {
+        this.showNotification('Error saving settings: ' + err.message, 'error');
     }
+}
 
     logout() {
         if (confirm('Are you sure you want to logout?')) {
@@ -527,3 +523,4 @@ class AdminPanel {
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
 });
+
