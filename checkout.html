@@ -755,108 +755,113 @@
         </div>
       </div>
     </footer>
+<script>
+  function toggleCoupon() {
+    alert('Coupon functionality will be available soon! Stay tuned for special offers.');
+  }
 
-    <script>
-      function toggleCoupon() {
-        alert('Coupon functionality will be available soon! Stay tuned for special offers.');
-      }
-
-      async function placeOrder() {
-        const form = document.getElementById('checkout-form');
-        if (!form.checkValidity()) {
-          alert('⚠️ Please fill in all required fields to continue with your order.');
-          form.reportValidity();
-          return;
-        }
-        const billing = {};
-        Array.from(form.elements).forEach(el => {
-          if (el.name) billing[el.name] = el.value;
-        });
-        let cart = [];
-        try {
-          cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
-        } catch {}
-        try {
-          const res = await fetch('https://correct-backend-gu05.onrender.com/order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ billing, cart })
-          });
-          if (!res.ok) throw new Error('Order failed');
-          const data = await res.json();
-          localStorage.removeItem('docushop_cart_items');
-          alert('🎉 Order placed successfully!\n\nOrder ID: #' + (data.orderId || 'N/A'));
-          window.location.href = 'index.html';
-        } catch (err) {
-          alert('❌ Error placing order: ' + err.message);
-        }
-      }
-
-      const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
-
-      async function loadPaymentOptions() {
-        const paymentSection = document.querySelector('.payment-section');
-        if (!paymentSection) return;
-
-        try {
-          const res = await fetch(`${API_BASE_URL}/payment-methods/active`);
-          const methods = await res.json();
-
-          if (!methods || methods.length === 0) {
-            document.getElementById('dynamic-payment-methods').innerHTML =
-              '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
-            return;
-          }
-
-          let optionsHtml = '';
-          methods.forEach(method => {
-            if (method.type === 'Bank') {
-              optionsHtml += `
-                <div class="payment-option">
-                  <input type="radio" name="paymentType" value="bank" class="payment-radio">
-                  <span class="payment-label">Bank Transfer</span>
-                  <span class="payment-description">Account: ${method.credentials.account}</span>
-                </div>`;
-            } else if (method.type === 'PayPal') {
-              optionsHtml += `
-                <div class="payment-option">
-                  <input type="radio" name="paymentType" value="paypal" class="payment-radio">
-                  <span class="payment-label">PayPal</span>
-                  <span class="payment-description">Email: ${method.credentials.email}</span>
-                </div>`;
-            } else if (method.type === 'Skype') {
-              optionsHtml += `
-                <div class="payment-option">
-                  <input type="radio" name="paymentType" value="skype" class="payment-radio">
-                  <span class="payment-label">Skype</span>
-                  <span class="payment-description">ID: ${method.credentials.id}</span>
-                </div>`;
-            } else if (method.type === 'Crypto') {
-              optionsHtml += `
-                <div class="payment-option">
-                  <input type="radio" name="paymentType" value="crypto" class="payment-radio">
-                  <span class="payment-label">Cryptocurrency</span>
-                  <div class="payment-description">
-                    ${method.credentials.bitcoin ? `<div>BTC: ${method.credentials.bitcoin}</div>` : ''}
-                    ${method.credentials.ethereum ? `<div>ETH: ${method.credentials.ethereum}</div>` : ''}
-                    ${method.credentials.usdt ? `<div>USDT: ${method.credentials.usdt}</div>` : ''}
-                  </div>
-                </div>`;
-            }
-          });
-
-          document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
-        } catch (err) {
-          console.error('Error loading payment methods:', err);
-          document.getElementById('dynamic-payment-methods').innerHTML =
-            '<div style="color:red">❌ Failed to load payment options.</div>';
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', () => {
-        renderCheckoutItems();
-        loadPaymentOptions();
+  async function placeOrder() {
+    const form = document.getElementById('checkout-form');
+    if (!form.checkValidity()) {
+      alert('⚠️ Please fill in all required fields to continue with your order.');
+      form.reportValidity();
+      return;
+    }
+    const billing = {};
+    Array.from(form.elements).forEach(el => {
+      if (el.name) billing[el.name] = el.value;
+    });
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
+    } catch {}
+    try {
+      const res = await fetch('https://correct-backend-gu05.onrender.com/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ billing, cart })
       });
-    </script>
+      if (!res.ok) throw new Error('Order failed');
+      const data = await res.json();
+      localStorage.removeItem('docushop_cart_items');
+      alert('🎉 Order placed successfully!\n\nOrder ID: #' + (data.orderId || 'N/A'));
+      window.location.href = 'index.html';
+    } catch (err) {
+      alert('❌ Error placing order: ' + err.message);
+    }
+  }
+
+  const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
+
+  // ✅ Corrected payment options loader
+  async function loadPaymentOptions() {
+    const paymentSection = document.querySelector('.payment-section');
+    if (!paymentSection) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/payment-methods`);
+      const data = await res.json();
+
+      if (!data) {
+        document.getElementById('dynamic-payment-methods').innerHTML =
+          '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
+        return;
+      }
+
+      let optionsHtml = '';
+
+      if (data.bank) {
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="bank" class="payment-radio">
+            <span class="payment-label">Bank Transfer</span>
+            <span class="payment-description">${data.bank}</span>
+          </div>`;
+      }
+
+      if (data.paypal) {
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="paypal" class="payment-radio">
+            <span class="payment-label">PayPal</span>
+            <span class="payment-description">${data.paypal}</span>
+          </div>`;
+      }
+
+      if (data.skype) {
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="skype" class="payment-radio">
+            <span class="payment-label">Skype</span>
+            <span class="payment-description">${data.skype}</span>
+          </div>`;
+      }
+
+      if (data.bitcoin || data.ethereum || data.usdt) {
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="crypto" class="payment-radio">
+            <span class="payment-label">Cryptocurrency</span>
+            <div class="payment-description">
+              ${data.bitcoin ? `<div>BTC: ${data.bitcoin}</div>` : ''}
+              ${data.ethereum ? `<div>ETH: ${data.ethereum}</div>` : ''}
+              ${data.usdt ? `<div>USDT: ${data.usdt}</div>` : ''}
+            </div>
+          </div>`;
+      }
+
+      document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
+    } catch (err) {
+      console.error('Error loading payment methods:', err);
+      document.getElementById('dynamic-payment-methods').innerHTML =
+        '<div style="color:red">❌ Failed to load payment options.</div>';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCheckoutItems();
+    loadPaymentOptions();
+  });
+</script>
   </body>
 </html>
