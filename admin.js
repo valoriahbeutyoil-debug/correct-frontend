@@ -432,8 +432,11 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-async saveSettings() {
-    const bitcoin = document.getElementById('btc-address').value;
+async function saveSettings() {
+    const bank = document.getElementById('bank').value;
+    const paypal = document.getElementById('paypal').value;
+    const skype = document.getElementById('skype').value;
+    const bitcoin = document.getElementById('bitcoin').value;
     const ethereum = document.getElementById('eth-address').value;
     const usdt = document.getElementById('usdt-address').value;
 
@@ -441,7 +444,7 @@ async saveSettings() {
         const res = await fetch(`${API_BASE_URL}/payment-methods`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bitcoin, ethereum, usdt })
+            body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
         });
 
         if (!res.ok) {
@@ -449,7 +452,14 @@ async saveSettings() {
             throw new Error(errorData.error || 'Failed to save payment methods');
         }
 
-        this.showNotification('Crypto addresses updated successfully!', 'success');
+        this.showNotification('Payment methods updated successfully!', 'success');
+
+        // ✅ Close modal
+        document.getElementById('payment-methods-modal').style.display = 'none';
+
+        // ✅ Reset form
+        document.getElementById('payment-methods-form').reset();
+
     } catch (err) {
         this.showNotification('Error saving settings: ' + err.message, 'error');
     }
@@ -497,6 +507,17 @@ async saveSettings() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const paymentForm = document.getElementById('payment-methods-form');
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // stop page reload
+
+            await saveSettings(); // call your function
+        });
+    }
+});
+
 // Initialize admin panel when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     let session = sessionStorage.getItem('docushop_session');
@@ -522,5 +543,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // (notificationStyles + payment methods modal logic stays same as before...)
+
 
 
