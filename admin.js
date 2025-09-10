@@ -432,20 +432,28 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-    saveSettings() {
-        const adminEmail = document.getElementById('admin-email').value;
-        const maintenanceMode = document.getElementById('maintenance-mode').value;
-        const defaultCurrency = document.getElementById('default-currency').value;
+   async saveSettings() {
+    const bitcoin = document.getElementById('btc-address').value;
+    const ethereum = document.getElementById('eth-address').value;
+    const usdt = document.getElementById('usdt-address').value;
 
-        const settings = {
-            adminEmail,
-            maintenanceMode: maintenanceMode === 'true',
-            defaultCurrency
-        };
+    try {
+        const res = await fetch(`${API_BASE_URL}/crypto-addresses`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bitcoin, ethereum, usdt })
+        });
 
-        localStorage.setItem('docushop_settings', JSON.stringify(settings));
-        this.showNotification('Settings saved successfully!', 'success');
+        if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Failed to save crypto settings');
+        }
+
+        this.showNotification('Crypto addresses updated successfully!', 'success');
+    } catch (err) {
+        this.showNotification('Error saving settings: ' + err.message, 'error');
     }
+}
 
     logout() {
         if (confirm('Are you sure you want to logout?')) {
@@ -514,3 +522,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // (notificationStyles + payment methods modal logic stays same as before...)
+
