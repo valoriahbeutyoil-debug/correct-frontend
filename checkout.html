@@ -863,5 +863,74 @@
     loadPaymentOptions();
   });
 </script>
+    <script>
+const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
+
+async function loadPaymentOptions() {
+  const paymentSection = document.querySelector('.payment-section');
+  if (!paymentSection) return;
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/payment-methods`);
+    const data = await res.json();
+
+    if (!data) {
+      document.getElementById('dynamic-payment-methods').innerHTML =
+        '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
+      return;
+    }
+
+    let optionsHtml = '';
+
+    if (data.bank) {
+      optionsHtml += `
+        <div class="payment-option">
+          <input type="radio" name="paymentType" value="bank">
+          <span>Bank Transfer</span>
+          <span>${data.bank}</span>
+        </div>`;
+    }
+    if (data.paypal) {
+      optionsHtml += `
+        <div class="payment-option">
+          <input type="radio" name="paymentType" value="paypal">
+          <span>PayPal</span>
+          <span>${data.paypal}</span>
+        </div>`;
+    }
+    if (data.skype) {
+      optionsHtml += `
+        <div class="payment-option">
+          <input type="radio" name="paymentType" value="skype">
+          <span>Skype</span>
+          <span>${data.skype}</span>
+        </div>`;
+    }
+    if (data.bitcoin || data.ethereum || data.usdt) {
+      optionsHtml += `
+        <div class="payment-option">
+          <input type="radio" name="paymentType" value="crypto">
+          <span>Cryptocurrency</span>
+          <div>
+            ${data.bitcoin ? `<div>BTC: ${data.bitcoin}</div>` : ''}
+            ${data.ethereum ? `<div>ETH: ${data.ethereum}</div>` : ''}
+            ${data.usdt ? `<div>USDT: ${data.usdt}</div>` : ''}
+          </div>
+        </div>`;
+    }
+
+    document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
+  } catch (err) {
+    document.getElementById('dynamic-payment-methods').innerHTML =
+      '<div style="color:red">❌ Failed to load payment options.</div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderCheckoutItems();
+  loadPaymentOptions();
+});
+</script>
+
   </body>
 </html>
