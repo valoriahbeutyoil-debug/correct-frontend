@@ -432,7 +432,7 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-async function saveSettings() {
+async saveSettings() {
     const bank = document.getElementById('bank').value;
     const paypal = document.getElementById('paypal').value;
     const skype = document.getElementById('skype').value;
@@ -590,6 +590,7 @@ document.getElementById('payment-methods-form')
         e.preventDefault();
         saveSettings(); // Call the save function we wrote earlier
     });
+
 
 
 
