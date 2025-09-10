@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -899,20 +900,5 @@
     </style>
   // ...existing code...
         </div>`;
-    }
-
-    document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
-  } catch (err) {
-    document.getElementById('dynamic-payment-methods').innerHTML =
-      '<div style="color:red">❌ Failed to load payment options.</div>';
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderCheckoutItems();
-  loadPaymentOptions();
-});
-</script>
-
   </body>
 </html>

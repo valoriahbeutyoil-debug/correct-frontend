@@ -211,12 +211,16 @@ class AdminPanel {
     }
 
     updateStats() {
-        document.getElementById('total-users').textContent = this.users.length;
-        document.getElementById('total-products').textContent = this.products.length;
-        document.getElementById('total-orders').textContent = this.orders.length;
+    const totalUsers = document.getElementById('total-users');
+    if (totalUsers) totalUsers.textContent = this.users.length;
+    const totalProducts = document.getElementById('total-products');
+    if (totalProducts) totalProducts.textContent = this.products.length;
+    const totalOrders = document.getElementById('total-orders');
+    if (totalOrders) totalOrders.textContent = this.orders.length;
 
-        const revenue = this.orders.reduce((total, order) => total + order.total, 0);
-        document.getElementById('total-revenue').textContent = `$${revenue.toFixed(2)}`;
+    const revenue = this.orders.reduce((total, order) => total + order.total, 0);
+    const totalRevenue = document.getElementById('total-revenue');
+    if (totalRevenue) totalRevenue.textContent = `$${revenue.toFixed(2)}`;
     }
 
     loadRecentActivity() {
