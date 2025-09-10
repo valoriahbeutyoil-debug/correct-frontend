@@ -820,7 +820,7 @@
         } catch {}
         // Send to backend
         try {
-          const res = await fetch('http://localhost:4000/order', {
+          const res = await fetch('https://correct-backend-gu05.onrender.com/order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ billing, cart })
