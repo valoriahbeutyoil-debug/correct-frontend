@@ -225,6 +225,7 @@ class AdminPanel {
 
     loadRecentActivity() {
         const activityContainer = document.getElementById('recent-activity');
+        if (!activityContainer) return;
         const activities = [
             { type: 'user', text: 'New user registered', time: '2 minutes ago' },
             { type: 'order', text: 'Order #1234 completed', time: '15 minutes ago' },
