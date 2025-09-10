@@ -897,44 +897,7 @@
         margin-bottom: 4px;
       }
     </style>
-    }
-
-    let optionsHtml = '';
-
-    if (data.bank) {
-      optionsHtml += `
-        <div class="payment-option">
-          <input type="radio" name="paymentType" value="bank">
-          <span>Bank Transfer</span>
-          <span>${data.bank}</span>
-        </div>`;
-    }
-    if (data.paypal) {
-      optionsHtml += `
-        <div class="payment-option">
-          <input type="radio" name="paymentType" value="paypal">
-          <span>PayPal</span>
-          <span>${data.paypal}</span>
-        </div>`;
-    }
-    if (data.skype) {
-      optionsHtml += `
-        <div class="payment-option">
-          <input type="radio" name="paymentType" value="skype">
-          <span>Skype</span>
-          <span>${data.skype}</span>
-        </div>`;
-    }
-    if (data.bitcoin || data.ethereum || data.usdt) {
-      optionsHtml += `
-        <div class="payment-option">
-          <input type="radio" name="paymentType" value="crypto">
-          <span>Cryptocurrency</span>
-          <div>
-            ${data.bitcoin ? `<div>BTC: ${data.bitcoin}</div>` : ''}
-            ${data.ethereum ? `<div>ETH: ${data.ethereum}</div>` : ''}
-            ${data.usdt ? `<div>USDT: ${data.usdt}</div>` : ''}
-          </div>
+  // ...existing code...
         </div>`;
     }
 

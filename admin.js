@@ -32,44 +32,61 @@ class AdminPanel {
         // Sidebar toggle
         const sidebar = document.querySelector('.admin-sidebar');
         const backdrop = document.querySelector('.sidebar-backdrop');
-        document.getElementById('sidebar-toggle').addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            backdrop.classList.toggle('active');
-        });
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                backdrop.classList.toggle('active');
+            });
+        }
 
-        backdrop.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            backdrop.classList.remove('active');
-        });
+        if (backdrop) {
+            backdrop.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                backdrop.classList.remove('active');
+            });
+        }
 
         // Add product button
-        document.getElementById('add-product-btn').addEventListener('click', () => {
-            this.showModal('add-product-modal');
-        });
+        const addProductBtn = document.getElementById('add-product-btn');
+        if (addProductBtn) {
+            addProductBtn.addEventListener('click', () => {
+                this.showModal('add-product-modal');
+            });
+        }
 
         // Add user button
-        document.getElementById('add-user-btn').addEventListener('click', () => {
-            this.showModal('add-user-modal');
-        });
+        const addUserBtn = document.getElementById('add-user-btn');
+        if (addUserBtn) {
+            addUserBtn.addEventListener('click', () => {
+                this.showModal('add-user-modal');
+            });
+        }
 
         // Manage payment methods button
         const managePaymentsBtn = document.getElementById('manage-payment-methods-btn');
         if (managePaymentsBtn) {
             managePaymentsBtn.addEventListener('click', async () => {
                 const modal = document.getElementById('payment-methods-modal');
-                modal.style.display = 'block';
+                if (modal) modal.style.display = 'block';
 
                 try {
                     const res = await fetch(`${API_BASE_URL}/payment-methods`);
                     if (!res.ok) throw new Error("Failed to load payment methods");
                     const data = await res.json();
 
-                    document.getElementById('bank').value = data.bank || '';
-                    document.getElementById('paypal').value = data.paypal || '';
-                    document.getElementById('skype').value = data.skype || '';
-                    document.getElementById('bitcoin').value = data.bitcoin || '';
-                    document.getElementById('eth-address').value = data.ethereum || '';
-                    document.getElementById('usdt-address').value = data.usdt || '';
+                    const bankInput = document.getElementById('bank');
+                    if (bankInput) bankInput.value = data.bank || '';
+                    const paypalInput = document.getElementById('paypal');
+                    if (paypalInput) paypalInput.value = data.paypal || '';
+                    const skypeInput = document.getElementById('skype');
+                    if (skypeInput) skypeInput.value = data.skype || '';
+                    const btcInput = document.getElementById('bitcoin');
+                    if (btcInput) btcInput.value = data.bitcoin || '';
+                    const ethInput = document.getElementById('eth-address');
+                    if (ethInput) ethInput.value = data.ethereum || '';
+                    const usdtInput = document.getElementById('usdt-address');
+                    if (usdtInput) usdtInput.value = data.usdt || '';
                 } catch (err) {
                     window.adminPanel.showNotification("Error loading payment methods: " + err.message, "error");
                 }
@@ -77,19 +94,28 @@ class AdminPanel {
         }
 
         // Form submissions
-        document.getElementById('add-product-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.addProduct();
-        });
+        const addProductForm = document.getElementById('add-product-form');
+        if (addProductForm) {
+            addProductForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addProduct();
+            });
+        }
 
-        document.getElementById('add-user-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.addUser();
-        });
+        const addUserForm = document.getElementById('add-user-form');
+        if (addUserForm) {
+            addUserForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addUser();
+            });
+        }
 
-        document.getElementById('save-content-btn').addEventListener('click', () => {
-            this.saveContent();
-        });
+        const saveContentBtn = document.getElementById('save-content-btn');
+        if (saveContentBtn) {
+            saveContentBtn.addEventListener('click', () => {
+                this.saveContent();
+            });
+        }
 
         // Payment methods save
         const paymentForm = document.getElementById('payment-methods-form');
@@ -108,10 +134,13 @@ class AdminPanel {
         });
 
         // Logout
-        document.getElementById('logout-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            this.logout();
-        });
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
+        }
 
         // Close modals when clicking outside
         document.addEventListener('click', (e) => {
@@ -124,14 +153,15 @@ class AdminPanel {
         const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
-                document.getElementById('payment-methods-modal').style.display = 'none';
+                const modal = document.getElementById('payment-methods-modal');
+                if (modal) modal.style.display = 'none';
             });
         }
 
         // Close modal (clicking outside payments modal)
         window.addEventListener('click', (e) => {
             const modal = document.getElementById('payment-methods-modal');
-            if (e.target === modal) {
+            if (modal && e.target === modal) {
                 modal.style.display = 'none';
             }
         });
