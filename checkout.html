@@ -836,60 +836,67 @@
         }
       }
 
-      // Payment method selection
-      document.querySelectorAll('.payment-option').forEach(option => {
-        option.addEventListener('click', function() {
-          // Remove selected class from all options
-          document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-          
-          // Add selected class to clicked option
-          this.classList.add('selected');
-          
-          // Check the radio button
-          this.querySelector('input[type="radio"]').checked = true;
-        });
-      });
+     <script>
+const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
 
-      // Form validation styling
-      document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
-        input.addEventListener('blur', function() {
-          if (this.hasAttribute('required') && !this.value.trim()) {
-            this.style.borderColor = '#ef4444';
-          } else {
-            this.style.borderColor = '#e5e7eb';
-          }
-        });
-
-        input.addEventListener('focus', function() {
-          this.style.borderColor = '#3b82f6';
-        });
-      });
-
-      const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
 async function loadPaymentOptions() {
   const paymentSection = document.querySelector('.payment-section');
   if (!paymentSection) return;
+
   let html = '<h4 class="payment-title"><i class="fas fa-credit-card"></i> Payment Method</h4>';
   html += '<div class="payment-methods" id="dynamic-payment-methods"></div>';
-  paymentSection.innerHTML = html + paymentSection.innerHTML;
+  paymentSection.innerHTML = html;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/payment-methods`);
+    const res = await fetch(`${API_BASE_URL}/payment-methods/active`);
     const methods = await res.json();
+
+    if (!methods || methods.length === 0) {
+      document.getElementById('dynamic-payment-methods').innerHTML =
+        '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
+      return;
+    }
+
     let optionsHtml = '';
     methods.forEach(method => {
       if (method.type === 'Bank') {
-        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="bank" class="payment-radio"> <span class="payment-label">Bank Transfer</span><span class="payment-description">${method.credentials.bankName} - ${method.credentials.accountName} (${method.credentials.accountNumber})</span></div>`;
-      } else if (method.type === 'Skype') {
-        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="skype" class="payment-radio"> <span class="payment-label">Skype</span><span class="payment-description">Skype ID: ${method.credentials.skypeId}</span></div>`;
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="bank" class="payment-radio">
+            <span class="payment-label">Bank Transfer</span>
+            <span class="payment-description">Account: ${method.credentials.account}</span>
+          </div>`;
       } else if (method.type === 'PayPal') {
-        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="paypal" class="payment-radio"> <span class="payment-label">PayPal</span><span class="payment-description">PayPal Email: ${method.credentials.paypalEmail}</span></div>`;
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="paypal" class="payment-radio">
+            <span class="payment-label">PayPal</span>
+            <span class="payment-description">Email: ${method.credentials.email}</span>
+          </div>`;
+      } else if (method.type === 'Skype') {
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="skype" class="payment-radio">
+            <span class="payment-label">Skype</span>
+            <span class="payment-description">ID: ${method.credentials.id}</span>
+          </div>`;
       } else if (method.type === 'Crypto') {
-        optionsHtml += `<div class="payment-option"><input type="radio" name="paymentType" value="crypto" class="payment-radio"> <span class="payment-label">Crypto</span><span class="payment-description">Bitcoin: ${method.credentials.bitcoin}<br>Ethereum: ${method.credentials.ethereum}<br>USDT: ${method.credentials.usdt}</span></div>`;
+        optionsHtml += `
+          <div class="payment-option">
+            <input type="radio" name="paymentType" value="crypto" class="payment-radio">
+            <span class="payment-label">Crypto</span>
+            <span class="payment-description">
+              ${method.credentials.bitcoin ? `Bitcoin: ${method.credentials.bitcoin}<br>` : ""}
+              ${method.credentials.ethereum ? `Ethereum: ${method.credentials.ethereum}<br>` : ""}
+              ${method.credentials.usdt ? `USDT: ${method.credentials.usdt}<br>` : ""}
+            </span>
+          </div>`;
       }
     });
+
     document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
-    // Add radio selection logic
+
+    // Radio button styling
     document.querySelectorAll('.payment-option').forEach(option => {
       option.addEventListener('click', function() {
         document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
@@ -897,12 +904,15 @@ async function loadPaymentOptions() {
         this.querySelector('input[type="radio"]').checked = true;
       });
     });
+
   } catch (err) {
-    document.getElementById('dynamic-payment-methods').innerHTML = '<div style="color:red">Unable to load payment methods.</div>';
+    document.getElementById('dynamic-payment-methods').innerHTML =
+      '<div style="color:red">❌ Unable to load payment methods.</div>';
   }
 }
+
 window.addEventListener('DOMContentLoaded', loadPaymentOptions);
-    </script>
+</script>
 
   </body>
 </html>
