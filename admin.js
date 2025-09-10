@@ -37,7 +37,6 @@ class AdminPanel {
             backdrop.classList.toggle('active');
         });
 
-        // Backdrop click closes sidebar
         backdrop.addEventListener('click', () => {
             sidebar.classList.remove('open');
             backdrop.classList.remove('active');
@@ -53,11 +52,27 @@ class AdminPanel {
             this.showModal('add-user-modal');
         });
 
-        // ✅ Manage payment methods button (safe check)
+        // Manage payment methods button
         const managePaymentsBtn = document.getElementById('manage-payment-methods-btn');
         if (managePaymentsBtn) {
-            managePaymentsBtn.addEventListener('click', () => {
-                this.showModal('payment-methods-modal');
+            managePaymentsBtn.addEventListener('click', async () => {
+                const modal = document.getElementById('payment-methods-modal');
+                modal.style.display = 'block';
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/payment-methods`);
+                    if (!res.ok) throw new Error("Failed to load payment methods");
+                    const data = await res.json();
+
+                    document.getElementById('bank').value = data.bank || '';
+                    document.getElementById('paypal').value = data.paypal || '';
+                    document.getElementById('skype').value = data.skype || '';
+                    document.getElementById('bitcoin').value = data.bitcoin || '';
+                    document.getElementById('eth-address').value = data.ethereum || '';
+                    document.getElementById('usdt-address').value = data.usdt || '';
+                } catch (err) {
+                    window.adminPanel.showNotification("Error loading payment methods: " + err.message, "error");
+                }
             });
         }
 
@@ -72,15 +87,18 @@ class AdminPanel {
             this.addUser();
         });
 
-        // Content save
         document.getElementById('save-content-btn').addEventListener('click', () => {
             this.saveContent();
         });
 
-        // Settings save
-        document.getElementById('save-settings-btn').addEventListener('click', () => {
-            this.saveSettings();
-        });
+        // Payment methods save
+        const paymentForm = document.getElementById('payment-methods-form');
+        if (paymentForm) {
+            paymentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await this.saveSettings();
+            });
+        }
 
         // Modal close buttons
         document.querySelectorAll('.modal-close').forEach(btn => {
@@ -101,26 +119,37 @@ class AdminPanel {
                 this.hideAllModals();
             }
         });
+
+        // Close modal (clicking × specifically for payments)
+        const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                document.getElementById('payment-methods-modal').style.display = 'none';
+            });
+        }
+
+        // Close modal (clicking outside payments modal)
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('payment-methods-modal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
     }
 
     showSection(sectionName) {
-        // Hide all sections
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
 
-        // Show selected section
         document.getElementById(sectionName).classList.add('active');
 
-        // Update navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
         });
         document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
 
-        // Update page title
         document.getElementById('page-title').textContent = this.getSectionTitle(sectionName);
-
         this.currentSection = sectionName;
     }
 
@@ -147,20 +176,15 @@ class AdminPanel {
     }
 
     loadDashboardData() {
-        // Load statistics
         this.updateStats();
-        
-        // Load recent activity
         this.loadRecentActivity();
     }
 
     updateStats() {
-        // These would normally come from a database
         document.getElementById('total-users').textContent = this.users.length;
         document.getElementById('total-products').textContent = this.products.length;
         document.getElementById('total-orders').textContent = this.orders.length;
-        
-        // Calculate revenue
+
         const revenue = this.orders.reduce((total, order) => total + order.total, 0);
         document.getElementById('total-revenue').textContent = `$${revenue.toFixed(2)}`;
     }
@@ -241,12 +265,10 @@ class AdminPanel {
     async addProduct() {
         const form = document.getElementById('add-product-form');
         const formData = new FormData(form);
-        // Validate required fields
         if (!formData.get('name') || !formData.get('category') || !formData.get('price') || !formData.get('image')) {
             this.showNotification('Please fill in all required fields.', 'error');
             return;
         }
-        // Add status field
         formData.append('status', 'active');
         try {
             const res = await fetch(`${API_BASE_URL}/products`, {
@@ -432,38 +454,33 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-async saveSettings() {
-    const bank = document.getElementById('bank').value;
-    const paypal = document.getElementById('paypal').value;
-    const skype = document.getElementById('skype').value;
-    const bitcoin = document.getElementById('bitcoin').value;
-    const ethereum = document.getElementById('eth-address').value;
-    const usdt = document.getElementById('usdt-address').value;
+    async saveSettings() {
+        const bank = document.getElementById('bank').value;
+        const paypal = document.getElementById('paypal').value;
+        const skype = document.getElementById('skype').value;
+        const bitcoin = document.getElementById('bitcoin').value;
+        const ethereum = document.getElementById('eth-address').value;
+        const usdt = document.getElementById('usdt-address').value;
 
-    try {
-        const res = await fetch(`${API_BASE_URL}/payment-methods`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
-        });
+        try {
+            const res = await fetch(`${API_BASE_URL}/payment-methods`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
+            });
 
-        if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.error || 'Failed to save payment methods');
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || 'Failed to save payment methods');
+            }
+
+            this.showNotification('Payment methods updated successfully!', 'success');
+            document.getElementById('payment-methods-modal').style.display = 'none';
+
+        } catch (err) {
+            this.showNotification('Error saving settings: ' + err.message, 'error');
         }
-
-        this.showNotification('Payment methods updated successfully!', 'success');
-
-        // ✅ Close modal
-        document.getElementById('payment-methods-modal').style.display = 'none';
-
-        // ✅ Reset form
-        document.getElementById('payment-methods-form').reset();
-
-    } catch (err) {
-        this.showNotification('Error saving settings: ' + err.message, 'error');
     }
-}
 
     logout() {
         if (confirm('Are you sure you want to logout?')) {
@@ -498,97 +515,15 @@ async saveSettings() {
 
     getNotificationIcon(type) {
         const icons = {
-            'success': 'check-circle',
-            'error': 'exclamation-circle',
-            'warning': 'exclamation-triangle',
-            'info': 'info-circle'
+            success: 'check-circle',
+            error: 'exclamation-circle',
+            info: 'info-circle',
+            warning: 'exclamation-triangle'
         };
         return icons[type] || 'info-circle';
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const paymentForm = document.getElementById('payment-methods-form');
-    if (paymentForm) {
-        paymentForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // stop page reload
-
-            await window.adminPanel.saveSettings(); // ✅ correct
-        });
-    }
-});
-
-// Initialize admin panel when DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    let session = sessionStorage.getItem('docushop_session');
-    if (!session) session = localStorage.getItem('docushop_session');
-    let isAdmin = false;
-    if (session) {
-        try {
-            const sessionData = JSON.parse(session);
-            isAdmin = sessionData.user && sessionData.user.role === 'admin' && sessionData.isActive;
-        } catch {}
-    }
-    if (!isAdmin) {
-        localStorage.removeItem('docushop_session');
-        sessionStorage.removeItem('docushop_session');
-        window.location.href = 'admin-login.html';
-        return;
-    }
+window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
-    const filter = document.getElementById('product-category-filter');
-    if (filter) {
-        filter.addEventListener('change', () => window.adminPanel.renderProducts());
-    }
 });
-
-// (notificationStyles + payment methods modal logic stays same as before...)
-// ===== Payment Methods Modal Handling =====
-
-// Open modal
-document.getElementById('manage-payment-methods-btn')
-    .addEventListener('click', async () => {
-        const modal = document.getElementById('payment-methods-modal');
-        modal.style.display = 'block';
-
-        try {
-            const res = await fetch(`${API_BASE_URL}/payment-methods`);
-            if (!res.ok) throw new Error("Failed to load payment methods");
-            const data = await res.json();
-
-            // Fill form fields if data exists
-            document.getElementById('bank').value = data.bank || '';
-            document.getElementById('paypal').value = data.paypal || '';
-            document.getElementById('skype').value = data.skype || '';
-            document.getElementById('bitcoin').value = data.bitcoin || '';
-            document.getElementById('eth-address').value = data.ethereum || '';
-            document.getElementById('usdt-address').value = data.usdt || '';
-        } catch (err) {
-            console.error(err);
-            this.showNotification("Error loading payment methods: " + err.message, "error");
-        }
-    });
-
-
-// Close modal (clicking ×)
-document.querySelector('#payment-methods-modal .modal-close')
-    .addEventListener('click', () => {
-        document.getElementById('payment-methods-modal').style.display = 'none';
-    });
-
-// Close modal (clicking outside the modal)
-window.addEventListener('click', (e) => {
-    const modal = document.getElementById('payment-methods-modal');
-    if (e.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
-
-
-
-
-
-
-
-
