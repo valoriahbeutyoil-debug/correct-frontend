@@ -731,10 +731,23 @@
     </div>
   </div>
 
-  <!-- 💳 Payment -->
-  <div class="payment-methods">
+<!-- 💳 Payment -->
+<!-- 💳 Payment -->
+<div class="payment-methods">
   <select id="payment-select" name="paymentType" class="form-select" required>
     <option value="">-- Choose a Payment Method --</option>
+    <option value="card">Credit / Debit Card</option>
+    <option value="bank">Bank Transfer</option>
+    <!-- Crypto options (BTC/ETH/USDT) will be loaded dynamically -->
+  </select>
+
+  <!-- Preview box for showing crypto address -->
+  <div id="crypto-preview" style="display:none; margin-top:10px; padding:10px; border:1px solid #ccc; border-radius:5px;">
+    <strong id="crypto-label"></strong><br>
+    <span id="crypto-address"></span>
+  </div>
+</div>
+
     <!-- Dynamic options from backend will be inserted here -->
   </select>
   <div id="payment-description" class="payment-description"></div>
@@ -911,21 +924,46 @@ window.addEventListener('DOMContentLoaded', loadPaymentOptions);
         }
       });
     </script>
-    <script>
+   <script>
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const res = await fetch("http://localhost:5000/crypto-addresses");
     const addresses = await res.json();
 
-    const select = document.getElementById("crypto-methods");
-    if (!select) return;
+    const select = document.getElementById("payment-select");
+    const previewBox = document.getElementById("crypto-preview");
+    const label = document.getElementById("crypto-label");
+    const address = document.getElementById("crypto-address");
 
-    select.innerHTML = `
-      <option disabled selected>Select Payment Method</option>
-      <option value="bitcoin">Bitcoin - ${addresses.bitcoin || "Not set"}</option>
-      <option value="ethereum">Ethereum - ${addresses.ethereum || "Not set"}</option>
-      <option value="usdt">USDT (TRC20) - ${addresses.usdt || "Not set"}</option>
-    `;
+    // Add crypto options dynamically
+    if (addresses.bitcoin) {
+      select.insertAdjacentHTML("beforeend", `<option value="bitcoin">Bitcoin (BTC)</option>`);
+    }
+    if (addresses.ethereum) {
+      select.insertAdjacentHTML("beforeend", `<option value="ethereum">Ethereum (ETH)</option>`);
+    }
+    if (addresses.usdt) {
+      select.insertAdjacentHTML("beforeend", `<option value="usdt">USDT (TRC20)</option>`);
+    }
+
+    // Show address preview when a crypto option is selected
+    select.addEventListener("change", (e) => {
+      if (e.target.value === "bitcoin" && addresses.bitcoin) {
+        label.textContent = "Bitcoin (BTC) Address:";
+        address.textContent = addresses.bitcoin;
+        previewBox.style.display = "block";
+      } else if (e.target.value === "ethereum" && addresses.ethereum) {
+        label.textContent = "Ethereum (ETH) Address:";
+        address.textContent = addresses.ethereum;
+        previewBox.style.display = "block";
+      } else if (e.target.value === "usdt" && addresses.usdt) {
+        label.textContent = "USDT (TRC20) Address:";
+        address.textContent = addresses.usdt;
+        previewBox.style.display = "block";
+      } else {
+        previewBox.style.display = "none";
+      }
+    });
   } catch (err) {
     console.error("Error fetching crypto addresses:", err);
   }
