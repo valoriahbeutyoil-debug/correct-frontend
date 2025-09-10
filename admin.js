@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault(); // stop page reload
 
-            await saveSettings(); // call your function
+            await window.adminPanel.saveSettings(); // ✅ correct
         });
     }
 });
@@ -584,12 +584,6 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// Handle form submit
-document.getElementById('payment-methods-form')
-    .addEventListener('submit', (e) => {
-        e.preventDefault();
-        window.adminPanel.saveSettings(); // ✅ call method on instance
-    });
 
 
 
