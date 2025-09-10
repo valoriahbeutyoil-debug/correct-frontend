@@ -432,13 +432,13 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-   async saveSettings() {
+async saveSettings() {
     const bitcoin = document.getElementById('btc-address').value;
     const ethereum = document.getElementById('eth-address').value;
     const usdt = document.getElementById('usdt-address').value;
 
     try {
-        const res = await fetch(`${API_BASE_URL}/crypto-addresses`, {
+        const res = await fetch(`${API_BASE_URL}/payment-methods`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ bitcoin, ethereum, usdt })
@@ -446,7 +446,7 @@ class AdminPanel {
 
         if (!res.ok) {
             const errorData = await res.json();
-            throw new Error(errorData.error || 'Failed to save crypto settings');
+            throw new Error(errorData.error || 'Failed to save payment methods');
         }
 
         this.showNotification('Crypto addresses updated successfully!', 'success');
@@ -522,4 +522,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // (notificationStyles + payment methods modal logic stays same as before...)
+
 
