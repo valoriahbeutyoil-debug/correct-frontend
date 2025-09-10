@@ -732,7 +732,9 @@
           <!-- ✅ Dynamic Payment Section -->
           <div class="payment-section">
             <h4 class="payment-title"><i class="fas fa-credit-card"></i> Payment Method</h4>
-            <div class="payment-methods" id="dynamic-payment-methods"></div>
+            <label for="payment-method-select" class="payment-label">Select Payment Method</label>
+            <select id="payment-method-select" class="payment-select"></select>
+            <div id="payment-method-details" class="payment-details"></div>
           </div>
 
           <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
@@ -793,69 +795,61 @@
 
   const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
 
-  // ✅ Corrected payment options loader
   async function loadPaymentOptions() {
-    const paymentSection = document.querySelector('.payment-section');
-    if (!paymentSection) return;
+    const select = document.getElementById('payment-method-select');
+    const details = document.getElementById('payment-method-details');
+    select.innerHTML = '';
+    details.innerHTML = '';
 
     try {
       const res = await fetch(`${API_BASE_URL}/payment-methods`);
       const data = await res.json();
 
-      if (!data) {
-        document.getElementById('dynamic-payment-methods').innerHTML =
-          '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
+      const options = [];
+      if (data.bank) options.push({ value: 'bank', label: 'Bank Transfer' });
+      if (data.paypal) options.push({ value: 'paypal', label: 'PayPal' });
+      if (data.skype) options.push({ value: 'skype', label: 'Skype' });
+      if (data.bitcoin || data.ethereum || data.usdt) options.push({ value: 'crypto', label: 'Cryptocurrency' });
+
+      if (options.length === 0) {
+        select.innerHTML = '<option disabled>No payment methods available</option>';
         return;
       }
 
-      let optionsHtml = '';
+      options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.label;
+        select.appendChild(option);
+      });
 
-      if (data.bank) {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="bank" class="payment-radio">
-            <span class="payment-label">Bank Transfer</span>
-            <span class="payment-description">${data.bank}</span>
-          </div>`;
-      }
+      select.addEventListener('change', () => showDetails(select.value, data));
+      showDetails(select.value, data); // Show details for first option
 
-      if (data.paypal) {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="paypal" class="payment-radio">
-            <span class="payment-label">PayPal</span>
-            <span class="payment-description">${data.paypal}</span>
-          </div>`;
-      }
-
-      if (data.skype) {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="skype" class="payment-radio">
-            <span class="payment-label">Skype</span>
-            <span class="payment-description">${data.skype}</span>
-          </div>`;
-      }
-
-      if (data.bitcoin || data.ethereum || data.usdt) {
-        optionsHtml += `
-          <div class="payment-option">
-            <input type="radio" name="paymentType" value="crypto" class="payment-radio">
-            <span class="payment-label">Cryptocurrency</span>
-            <div class="payment-description">
-              ${data.bitcoin ? `<div>BTC: ${data.bitcoin}</div>` : ''}
-              ${data.ethereum ? `<div>ETH: ${data.ethereum}</div>` : ''}
-              ${data.usdt ? `<div>USDT: ${data.usdt}</div>` : ''}
-            </div>
-          </div>`;
-      }
-
-      document.getElementById('dynamic-payment-methods').innerHTML = optionsHtml;
     } catch (err) {
-      console.error('Error loading payment methods:', err);
-      document.getElementById('dynamic-payment-methods').innerHTML =
-        '<div style="color:red">❌ Failed to load payment options.</div>';
+      select.innerHTML = '<option disabled>Error loading payment methods</option>';
     }
+  }
+
+  function showDetails(type, data) {
+    const details = document.getElementById('payment-method-details');
+    let html = '';
+    if (type === 'bank' && data.bank) {
+      html = `<div class="details-row"><strong>Bank Details:</strong> <span>${data.bank}</span></div>`;
+    } else if (type === 'paypal' && data.paypal) {
+      html = `<div class="details-row"><strong>PayPal Email:</strong> <span>${data.paypal}</span></div>`;
+    } else if (type === 'skype' && data.skype) {
+      html = `<div class="details-row"><strong>Skype ID:</strong> <span>${data.skype}</span></div>`;
+    } else if (type === 'crypto' && (data.bitcoin || data.ethereum || data.usdt)) {
+      html = `<div class="details-row"><strong>Cryptocurrency Addresses:</strong>
+        <ul>
+          ${data.bitcoin ? `<li><strong>BTC:</strong> ${data.bitcoin}</li>` : ''}
+          ${data.ethereum ? `<li><strong>ETH:</strong> ${data.ethereum}</li>` : ''}
+          ${data.usdt ? `<li><strong>USDT (TRC20):</strong> ${data.usdt}</li>` : ''}
+        </ul>
+      </div>`;
+    }
+    details.innerHTML = html;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -863,21 +857,46 @@
     loadPaymentOptions();
   });
 </script>
-    <script>
-const API_BASE_URL = 'https://correct-backend-gu05.onrender.com';
-
-async function loadPaymentOptions() {
-  const paymentSection = document.querySelector('.payment-section');
-  if (!paymentSection) return;
-
-  try {
-    const res = await fetch(`${API_BASE_URL}/payment-methods`);
-    const data = await res.json();
-
-    if (!data) {
-      document.getElementById('dynamic-payment-methods').innerHTML =
-        '<div style="color:#64748b">⚠️ No payment methods are available right now.</div>';
-      return;
+    <style>
+      .payment-section {
+        margin: 24px 0;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #e2e8f0;
+        max-width: 500px;
+      }
+      .payment-label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .payment-select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border-radius: 4px;
+        border: 1px solid #cbd5e1;
+        font-size: 16px;
+      }
+      .payment-details {
+        background: #fff;
+        border-radius: 4px;
+        padding: 12px;
+        border: 1px solid #e2e8f0;
+        font-size: 15px;
+      }
+      .details-row {
+        margin-bottom: 8px;
+      }
+      .details-row ul {
+        margin: 8px 0 0 16px;
+        padding: 0;
+      }
+      .details-row li {
+        margin-bottom: 4px;
+      }
+    </style>
     }
 
     let optionsHtml = '';
