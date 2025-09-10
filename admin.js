@@ -1,5 +1,6 @@
 // Set API base URL for easy switching between local and deployed environments
 const API_BASE_URL = 'https://correct-backend-gu05.onrender.com'; // Live backend URL
+
 // Admin Panel JavaScript
 class AdminPanel {
     constructor() {
@@ -51,6 +52,14 @@ class AdminPanel {
         document.getElementById('add-user-btn').addEventListener('click', () => {
             this.showModal('add-user-modal');
         });
+
+        // ✅ Manage payment methods button (safe check)
+        const managePaymentsBtn = document.getElementById('manage-payment-methods-btn');
+        if (managePaymentsBtn) {
+            managePaymentsBtn.addEventListener('click', () => {
+                this.showModal('payment-methods-modal');
+            });
+        }
 
         // Form submissions
         document.getElementById('add-product-form').addEventListener('submit', (e) => {
@@ -505,5 +514,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // (notificationStyles + payment methods modal logic stays same as before...)
-
-
