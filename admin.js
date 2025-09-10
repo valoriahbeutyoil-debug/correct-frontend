@@ -588,8 +588,10 @@ window.addEventListener('click', (e) => {
 document.getElementById('payment-methods-form')
     .addEventListener('submit', (e) => {
         e.preventDefault();
-        saveSettings(); // Call the save function we wrote earlier
+        window.adminPanel.saveSettings(); // ✅ call method on instance
     });
+
+
 
 
 
