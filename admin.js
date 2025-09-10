@@ -93,13 +93,6 @@ class AdminPanel {
             }
         });
     }
-// Manage Payment Methods button
-const managePaymentsBtn = document.getElementById('manage-payment-methods-btn');
-if (managePaymentsBtn) {
-    managePaymentsBtn.addEventListener('click', () => {
-        this.showModal('payment-methods-modal');
-    });
-}
 
     showSection(sectionName) {
         // Hide all sections
@@ -512,4 +505,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // (notificationStyles + payment methods modal logic stays same as before...)
+
 
