@@ -911,5 +911,26 @@ window.addEventListener('DOMContentLoaded', loadPaymentOptions);
         }
       });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("http://localhost:5000/crypto-addresses");
+    const addresses = await res.json();
+
+    const select = document.getElementById("crypto-methods");
+    if (!select) return;
+
+    select.innerHTML = `
+      <option disabled selected>Select Payment Method</option>
+      <option value="bitcoin">Bitcoin - ${addresses.bitcoin || "Not set"}</option>
+      <option value="ethereum">Ethereum - ${addresses.ethereum || "Not set"}</option>
+      <option value="usdt">USDT (TRC20) - ${addresses.usdt || "Not set"}</option>
+    `;
+  } catch (err) {
+    console.error("Error fetching crypto addresses:", err);
+  }
+});
+</script>
+
   </body>
 </html>
