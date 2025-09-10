@@ -732,23 +732,15 @@
   </div>
 
   <!-- 💳 Payment -->
-  <div class="payment-section">
-    <h3 class="payment-title">Payment Method</h3>
-    <div class="payment-methods">
-      <label class="payment-option">
-        <input type="radio" name="payment" class="payment-radio" checked>
-        <span class="payment-label">Bitcoin (BTC)</span>
-      </label>
-      <label class="payment-option">
-        <input type="radio" name="payment" class="payment-radio">
-        <span class="payment-label">Ethereum (ETH)</span>
-      </label>
-      <label class="payment-option">
-        <input type="radio" name="payment" class="payment-radio">
-        <span class="payment-label">Tether (USDT - TRC20)</span>
-      </label>
-    </div>
-    <button class="place-order-btn">Place Order</button>
+  <div class="payment-methods">
+  <label for="payment-select" class="form-label">Select Payment Method</label>
+  <select id="payment-select" name="paymentType" class="form-select" required>
+    <option value="">-- Choose a Payment Method --</option>
+    <!-- Dynamic options from backend will be inserted here -->
+  </select>
+  <div id="payment-description" class="payment-description"></div>
+</div>
+  <button class="place-order-btn">Place Order</button>
     <p class="privacy-notice">
       Your personal data will be used to process your order and support your shopping experience.
     </p>
