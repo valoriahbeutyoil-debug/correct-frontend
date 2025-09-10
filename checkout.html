@@ -903,49 +903,6 @@ async function loadPaymentOptions() {
 }
 window.addEventListener('DOMContentLoaded', loadPaymentOptions);
     </script>
-    <script>
-      document.getElementById('crypto-select').addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        const paymentAddressDiv = document.getElementById('crypto-address');
-        const addressText = document.getElementById('address-text');
-
-        if (this.value) {
-          const paymentAddress = selectedOption.getAttribute('data-address');
-          addressText.textContent = paymentAddress;
-          paymentAddressDiv.style.display = 'block';
-        } else {
-          paymentAddressDiv.style.display = 'none';
-          addressText.textContent = '';
-        }
-      });
-    </script>
-   <script>
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const res = await fetch("/crypto-addresses"); // ✅ make sure backend is accessible
-    const addresses = await res.json();
-
-    const cryptoGroup = document.getElementById("crypto-group");
-    cryptoGroup.innerHTML = ""; // clear first
-
-    if (addresses.bitcoin) {
-      cryptoGroup.insertAdjacentHTML("beforeend",
-        `<option value="bitcoin">Bitcoin (BTC) - ${addresses.bitcoin}</option>`);
-    }
-    if (addresses.ethereum) {
-      cryptoGroup.insertAdjacentHTML("beforeend",
-        `<option value="ethereum">Ethereum (ETH) - ${addresses.ethereum}</option>`);
-    }
-    if (addresses.usdt) {
-      cryptoGroup.insertAdjacentHTML("beforeend",
-        `<option value="usdt">USDT (TRC20) - ${addresses.usdt}</option>`);
-    }
-  } catch (err) {
-    console.error("Error fetching crypto addresses:", err);
-  }
-});
-</script>
-
 
   </body>
 </html>
