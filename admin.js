@@ -543,9 +543,12 @@ async function fetchOrders() {
           <small>${order.billingInfo?.phone || ""}</small>
         </td>
         <td>
-          ${order.products && order.products.length > 0 
-            ? order.products.map(p => `${p.product?.name || "Unknown"} (x${p.quantity})`).join("<br>")
-            : "No products"}
+         ${order.products && order.products.length > 0 
+  ? order.products.map(p => {
+      const productName = p.product?.name || p.snapshot?.name || "Unknown";
+      return `${productName} (x${p.quantity})`;
+    }).join("<br>")
+  : "No products"}
         </td>
         <td>$${order.total || 0}</td>
         <td>${order.status || "pending"}</td>
@@ -594,9 +597,11 @@ function viewOrderDetails(orderId) {
   const billing = order.billingInfo || {};
   const products = order.products || [];
 
-  const productList = products.map(
-    p => `${p.product?.name || "Unknown"} (x${p.quantity}) - $${(p.product?.price || 0) * p.quantity}`
-  ).join("<br>");
+ const productList = products.map(p => {
+  const productName = p.product?.name || p.snapshot?.name || "Unknown";
+  const productPrice = p.product?.price || p.snapshot?.price || 0;
+  return `${productName} (x${p.quantity}) - $${(productPrice * p.quantity).toFixed(2)}`;
+}).join("<br>");
 
   const detailsHtml = `
     <h3>Order #${order._id}</h3>
@@ -623,6 +628,7 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
