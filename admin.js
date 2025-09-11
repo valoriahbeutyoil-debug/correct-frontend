@@ -20,6 +20,65 @@ class AdminPanel {
     }
 
     bindEvents() {
+       // ✅ Paste here
+    async loadOrders() {
+        try {
+            const res = await fetch(`${API_BASE_URL}/orders`);
+            if (!res.ok) throw new Error("Failed to fetch orders");
+
+            this.orders = await res.json();
+            console.debug("[DEBUG] Orders fetched:", this.orders);
+
+            this.renderOrders();
+            this.updateStats(); // refresh dashboard numbers
+        } catch (err) {
+            console.error("[ERROR] Fetching orders:", err);
+            const tbody = document.getElementById("orders-tbody");
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
+            }
+        }
+    }
+
+    renderOrders() {
+        const tbody = document.getElementById("orders-tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = "";
+
+        if (!this.orders || this.orders.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
+            return;
+        }
+
+        this.orders.forEach(order => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${order._id}</td>
+                <td>
+                  <strong>${order.billingInfo?.name || "N/A"}</strong><br>
+                  <small>${order.billingInfo?.email || ""}</small><br>
+                  <small>${order.billingInfo?.phone || ""}</small>
+                </td>
+                <td>
+                  ${order.products?.length
+                    ? order.products.map(p => {
+                        const name = p.product?.name || p.snapshot?.name || "Unknown";
+                        return `${name} (x${p.quantity})`;
+                      }).join("<br>")
+                    : "No products"}
+                </td>
+                <td>$${order.total || 0}</td>
+                <td>${order.status || "pending"}</td>
+                <td>${new Date(order.createdAt).toLocaleString()}</td>
+                <td>
+                  <button onclick="adminPanel.viewOrderDetails('${order._id}')">👁 View</button>
+                  <button onclick="adminPanel.cancelOrder('${order._id}')">❌ Cancel</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -638,4 +697,5 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
