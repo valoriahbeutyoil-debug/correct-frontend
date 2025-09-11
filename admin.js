@@ -597,6 +597,8 @@ async function cancelOrder(orderId) {
 window.fetchOrders = fetchOrders;
 window.cancelOrder = cancelOrder;
 window.viewOrderDetails = viewOrderDetails;
+    }
+}
 // =======================
 // VIEW ORDER DETAILS
 // =======================
@@ -638,5 +640,6 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
