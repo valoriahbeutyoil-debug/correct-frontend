@@ -282,8 +282,7 @@ if (filter) {
         );
     }
 
-        }
-        container.innerHTML = filtered.map(product => `
+            container.innerHTML = filtered.map(product => `
             <div class="product-card">
                 <div class="product-image">
                     <img src="${product.image}" alt="${product.name}" style="width: 220px; height: 220px; object-fit: cover;">
@@ -647,6 +646,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
