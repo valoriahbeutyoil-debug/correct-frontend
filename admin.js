@@ -422,56 +422,79 @@ class AdminPanel {
         }
     }
 
-    async loadOrders() {
-        try {
-            const res = await fetch(`${API_BASE_URL}/orders`);
-            if (!res.ok) throw new Error('Failed to fetch orders');
-            this.orders = await res.json();
-            this.renderOrders();
-        } catch (err) {
-            this.showNotification('Error loading orders: ' + err.message, 'error');
-        }
+   // =======================
+// ORDERS MANAGEMENT
+// =======================
+
+async function fetchOrders() {
+  try {
+    const res = await fetch('https://correct-backend-gu05.onrender.com/orders');
+    if (!res.ok) throw new Error("Failed to fetch orders");
+
+    const orders = await res.json();
+    console.log("[DEBUG] Orders fetched:", orders);
+
+    const tbody = document.getElementById("orders-tbody");
+    tbody.innerHTML = "";
+
+    if (!orders || orders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
+      return;
     }
 
-    renderOrders() {
-        const tbody = document.getElementById('orders-tbody');
-        tbody.innerHTML = this.orders.map(order => {
-            let billing = {};
-            let cart = [];
-            try {
-                billing = JSON.parse(order.billing);
-                cart = JSON.parse(order.cart);
-            } catch {}
-            return `
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${billing.firstName || ''} ${billing.lastName || ''}</td>
-                    <td>${cart.map(p => p.name).join(', ')}</td>
-                    <td>$${cart.reduce((sum, p) => sum + (p.price * p.qty), 0).toFixed(2)}</td>
-                    <td><span class="status-badge ${order.status}">${order.status}</span></td>
-                    <td>${order.created_at || ''}</td>
-                    <td>
-                        <button class="btn btn-secondary" onclick="adminPanel.viewOrder('${order.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-        }).join('');
-    }
+    orders.forEach(order => {
+      const row = document.createElement("tr");
 
-    viewOrder(id) {
-        const order = this.orders.find(o => o.id == id);
-        if (order) {
-            let billing = {};
-            let cart = [];
-            try {
-                billing = JSON.parse(order.billing);
-                cart = JSON.parse(order.cart);
-            } catch {}
-            alert(`Order #${order.id}\n\nBilling Info:\nName: ${billing.firstName || ''} ${billing.lastName || ''}\nEmail: ${billing.email || ''}\nPhone: ${billing.phone || ''}\nAddress: ${billing.address || ''}\n\nProducts:\n${cart.map(p => `${p.name} x${p.qty} ($${p.price})`).join('\n')}`);
-        }
-    }
+      row.innerHTML = `
+        <td>${order._id}</td>
+        <td>
+          <strong>${order.billingInfo?.name || "N/A"}</strong><br>
+          <small>${order.billingInfo?.email || ""}</small><br>
+          <small>${order.billingInfo?.phone || ""}</small>
+        </td>
+        <td>
+          ${order.products && order.products.length > 0 
+            ? order.products.map(p => `${p.product?.name || "Unknown"} (x${p.quantity})`).join("<br>")
+            : "No products"}
+        </td>
+        <td>$${order.total || 0}</td>
+        <td>${order.status || "pending"}</td>
+        <td>${new Date(order.createdAt).toLocaleString()}</td>
+        <td>
+          <button class="btn-cancel" onclick="cancelOrder('${order._id}')">Cancel</button>
+        </td>
+      `;
+
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("[ERROR] Fetching orders:", err);
+    document.getElementById("orders-tbody").innerHTML =
+      `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
+  }
+}
+
+// =======================
+// CANCEL ORDER
+// =======================
+async function cancelOrder(orderId) {
+  if (!confirm("Are you sure you want to cancel this order?")) return;
+
+  try {
+    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}/cancel`, {
+      method: "PATCH"
+    });
+
+    if (!res.ok) throw new Error("Failed to cancel order");
+    alert("Order cancelled successfully!");
+    fetchOrders(); // Refresh the table
+  } catch (err) {
+    alert("❌ Error cancelling order: " + err.message);
+  }
+}
+
+// Auto-run when admin panel loads
+document.addEventListener("DOMContentLoaded", fetchOrders);
 
     saveContent() {
         const heroTitle = document.getElementById('hero-title').value;
@@ -558,6 +581,7 @@ const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
 });
+
 
 
 
