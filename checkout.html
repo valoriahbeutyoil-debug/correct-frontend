@@ -757,42 +757,139 @@
         </div>
       </div>
     </footer>
+   <!-- ✅ Order Success Modal -->
+<div id="order-success-modal" class="modal">
+  <div class="modal-content success">
+    <span class="close-modal">&times;</span>
+    <h2>🎉 Order Successful!</h2>
+    <p id="order-message"></p>
+    <button id="go-home">Go to Homepage</button>
+  </div>
+</div>
+
+<!-- ❌ Error Modal -->
+<div id="order-error-modal" class="modal">
+  <div class="modal-content error">
+    <span class="close-modal">&times;</span>
+    <h2>❌ Something went wrong</h2>
+    <p id="error-message"></p>
+    <button class="close-error">Close</button>
+  </div>
+</div>
+
+<style>
+ .modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  animation: pop 0.3s ease;
+  position: relative;
+}
+
+.modal-content.success h2 { color: green; }
+.modal-content.error h2 { color: red; }
+
+.modal-content button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+.modal-content button:hover { background: #0056b3; }
+
+.close-modal {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+</style>
+
 <script>
   function toggleCoupon() {
     alert('Coupon functionality will be available soon! Stay tuned for special offers.');
   }
 
-  async function placeOrder() {
-    const form = document.getElementById('checkout-form');
-    if (!form.checkValidity()) {
-      alert('⚠️ Please fill in all required fields to continue with your order.');
-      form.reportValidity();
-      return;
-    }
-    const billing = {};
-    Array.from(form.elements).forEach(el => {
-      if (el.name) billing[el.name] = el.value;
-    });
-    let cart = [];
-    try {
-      cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
-    } catch {}
-    try {
-      const res = await fetch('https://correct-backend-gu05.onrender.com/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ billing, cart })
-      });
-      if (!res.ok) throw new Error('Order failed');
-      const data = await res.json();
-      localStorage.removeItem('docushop_cart_items');
-      alert('🎉 Order placed successfully!\n\nOrder ID: #' + (data.orderId || 'N/A'));
-      window.location.href = 'index.html';
-    } catch (err) {
-      alert('❌ Error placing order: ' + err.message);
-    }
+async function placeOrder() {
+  const form = document.getElementById('checkout-form');
+  if (!form.checkValidity()) {
+    alert('⚠️ Please fill in all required fields to continue with your order.');
+    form.reportValidity();
+    return;
   }
 
+  const billingInfo = {};
+  Array.from(form.elements).forEach(el => {
+    if (el.name) billingInfo[el.name] = el.value;
+  });
+
+  let cart = [];
+  try {
+    cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
+  } catch {}
+
+  if (cart.length === 0) {
+    alert('🛒 Your cart is empty!');
+    return;
+  }
+
+  const products = cart.map(item => ({
+    product: item._id,
+    quantity: item.quantity
+  }));
+
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  try {
+    const res = await fetch('https://correct-backend-gu05.onrender.com/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ products, total, billingInfo })
+    });
+
+    if (!res.ok) throw new Error('Order failed');
+    const data = await res.json();
+
+    // ✅ Clear cart
+    localStorage.removeItem('docushop_cart_items');
+
+    // ✅ Show modal
+    const modal = document.getElementById('order-success-modal');
+    const message = document.getElementById('order-message');
+    message.textContent = "Your order has been placed successfully! Order ID: #" + (data.order?._id || 'N/A');
+    modal.style.display = 'flex';
+
+    // Close button + Redirect
+    document.getElementById('close-modal').onclick = () => { modal.style.display = 'none'; window.location.href = 'index.html'; };
+    document.getElementById('go-home').onclick = () => { window.location.href = 'index.html'; };
+
+  } catch (err) {
+    alert('❌ Error placing order: ' + err.message);
+  }
+}
   // ...existing code...
 
   document.addEventListener('DOMContentLoaded', function() {
