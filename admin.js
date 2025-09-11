@@ -498,11 +498,11 @@ class AdminPanel {
     const usdt = document.getElementById('usdt-address').value;
 
     try {
-        const res = await fetch(`${API_BASE_URL}/payment-methods`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
-        });
+const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
+});
 
         if (!res.ok) throw new Error('Failed to save payment methods');
 
@@ -558,4 +558,5 @@ class AdminPanel {
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
 });
+
 
