@@ -71,7 +71,7 @@ class AdminPanel {
                 if (modal) modal.style.display = 'block';
 
                 try {
-                    const res = await fetch(`${API_BASE_URL}/payment-methods`);
+                    const res = await fetch(`${API_BASE_URL}/api/payment-methods`);
                     if (!res.ok) throw new Error("Failed to load payment methods");
                     const data = await res.json();
 
@@ -558,5 +558,6 @@ const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
 });
+
 
 
