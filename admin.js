@@ -20,6 +20,8 @@ class AdminPanel {
     }
 
     bindEvents() {
+    }
+}
        // ✅ Paste here
     async loadOrders() {
         try {
@@ -697,5 +699,6 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
