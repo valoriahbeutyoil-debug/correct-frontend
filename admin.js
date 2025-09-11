@@ -16,6 +16,7 @@ class AdminPanel {
         this.loadDashboardData();
         this.loadProducts();
         this.loadUsers();
+        this.loadShippingSettings();
          fetchOrders();
     }
 
@@ -23,6 +24,11 @@ class AdminPanel {
     const filter = document.getElementById('product-category-filter');
 if (filter) {
     filter.addEventListener('change', () => this.renderProducts());
+}
+// Shipping form submit
+const shippingForm = document.getElementById("shipping-form");
+if (shippingForm) {
+    shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
 }
 
         // Navigation
@@ -597,6 +603,47 @@ async function cancelOrder(orderId) {
     alert("❌ Error deleting order: " + err.message);
   }
 }
+// ======================
+// Shipping Functions
+// ======================
+
+// Load current shipping settings
+async loadShippingSettings() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/shipping`);
+        const data = await res.json();
+        
+        if (data) {
+            document.getElementById("shipping-method").value = data.method || "";
+            document.getElementById("shipping-cost").value = data.cost || 0;
+            document.getElementById("shipping-estimated").value = data.estimatedDelivery || "";
+        }
+    } catch (err) {
+        console.error("Error loading shipping settings:", err);
+    }
+}
+
+// Save shipping settings
+async saveShippingSettings(e) {
+    e.preventDefault();
+    try {
+        const method = document.getElementById("shipping-method").value;
+        const cost = parseFloat(document.getElementById("shipping-cost").value);
+        const estimatedDelivery = document.getElementById("shipping-estimated").value;
+
+        const res = await fetch(`${API_BASE_URL}/shipping`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ method, cost, estimatedDelivery })
+        });
+
+        const data = await res.json();
+        alert("✅ Shipping settings updated!");
+    } catch (err) {
+        console.error("Error saving shipping settings:", err);
+        alert("❌ Failed to update shipping settings");
+    }
+}
 
 // =======================
 // VIEW ORDER DETAILS
@@ -646,6 +693,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
