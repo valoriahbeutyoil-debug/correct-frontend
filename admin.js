@@ -610,7 +610,7 @@ async function cancelOrder(orderId) {
 // Load current shipping settings
 async loadShippingSettings() {
     try {
-        const res = await fetch(`${API_BASE_URL}/Shipping`);
+        const res = await fetch(`${API_BASE_URL}/api/shipping`);
         const data = await res.json();
         
         if (data) {
@@ -693,6 +693,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
