@@ -544,12 +544,12 @@ async function fetchOrders() {
           <small>${order.billingInfo?.phone || ""}</small>
         </td>
         <td>
-         ${order.products && order.products.length > 0 
-  ? order.products.map(p => {
-      const productName = p.product?.name || p.snapshot?.name || "Unknown";
-      return `${productName} (x${p.quantity})`;
-    }).join("<br>")
-  : "No products"}
+          ${order.products && order.products.length > 0 
+            ? order.products.map(p => {
+                const productName = p.product?.name || p.snapshot?.name || "Unknown";
+                return `${productName} (x${p.quantity})`;
+              }).join("<br>")
+            : "No products"}
         </td>
         <td>$${order.total || 0}</td>
         <td>${order.status || "pending"}</td>
@@ -560,17 +560,17 @@ async function fetchOrders() {
         </td>
       `;
 
-     tbody.appendChild(row);
-  });
-} catch (err) {
-  console.error("[ERROR] Fetching orders:", err);
-  const tbody = document.getElementById("orders-tbody");
-  if (tbody) {
-    tbody.innerHTML =
-      `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("[ERROR] Fetching orders:", err);
+    const tbody = document.getElementById("orders-tbody");
+    if (tbody) {
+      tbody.innerHTML =
+        `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
+    }
   }
 }
-
 
 // =======================
 // CANCEL ORDER (hard delete)
@@ -592,14 +592,6 @@ async function cancelOrder(orderId) {
 }
 
 // =======================
-// Expose globally
-// =======================
-window.fetchOrders = fetchOrders;
-window.cancelOrder = cancelOrder;
-window.viewOrderDetails = viewOrderDetails;
-    }
-}
-// =======================
 // VIEW ORDER DETAILS
 // =======================
 function viewOrderDetails(orderId) {
@@ -609,11 +601,11 @@ function viewOrderDetails(orderId) {
   const billing = order.billingInfo || {};
   const products = order.products || [];
 
- const productList = products.map(p => {
-  const productName = p.product?.name || p.snapshot?.name || "Unknown";
-  const productPrice = p.product?.price || p.snapshot?.price || 0;
-  return `${productName} (x${p.quantity}) - $${(productPrice * p.quantity).toFixed(2)}`;
-}).join("<br>");
+  const productList = products.map(p => {
+    const productName = p.product?.name || p.snapshot?.name || "Unknown";
+    const productPrice = p.product?.price || p.snapshot?.price || 0;
+    return `${productName} (x${p.quantity}) - $${(productPrice * p.quantity).toFixed(2)}`;
+  }).join("<br>");
 
   const detailsHtml = `
     <h3>Order #${order._id}</h3>
@@ -638,8 +630,12 @@ function viewOrderDetails(orderId) {
   popup.document.close();
 }
 
+// =======================
+// Expose globally
+// =======================
+window.fetchOrders = fetchOrders;
+window.cancelOrder = cancelOrder;
+window.viewOrderDetails = viewOrderDetails;
+
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
-
-
-
