@@ -50,13 +50,6 @@ if (filter) {
                 backdrop.classList.remove('active');
             });
         }
-const filter = document.getElementById('product-category-filter');
-let filtered = this.products;
-if (filter && filter.value) {
-    filtered = this.products.filter(p => 
-        p.category?.toLowerCase() === filter.value.toLowerCase()
-    );
-}
 
         // Add product button
         const addProductBtn = document.getElementById('add-product-btn');
@@ -281,11 +274,19 @@ if (filter && filter.value) {
     renderProducts() {
         const container = document.getElementById('products-grid');
         const filter = document.getElementById('product-category-filter');
-        let filtered = this.products;
-        if (filter && filter.value) {
-            filtered = this.products.filter(p => 
-    p.category?.toLowerCase() === filter.value.toLowerCase()
-);
+         // ✅ Apply filtering properly
+    let filtered = this.products;
+    if (filter && filter.value) {
+        filtered = this.products.filter(p => 
+            p.category?.toLowerCase() === filter.value.toLowerCase()
+        );
+    }
+
+    if (!filtered.length) {
+        container.innerHTML = `<div>No products found</div>`;
+        return;
+    }
+
 
         }
         container.innerHTML = filtered.map(product => `
@@ -652,6 +653,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
