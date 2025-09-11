@@ -574,21 +574,22 @@ async function fetchOrders() {
 
 
 // =======================
-// CANCEL ORDER
+// CANCEL ORDER (Hard Delete)
 // =======================
 async function cancelOrder(orderId) {
-  if (!confirm("Are you sure you want to cancel this order?")) return;
+  if (!confirm("Are you sure you want to delete this order permanently?")) return;
 
   try {
-    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}/cancel`, {
-      method: "PATCH"
+    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}`, {
+      method: "DELETE"
     });
 
-    if (!res.ok) throw new Error("Failed to cancel order");
-    alert("Order cancelled successfully!");
-    fetchOrders(); // Refresh the table
+    if (!res.ok) throw new Error("Failed to delete order");
+
+    alert("✅ Order deleted successfully!");
+    fetchOrders(); // Refresh the table so it disappears
   } catch (err) {
-    alert("❌ Error cancelling order: " + err.message);
+    alert("❌ Error deleting order: " + err.message);
   }
 }
 // =======================
@@ -632,6 +633,7 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
