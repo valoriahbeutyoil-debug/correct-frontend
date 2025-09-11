@@ -582,9 +582,46 @@ async function cancelOrder(orderId) {
     alert("❌ Error cancelling order: " + err.message);
   }
 }
+// =======================
+// VIEW ORDER DETAILS
+// =======================
+function viewOrderDetails(orderId) {
+  const order = window.orders?.find(o => o._id === orderId);
+  if (!order) return alert("Order not found");
+
+  const billing = order.billingInfo || {};
+  const products = order.products || [];
+
+  const productList = products.map(
+    p => `${p.product?.name || "Unknown"} (x${p.quantity}) - $${(p.product?.price || 0) * p.quantity}`
+  ).join("<br>");
+
+  const detailsHtml = `
+    <h3>Order #${order._id}</h3>
+    <p><strong>Status:</strong> ${order.status}</p>
+    <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+    <hr>
+    <h4>Billing Info</h4>
+    <p><strong>Name:</strong> ${billing.name || "N/A"}</p>
+    <p><strong>Email:</strong> ${billing.email || "N/A"}</p>
+    <p><strong>Phone:</strong> ${billing.phone || "N/A"}</p>
+    <p><strong>Address:</strong> ${billing.address || ""}, ${billing.city || ""}, ${billing.country || ""}</p>
+    <hr>
+    <h4>Products</h4>
+    <p>${productList || "No products"}</p>
+    <hr>
+    <p><strong>Total:</strong> $${order.total || 0}</p>
+  `;
+
+  // Simple popup (you can style this later as a modal)
+  const popup = window.open("", "Order Details", "width=600,height=600");
+  popup.document.write(`<div style="font-family:sans-serif;padding:20px;">${detailsHtml}</div>`);
+  popup.document.close();
+}
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
