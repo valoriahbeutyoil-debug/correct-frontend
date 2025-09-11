@@ -16,7 +16,6 @@ class AdminPanel {
         this.loadDashboardData();
         this.loadProducts();
         this.loadUsers();
-        this.loadOrders();
          fetchOrders();
     }
 
@@ -639,6 +638,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
