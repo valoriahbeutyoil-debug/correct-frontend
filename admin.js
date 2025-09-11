@@ -46,6 +46,13 @@ class AdminPanel {
                 backdrop.classList.remove('active');
             });
         }
+const filter = document.getElementById('product-category-filter');
+let filtered = this.products;
+if (filter && filter.value) {
+    filtered = this.products.filter(p => 
+        p.category?.toLowerCase() === filter.value.toLowerCase()
+    );
+}
 
         // Add product button
         const addProductBtn = document.getElementById('add-product-btn');
@@ -272,7 +279,10 @@ class AdminPanel {
         const filter = document.getElementById('product-category-filter');
         let filtered = this.products;
         if (filter && filter.value) {
-            filtered = this.products.filter(p => p.category === filter.value);
+            filtered = this.products.filter(p => 
+    p.category?.toLowerCase() === filter.value.toLowerCase()
+);
+
         }
         container.innerHTML = filtered.map(product => `
             <div class="product-card">
@@ -638,6 +648,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
