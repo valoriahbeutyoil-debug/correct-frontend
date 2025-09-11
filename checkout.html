@@ -722,7 +722,7 @@
             </div>
             <div class="total-row shipping">
               <span>Shipping</span>
-              <span id="checkout-shipping">$30.00</span>
+              <span id="checkout-shipping">$0.00</span>
             </div>
             <div class="total-row final">
               <span>Total</span>
@@ -922,7 +922,7 @@ async function placeOrder() {
     const API_URL = 'https://correct-backend-gu05.onrender.com/api/payment-methods';
     const select = document.getElementById('payment-method-select');
     const details = document.getElementById('payment-method-details');
-
+    
     async function fetchPaymentMethods() {
       try {
         const res = await fetch(API_URL);
@@ -1052,8 +1052,35 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
     alert("❌ Error placing order: " + err.message);
   }
 });
+const API_BASE_URL = "https://correct-backend-gu05.onrender.com";
+
+async function loadShippingAndUpdateSummary() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/Shipping`);
+    const shipping = await res.json();
+
+    const subtotalEl = document.getElementById("checkout-subtotal");
+    const shippingMethodEl = document.getElementById("checkout-shipping-method");
+    const shippingCostEl = document.getElementById("checkout-shipping");
+    const totalEl = document.getElementById("checkout-total");
+
+    const subtotal = parseFloat(subtotalEl.innerText.replace("$", "")) || 0;
+    const shippingCost = shipping.cost || 0;
+
+    // Fill shipping details
+    if (shippingMethodEl) shippingMethodEl.textContent = shipping.method || "Standard";
+    if (shippingCostEl) shippingCostEl.textContent = `$${shippingCost.toFixed(2)}`;
+
+    // Update total
+    const total = subtotal + shippingCost;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+  } catch (err) {
+    console.error("Error loading shipping:", err);
+  }
+}
 
   fetchPaymentMethods();
+  loadShippingAndUpdateSummary();
   });
 </script>
     <style>
