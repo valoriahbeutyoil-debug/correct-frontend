@@ -632,6 +632,11 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+// Ensure functions are available globally
+window.fetchOrders = fetchOrders;
+window.cancelOrder = cancelOrder;
+window.viewOrderDetails = viewOrderDetails;
+
 
 
 
