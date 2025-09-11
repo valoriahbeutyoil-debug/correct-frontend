@@ -511,6 +511,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // =======================
 // ORDERS MANAGEMENT
 // =======================
+let ordersCache = []; // store orders for popup view
 
 async function fetchOrders() {
   try {
@@ -518,6 +519,7 @@ async function fetchOrders() {
     if (!res.ok) throw new Error("Failed to fetch orders");
 
     const orders = await res.json();
+    ordersCache = orders; // save them globally
     console.log("[DEBUG] Orders fetched:", orders);
 
     const tbody = document.getElementById("orders-tbody");
@@ -547,7 +549,8 @@ async function fetchOrders() {
         <td>${order.status || "pending"}</td>
         <td>${new Date(order.createdAt).toLocaleString()}</td>
         <td>
-          <button class="btn-cancel" onclick="cancelOrder('${order._id}')">Cancel</button>
+          <button onclick="viewOrderDetails('${order._id}')">👁 View</button>
+          <button onclick="cancelOrder('${order._id}')">❌ Cancel</button>
         </td>
       `;
 
@@ -559,6 +562,7 @@ async function fetchOrders() {
       `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
   }
 }
+
 
 // =======================
 // CANCEL ORDER
@@ -581,6 +585,7 @@ async function cancelOrder(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
