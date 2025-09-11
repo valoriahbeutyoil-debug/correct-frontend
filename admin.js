@@ -506,6 +506,7 @@ const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
 
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
+    window.adminPanel.init();  // 👈 make sure init runs
 });
 
 // =======================
@@ -628,6 +629,7 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
