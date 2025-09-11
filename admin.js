@@ -20,7 +20,11 @@ class AdminPanel {
     }
 
     bindEvents() {
-    
+    const filter = document.getElementById('product-category-filter');
+if (filter) {
+    filter.addEventListener('change', () => this.renderProducts());
+}
+
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -648,6 +652,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
