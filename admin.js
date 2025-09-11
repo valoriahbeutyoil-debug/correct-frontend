@@ -30,7 +30,7 @@ const shippingForm = document.getElementById("shipping-form");
 if (shippingForm) {
     shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
 }
-
+    }
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -693,6 +693,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
