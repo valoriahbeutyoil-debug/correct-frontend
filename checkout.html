@@ -841,11 +841,18 @@ async function placeOrder() {
     return;
   }
 
-  const billingInfo = {};
-  Array.from(form.elements).forEach(el => {
-    if (el.name) billingInfo[el.name] = el.value;
-  });
+  // Build billingInfo properly
+  const billingInfo = {
+    name: form.firstName.value + " " + form.lastName.value,
+    email: form.email.value,
+    phone: form.phone.value,
+    address: form.address.value,
+    city: form.city.value,
+    country: form.country.value,
+    orderNotes: form.orderNotes?.value || ""
+  };
 
+  // Read cart from localStorage
   let cart = [];
   try {
     cart = JSON.parse(localStorage.getItem('docushop_cart_items') || '[]');
@@ -856,18 +863,30 @@ async function placeOrder() {
     return;
   }
 
-  const products = cart.map(item => ({
-    product: item._id,
-    quantity: item.quantity
-  }));
+  // Normalize product structure
+  const products = cart.map(item => {
+    const quantity = item.quantity || item.qty || 1;
+    return {
+      product: item._id || item.id, // support both shapes
+      quantity,
+      snapshot: {
+        name: item.name,
+        price: item.price
+      }
+    };
+  });
 
-  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  // Compute total
+  const total = cart.reduce((sum, item) => {
+    const q = item.quantity || item.qty || 1;
+    return sum + (item.price * q);
+  }, 0);
 
   try {
     const res = await fetch('https://correct-backend-gu05.onrender.com/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ products, total, billingInfo })
+      body: JSON.stringify({ billingInfo, products, total, status: "pending" })
     });
 
     if (!res.ok) throw new Error('Order failed');
@@ -883,13 +902,19 @@ async function placeOrder() {
     modal.style.display = 'flex';
 
     // Close button + Redirect
-    document.getElementById('close-modal').onclick = () => { modal.style.display = 'none'; window.location.href = 'index.html'; };
-    document.getElementById('go-home').onclick = () => { window.location.href = 'index.html'; };
+    document.getElementById('close-modal').onclick = () => { 
+      modal.style.display = 'none'; 
+      window.location.href = 'index.html'; 
+    };
+    document.getElementById('go-home').onclick = () => { 
+      window.location.href = 'index.html'; 
+    };
 
   } catch (err) {
     alert('❌ Error placing order: ' + err.message);
   }
 }
+
   // ...existing code...
 
   document.addEventListener('DOMContentLoaded', function() {
