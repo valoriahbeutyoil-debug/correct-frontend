@@ -422,81 +422,7 @@ class AdminPanel {
         }
     }
 
-   // =======================
-// ORDERS MANAGEMENT
-// =======================
-
-async function fetchOrders() {
-  try {
-    const res = await fetch('https://correct-backend-gu05.onrender.com/orders');
-    if (!res.ok) throw new Error("Failed to fetch orders");
-
-    const orders = await res.json();
-    console.log("[DEBUG] Orders fetched:", orders);
-
-    const tbody = document.getElementById("orders-tbody");
-    tbody.innerHTML = "";
-
-    if (!orders || orders.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
-      return;
-    }
-
-    orders.forEach(order => {
-      const row = document.createElement("tr");
-
-      row.innerHTML = `
-        <td>${order._id}</td>
-        <td>
-          <strong>${order.billingInfo?.name || "N/A"}</strong><br>
-          <small>${order.billingInfo?.email || ""}</small><br>
-          <small>${order.billingInfo?.phone || ""}</small>
-        </td>
-        <td>
-          ${order.products && order.products.length > 0 
-            ? order.products.map(p => `${p.product?.name || "Unknown"} (x${p.quantity})`).join("<br>")
-            : "No products"}
-        </td>
-        <td>$${order.total || 0}</td>
-        <td>${order.status || "pending"}</td>
-        <td>${new Date(order.createdAt).toLocaleString()}</td>
-        <td>
-          <button class="btn-cancel" onclick="cancelOrder('${order._id}')">Cancel</button>
-        </td>
-      `;
-
-      tbody.appendChild(row);
-    });
-  } catch (err) {
-    console.error("[ERROR] Fetching orders:", err);
-    document.getElementById("orders-tbody").innerHTML =
-      `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
-  }
-}
-
-// =======================
-// CANCEL ORDER
-// =======================
-async function cancelOrder(orderId) {
-  if (!confirm("Are you sure you want to cancel this order?")) return;
-
-  try {
-    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}/cancel`, {
-      method: "PATCH"
-    });
-
-    if (!res.ok) throw new Error("Failed to cancel order");
-    alert("Order cancelled successfully!");
-    fetchOrders(); // Refresh the table
-  } catch (err) {
-    alert("❌ Error cancelling order: " + err.message);
-  }
-}
-
-// Auto-run when admin panel loads
-document.addEventListener("DOMContentLoaded", fetchOrders);
-
-    saveContent() {
+       saveContent() {
         const heroTitle = document.getElementById('hero-title').value;
         const heroDescription = document.getElementById('hero-description').value;
         const heroButton = document.getElementById('hero-button').value;
@@ -581,6 +507,80 @@ const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
 });
+
+// =======================
+// ORDERS MANAGEMENT
+// =======================
+
+async function fetchOrders() {
+  try {
+    const res = await fetch('https://correct-backend-gu05.onrender.com/orders');
+    if (!res.ok) throw new Error("Failed to fetch orders");
+
+    const orders = await res.json();
+    console.log("[DEBUG] Orders fetched:", orders);
+
+    const tbody = document.getElementById("orders-tbody");
+    tbody.innerHTML = "";
+
+    if (!orders || orders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
+      return;
+    }
+
+    orders.forEach(order => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${order._id}</td>
+        <td>
+          <strong>${order.billingInfo?.name || "N/A"}</strong><br>
+          <small>${order.billingInfo?.email || ""}</small><br>
+          <small>${order.billingInfo?.phone || ""}</small>
+        </td>
+        <td>
+          ${order.products && order.products.length > 0 
+            ? order.products.map(p => `${p.product?.name || "Unknown"} (x${p.quantity})`).join("<br>")
+            : "No products"}
+        </td>
+        <td>$${order.total || 0}</td>
+        <td>${order.status || "pending"}</td>
+        <td>${new Date(order.createdAt).toLocaleString()}</td>
+        <td>
+          <button class="btn-cancel" onclick="cancelOrder('${order._id}')">Cancel</button>
+        </td>
+      `;
+
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("[ERROR] Fetching orders:", err);
+    document.getElementById("orders-tbody").innerHTML =
+      `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
+  }
+}
+
+// =======================
+// CANCEL ORDER
+// =======================
+async function cancelOrder(orderId) {
+  if (!confirm("Are you sure you want to cancel this order?")) return;
+
+  try {
+    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}/cancel`, {
+      method: "PATCH"
+    });
+
+    if (!res.ok) throw new Error("Failed to cancel order");
+    alert("Order cancelled successfully!");
+    fetchOrders(); // Refresh the table
+  } catch (err) {
+    alert("❌ Error cancelling order: " + err.message);
+  }
+}
+
+// Auto-run when admin panel loads
+document.addEventListener("DOMContentLoaded", fetchOrders);
 
 
 
