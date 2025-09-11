@@ -821,15 +821,7 @@ async function fetchPaymentMethods() {
     }
 
     // Use new rendering function with dropdowns
-    renderPaymentMethods(methods);
-  } catch (err) {
-    console.error('[ERROR] Exception fetching payment methods:', err);
-    paymentList.innerHTML = '<div style="color:red;">Error loading payment methods.</div>';
-  }
-}
-
-// === New function goes here ===
-function renderPaymentMethods(methods) {
+   function renderPaymentMethods(methods) {
   paymentList.innerHTML = '';
 
   methods.forEach((method, idx) => {
@@ -855,6 +847,7 @@ function renderPaymentMethods(methods) {
     details.className = 'payment-details';
     details.style.display = 'none';
 
+    // === CRYPTO ===
     if (method.type === 'Crypto') {
       const select = document.createElement('select');
       select.innerHTML = `
@@ -872,20 +865,28 @@ function renderPaymentMethods(methods) {
       details.appendChild(select);
     }
 
+    // === BANK ===
     if (method.type === 'Bank') {
-      details.textContent = `Account: ${method.credentials.account || 'Not provided'}`;
+      details.innerHTML = `
+        <div><strong>Bank Name:</strong> ${method.credentials.bankName || 'Not provided'}</div>
+        <div><strong>Account Number:</strong> ${method.credentials.accountNumber || 'Not provided'}</div>
+        <div><strong>Account Name:</strong> ${method.credentials.accountName || 'Not provided'}</div>
+      `;
     }
 
+    // === PAYPAL ===
     if (method.type === 'PayPal') {
       details.textContent = `Email: ${method.credentials.email || 'Not provided'}`;
     }
 
+    // === SKYPE ===
     if (method.type === 'Skype') {
       details.textContent = `ID: ${method.credentials.id || 'Not provided'}`;
     }
 
     wrapper.appendChild(details);
 
+    // Show only selected method details
     radio.addEventListener('change', () => {
       document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
       details.style.display = 'block';
@@ -893,12 +894,12 @@ function renderPaymentMethods(methods) {
 
     paymentList.appendChild(wrapper);
   });
+
+  // Auto-open the first one
+  const firstDetails = document.querySelector('.payment-details');
+  if (firstDetails) firstDetails.style.display = 'block';
 }
 
-
-    fetchPaymentMethods();
-  });
-</script>
     <style>
       .payment-section {
         margin: 24px 0;
