@@ -282,7 +282,28 @@
                                 <input type="password" id="admin-new-password" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Update Login</button>
-                        </form>
+                         </form>
+                          <hr>
+
+        <!-- ✅ New Shipping Settings -->
+        <h4>Shipping Settings</h4>
+        <form id="shipping-form" class="form-inline">
+            <div class="form-group">
+                <label for="shipping-method">Method</label>
+                <input type="text" id="shipping-method" placeholder="e.g. Express Shipping" required>
+            </div>
+            <div class="form-group">
+                <label for="shipping-cost">Cost ($)</label>
+                <input type="number" id="shipping-cost" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="shipping-estimated">Estimated Delivery</label>
+                <input type="text" id="shipping-estimated" placeholder="e.g. 3-5 business days" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Shipping</button>
+        </form>
+    </div>
+</section>
                         <button class="btn btn-secondary" id="manage-payment-methods-btn" style="margin-left:16px;">
                             <i class="fas fa-credit-card"></i> Manage Payment Methods
                         </button>
