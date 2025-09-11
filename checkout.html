@@ -804,51 +804,97 @@
       console.error("❌ payment-methods-list container not found in HTML.");
       return;
     }
-
-    async function fetchPaymentMethods() {
-      try {
-        const res = await fetch(API_URL);
-        if (!res.ok) {
-          console.error('[ERROR] Failed to fetch payment methods:', res.status);
-          paymentList.innerHTML = '<div style="color:red;">Failed to load payment methods.</div>';
-          return;
-        }
-        const methods = await res.json();
-        console.log('[DEBUG] Payment methods fetched:', methods);
-
-        if (!methods || methods.length === 0) {
-          paymentList.innerHTML = '<div>No payment methods available.</div>';
-          return;
-        }
-
-        paymentList.innerHTML = methods.map((method, idx) => {
-          let details = '';
-          if (method.type === 'Crypto') {
-            details = [
-              method.credentials?.bitcoin ? `<div><strong>BTC:</strong> ${method.credentials.bitcoin}</div>` : '',
-              method.credentials?.ethereum ? `<div><strong>ETH:</strong> ${method.credentials.ethereum}</div>` : '',
-              method.credentials?.usdt ? `<div><strong>USDT (TRC20):</strong> ${method.credentials.usdt}</div>` : ''
-            ].join('');
-          } else if (method.type === 'PayPal') {
-            details = `<div><strong>PayPal Email:</strong> ${method.credentials?.email}</div>`;
-          } else if (method.type === 'Bank') {
-            details = `<div><strong>Bank Account:</strong> ${method.credentials?.account}</div>`;
-          } else if (method.type === 'Skype') {
-            details = `<div><strong>Skype ID:</strong> ${method.credentials?.id}</div>`;
-          }
-          return `
-            <label class="payment-option">
-              <input type="radio" name="paymentMethod" value="${method.type}" ${idx === 0 ? 'checked' : ''}>
-              <span class="payment-label">${method.type}</span>
-              <span class="payment-description">${details}</span>
-            </label>
-          `;
-        }).join('');
-      } catch (err) {
-        console.error('[ERROR] Exception fetching payment methods:', err);
-        paymentList.innerHTML = '<div style="color:red;">Error loading payment methods.</div>';
-      }
+async function fetchPaymentMethods() {
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) {
+      console.error('[ERROR] Failed to fetch payment methods:', res.status);
+      paymentList.innerHTML = '<div style="color:red;">Failed to load payment methods.</div>';
+      return;
     }
+    const methods = await res.json();
+    console.log('[DEBUG] Payment methods fetched:', methods);
+
+    if (!methods || methods.length === 0) {
+      paymentList.innerHTML = '<div>No payment methods available.</div>';
+      return;
+    }
+
+    // Use new rendering function with dropdowns
+    renderPaymentMethods(methods);
+  } catch (err) {
+    console.error('[ERROR] Exception fetching payment methods:', err);
+    paymentList.innerHTML = '<div style="color:red;">Error loading payment methods.</div>';
+  }
+}
+
+// === New function goes here ===
+function renderPaymentMethods(methods) {
+  paymentList.innerHTML = '';
+
+  methods.forEach((method, idx) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'payment-option';
+
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'paymentMethod';
+    radio.value = method.type;
+    radio.id = `pm-${idx}`;
+    if (idx === 0) radio.checked = true;
+
+    const label = document.createElement('label');
+    label.htmlFor = `pm-${idx}`;
+    label.textContent = method.type;
+
+    wrapper.appendChild(radio);
+    wrapper.appendChild(label);
+
+    // DropDown / Details
+    const details = document.createElement('div');
+    details.className = 'payment-details';
+    details.style.display = 'none';
+
+    if (method.type === 'Crypto') {
+      const select = document.createElement('select');
+      select.innerHTML = `
+        <option value="">-- Select Coin --</option>
+        ${method.credentials.bitcoin ? `<option value="${method.credentials.bitcoin}">BTC</option>` : ''}
+        ${method.credentials.ethereum ? `<option value="${method.credentials.ethereum}">ETH</option>` : ''}
+        ${method.credentials.usdt ? `<option value="${method.credentials.usdt}">USDT (TRC20)</option>` : ''}
+      `;
+      select.addEventListener('change', e => {
+        if (e.target.value) {
+          navigator.clipboard.writeText(e.target.value)
+            .then(() => alert(`${e.target.options[e.target.selectedIndex].text} address copied!`));
+        }
+      });
+      details.appendChild(select);
+    }
+
+    if (method.type === 'Bank') {
+      details.textContent = `Account: ${method.credentials.account || 'Not provided'}`;
+    }
+
+    if (method.type === 'PayPal') {
+      details.textContent = `Email: ${method.credentials.email || 'Not provided'}`;
+    }
+
+    if (method.type === 'Skype') {
+      details.textContent = `ID: ${method.credentials.id || 'Not provided'}`;
+    }
+
+    wrapper.appendChild(details);
+
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
+      details.style.display = 'block';
+    });
+
+    paymentList.appendChild(wrapper);
+  });
+}
+
 
     fetchPaymentMethods();
   });
