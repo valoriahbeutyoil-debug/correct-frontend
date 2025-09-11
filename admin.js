@@ -572,7 +572,6 @@ async function fetchOrders() {
 }
 
 
-
 // =======================
 // CANCEL ORDER (hard delete)
 // =======================
@@ -591,6 +590,13 @@ async function cancelOrder(orderId) {
     alert("❌ Error deleting order: " + err.message);
   }
 }
+
+// =======================
+// Expose globally
+// =======================
+window.fetchOrders = fetchOrders;
+window.cancelOrder = cancelOrder;
+window.viewOrderDetails = viewOrderDetails;
 // =======================
 // VIEW ORDER DETAILS
 // =======================
@@ -632,7 +638,5 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
-// Ensure functions are available globally
-window.fetchOrders = fetchOrders;
-window.cancelOrder = cancelOrder;
-window.viewOrderDetails = viewOrderDetails;
+
+
