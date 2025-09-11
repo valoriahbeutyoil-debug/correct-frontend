@@ -792,12 +792,18 @@
     }
   }
 
-  // ...existing code...
-
   document.addEventListener('DOMContentLoaded', function() {
-    renderCheckoutItems();
-    const API_URL = '/api/payment-methods';
+    // Render cart items (from cart.js)
+    if (typeof renderCheckoutItems === 'function') {
+      renderCheckoutItems();
+    }
+
+    const API_URL = 'https://correct-backend-gu05.onrender.com/api/payment-methods';
     const paymentList = document.getElementById('payment-methods-list');
+    if (!paymentList) {
+      console.error("❌ payment-methods-list container not found in HTML.");
+      return;
+    }
 
     async function fetchPaymentMethods() {
       try {
@@ -819,16 +825,16 @@
           let details = '';
           if (method.type === 'Crypto') {
             details = [
-              method.credentials.bitcoin ? `<div><strong>BTC:</strong> ${method.credentials.bitcoin}</div>` : '',
-              method.credentials.ethereum ? `<div><strong>ETH:</strong> ${method.credentials.ethereum}</div>` : '',
-              method.credentials.usdt ? `<div><strong>USDT (TRC20):</strong> ${method.credentials.usdt}</div>` : ''
+              method.credentials?.bitcoin ? `<div><strong>BTC:</strong> ${method.credentials.bitcoin}</div>` : '',
+              method.credentials?.ethereum ? `<div><strong>ETH:</strong> ${method.credentials.ethereum}</div>` : '',
+              method.credentials?.usdt ? `<div><strong>USDT (TRC20):</strong> ${method.credentials.usdt}</div>` : ''
             ].join('');
           } else if (method.type === 'PayPal') {
-            details = `<div><strong>PayPal Email:</strong> ${method.credentials.email}</div>`;
+            details = `<div><strong>PayPal Email:</strong> ${method.credentials?.email}</div>`;
           } else if (method.type === 'Bank') {
-            details = `<div><strong>Bank Account:</strong> ${method.credentials.account}</div>`;
+            details = `<div><strong>Bank Account:</strong> ${method.credentials?.account}</div>`;
           } else if (method.type === 'Skype') {
-            details = `<div><strong>Skype ID:</strong> ${method.credentials.id}</div>`;
+            details = `<div><strong>Skype ID:</strong> ${method.credentials?.id}</div>`;
           }
           return `
             <label class="payment-option">
