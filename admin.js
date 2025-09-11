@@ -631,7 +631,7 @@ async saveShippingSettings(e) {
         const cost = parseFloat(document.getElementById("shipping-cost").value);
         const estimatedDelivery = document.getElementById("shipping-estimated").value;
 
-        const res = await fetch(`${API_BASE_URL}/shipping`, {
+        const res = await fetch(`${API_BASE_URL}/api/shipping`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ method, cost, estimatedDelivery })
@@ -693,6 +693,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
