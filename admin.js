@@ -519,8 +519,10 @@ async function fetchOrders() {
     if (!res.ok) throw new Error("Failed to fetch orders");
 
     const orders = await res.json();
-    ordersCache = orders; // save them globally
     console.log("[DEBUG] Orders fetched:", orders);
+
+    // ✅ Save globally for viewOrderDetails
+    window.orders = orders;
 
     const tbody = document.getElementById("orders-tbody");
     tbody.innerHTML = "";
@@ -621,6 +623,7 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
