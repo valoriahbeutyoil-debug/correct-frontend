@@ -636,18 +636,3 @@ document.addEventListener("DOMContentLoaded", fetchOrders);
 window.fetchOrders = fetchOrders;
 window.cancelOrder = cancelOrder;
 window.viewOrderDetails = viewOrderDetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
