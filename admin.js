@@ -574,7 +574,7 @@ async function fetchOrders() {
 
 
 // =======================
-// CANCEL ORDER (Hard Delete)
+// CANCEL ORDER (hard delete)
 // =======================
 async function cancelOrder(orderId) {
   if (!confirm("Are you sure you want to delete this order permanently?")) return;
@@ -585,9 +585,8 @@ async function cancelOrder(orderId) {
     });
 
     if (!res.ok) throw new Error("Failed to delete order");
-
     alert("✅ Order deleted successfully!");
-    fetchOrders(); // Refresh the table so it disappears
+    fetchOrders(); // Refresh the table
   } catch (err) {
     alert("❌ Error deleting order: " + err.message);
   }
@@ -633,6 +632,7 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
