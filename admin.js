@@ -28,7 +28,6 @@ class AdminPanel {
                 this.showSection(section);
             });
         });
-
         // Sidebar toggle
         const sidebar = document.querySelector('.admin-sidebar');
         const backdrop = document.querySelector('.sidebar-backdrop');
@@ -639,3 +638,4 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
