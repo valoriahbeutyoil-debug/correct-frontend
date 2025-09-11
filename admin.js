@@ -560,14 +560,17 @@ async function fetchOrders() {
         </td>
       `;
 
-      tbody.appendChild(row);
-    });
-  } catch (err) {
-    console.error("[ERROR] Fetching orders:", err);
-    document.getElementById("orders-tbody").innerHTML =
+     tbody.appendChild(row);
+  });
+} catch (err) {
+  console.error("[ERROR] Fetching orders:", err);
+  const tbody = document.getElementById("orders-tbody");
+  if (tbody) {
+    tbody.innerHTML =
       `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
   }
 }
+
 
 
 // =======================
@@ -629,6 +632,7 @@ function viewOrderDetails(orderId) {
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
