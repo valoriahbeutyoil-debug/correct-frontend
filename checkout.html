@@ -972,7 +972,62 @@ async function placeOrder() {
       }
     });
   });
-    
+  // When user clicks "Place Order"
+document.getElementById("checkout-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // 1. Collect billing info
+  const billingInfo = {
+    firstName: document.getElementById("firstName").value,
+    lastName: document.getElementById("lastName").value,
+    company: document.getElementById("company").value,
+    country: document.getElementById("country").value,
+    address: document.getElementById("address").value,
+    address2: document.getElementById("address2").value,
+    city: document.getElementById("city").value,
+    state: document.getElementById("state").value,
+    zip: document.getElementById("zip").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    orderNotes: document.getElementById("orderNotes").value,
+  };
+
+  // 2. Get cart items
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // 3. Calculate total
+  const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+  // 4. Prepare order object
+  const order = {
+    billingInfo,
+    products: cart.map(item => ({
+      product: item.id,   // store product ID
+      name: item.name,    // store product name
+      quantity: item.qty,
+      price: item.price
+    })),
+    total,
+    status: "pending",
+  };
+
+  try {
+    const res = await fetch("https://correct-backend-gu05.onrender.com/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order),
+    });
+
+    if (!res.ok) throw new Error("❌ Error placing order");
+
+    alert("✅ Order placed successfully!");
+    localStorage.removeItem("cart"); // clear cart after success
+    window.location.href = "/thankyou.html"; // optional redirect
+  } catch (err) {
+    alert("❌ Error placing order: " + err.message);
+  }
+});
+
   fetchPaymentMethods();
   });
 </script>
