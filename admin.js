@@ -41,6 +41,29 @@ class AdminPanel {
             if (modal) modal.style.display = 'none';
         });
     }
+ const addUserForm = document.getElementById('add-user-form');
+        if (addUserForm) {
+            addUserForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addUser();
+            });
+        }
+
+        const saveContentBtn = document.getElementById('save-content-btn');
+        if (saveContentBtn) {
+            saveContentBtn.addEventListener('click', () => {
+                this.saveContent();
+            });
+        }
+
+        // Payment methods save
+        const paymentForm = document.getElementById('payment-methods-form');
+        if (paymentForm) {
+            paymentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await this.saveSettings();
+            });
+        }
 
     // Close modal (clicking outside payments modal)
     window.addEventListener('click', (e) => {
@@ -132,30 +155,7 @@ class AdminPanel {
     }
 }
 
-        const addUserForm = document.getElementById('add-user-form');
-        if (addUserForm) {
-            addUserForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.addUser();
-            });
-        }
-
-        const saveContentBtn = document.getElementById('save-content-btn');
-        if (saveContentBtn) {
-            saveContentBtn.addEventListener('click', () => {
-                this.saveContent();
-            });
-        }
-
-        // Payment methods save
-        const paymentForm = document.getElementById('payment-methods-form');
-        if (paymentForm) {
-            paymentForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                await this.saveSettings();
-            });
-        }
-
+       
         // Modal close buttons
         document.querySelectorAll('.modal-close').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -697,6 +697,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
