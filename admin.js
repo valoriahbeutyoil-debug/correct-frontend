@@ -626,8 +626,7 @@ async function cancelOrder(orderId) {
         } catch (err) {
             console.error("Error loading shipping settings:", err);
         }
-    
-
+    }
     async saveShippingSettings(e) {
         e.preventDefault();
         try {
@@ -699,6 +698,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
