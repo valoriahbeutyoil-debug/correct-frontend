@@ -1,7 +1,11 @@
-// Set API base URL for easy switching between local and deployed environments
+// =======================
+// API BASE URL
+// =======================
 const API_BASE_URL = 'https://correct-backend-gu05.onrender.com'; // Live backend URL
 
-// Admin Panel JavaScript
+// =======================
+// ADMIN PANEL CLASS
+// =======================
 class AdminPanel {
     constructor() {
         this.currentSection = 'dashboard';
@@ -20,6 +24,9 @@ class AdminPanel {
         fetchOrders();
     }
 
+    // =======================
+    // EVENT BINDINGS
+    // =======================
     bindEvents() {
         // Product category filter
         const filter = document.getElementById('product-category-filter');
@@ -143,7 +150,7 @@ class AdminPanel {
                     const usdtInput = document.getElementById('usdt-address');
                     if (usdtInput) usdtInput.value = data.usdt || '';
                 } catch (err) {
-                    window.adminPanel.showNotification("Error loading payment methods: " + err.message, "error");
+                    this.showNotification("Error loading payment methods: " + err.message, "error");
                 }
             });
         }
@@ -181,7 +188,10 @@ class AdminPanel {
         });
     }
 
-        showSection(sectionName) {
+    // =======================
+    // SECTIONS
+    // =======================
+    showSection(sectionName) {
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
@@ -209,6 +219,9 @@ class AdminPanel {
         return titles[section] || 'Dashboard';
     }
 
+    // =======================
+    // MODALS
+    // =======================
     showModal(modalId) {
         document.getElementById(modalId).classList.add('active');
     }
@@ -219,22 +232,25 @@ class AdminPanel {
         });
     }
 
+    // =======================
+    // DASHBOARD
+    // =======================
     loadDashboardData() {
         this.updateStats();
         this.loadRecentActivity();
     }
 
     updateStats() {
-    const totalUsers = document.getElementById('total-users');
-    if (totalUsers) totalUsers.textContent = this.users.length;
-    const totalProducts = document.getElementById('total-products');
-    if (totalProducts) totalProducts.textContent = this.products.length;
-    const totalOrders = document.getElementById('total-orders');
-    if (totalOrders) totalOrders.textContent = this.orders.length;
+        const totalUsers = document.getElementById('total-users');
+        if (totalUsers) totalUsers.textContent = this.users.length;
+        const totalProducts = document.getElementById('total-products');
+        if (totalProducts) totalProducts.textContent = this.products.length;
+        const totalOrders = document.getElementById('total-orders');
+        if (totalOrders) totalOrders.textContent = this.orders.length;
 
-    const revenue = this.orders.reduce((total, order) => total + order.total, 0);
-    const totalRevenue = document.getElementById('total-revenue');
-    if (totalRevenue) totalRevenue.textContent = `$${revenue.toFixed(2)}`;
+        const revenue = this.orders.reduce((total, order) => total + order.total, 0);
+        const totalRevenue = document.getElementById('total-revenue');
+        if (totalRevenue) totalRevenue.textContent = `$${revenue.toFixed(2)}`;
     }
 
     loadRecentActivity() {
@@ -270,6 +286,9 @@ class AdminPanel {
         return icons[type] || 'info-circle';
     }
 
+    // =======================
+    // PRODUCTS
+    // =======================
     async loadProducts() {
         try {
             const res = await fetch(`${API_BASE_URL}/products`);
@@ -284,15 +303,15 @@ class AdminPanel {
     renderProducts() {
         const container = document.getElementById('products-grid');
         const filter = document.getElementById('product-category-filter');
-          let filtered = this.products;
+        let filtered = this.products;
 
-    if (filter && filter.value) {
-        filtered = this.products.filter(p =>
-            (p.category ? p.category.toLowerCase() : "") === filter.value.toLowerCase()
-        );
-    }
+        if (filter && filter.value) {
+            filtered = this.products.filter(p =>
+                (p.category ? p.category.toLowerCase() : "") === filter.value.toLowerCase()
+            );
+        }
 
-            container.innerHTML = filtered.map(product => `
+        container.innerHTML = filtered.map(product => `
             <div class="product-card">
                 <div class="product-image">
                     <img src="${product.image}" alt="${product.name}" style="width: 220px; height: 220px; object-fit: cover;">
@@ -365,6 +384,9 @@ class AdminPanel {
         }
     }
 
+    // =======================
+    // USERS
+    // =======================
     async loadUsers() {
         try {
             const res = await fetch(`${API_BASE_URL}/users`);
@@ -440,7 +462,10 @@ class AdminPanel {
         }
     }
 
-       saveContent() {
+    // =======================
+    // CONTENT
+    // =======================
+    saveContent() {
         const heroTitle = document.getElementById('hero-title').value;
         const heroDescription = document.getElementById('hero-description').value;
         const heroButton = document.getElementById('hero-button').value;
@@ -456,164 +481,36 @@ class AdminPanel {
         this.showNotification('Content saved successfully!', 'success');
     }
 
-   async saveSettings() {
-    const bank = document.getElementById('bank').value;
-    const paypal = document.getElementById('paypal').value;
-    const skype = document.getElementById('skype').value;
-    const bitcoin = document.getElementById('bitcoin').value;
-    const ethereum = document.getElementById('eth-address').value;
-    const usdt = document.getElementById('usdt-address').value;
+    // =======================
+    // PAYMENT SETTINGS
+    // =======================
+    async saveSettings() {
+        const bank = document.getElementById('bank').value;
+        const paypal = document.getElementById('paypal').value;
+        const skype = document.getElementById('skype').value;
+        const bitcoin = document.getElementById('bitcoin').value;
+        const ethereum = document.getElementById('eth-address').value;
+        const usdt = document.getElementById('usdt-address').value;
 
-    try {
-const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
-  method: 'PUT',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
-});
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
+            });
 
-        if (!res.ok) throw new Error('Failed to save payment methods');
+            if (!res.ok) throw new Error('Failed to save payment methods');
 
-        this.showNotification('Payment methods updated successfully!', 'success');
-        document.getElementById('payment-methods-modal').style.display = 'none';
-    } catch (err) {
-        this.showNotification('Error saving settings: ' + err.message, 'error');
-    }
-}
-
-    logout() {
-        if (confirm('Are you sure you want to logout?')) {
-            sessionStorage.removeItem('docushop_session');
-            window.location.href = 'index.html';
+            this.showNotification('Payment methods updated successfully!', 'success');
+            document.getElementById('payment-methods-modal').style.display = 'none';
+        } catch (err) {
+            this.showNotification('Error saving settings: ' + err.message, 'error');
         }
     }
 
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <i class="fas fa-${this.getNotificationIcon(type)}"></i>
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        `;
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => notification.classList.add('show'), 100);
-
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 5000);
-
-        notification.querySelector('.notification-close').addEventListener('click', () => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        });
-    }
-
-  
-window.addEventListener('DOMContentLoaded', () => {
-    window.adminPanel = new AdminPanel();
-    
-});
-// =======================
-// ORDERS MANAGEMENT
-// =======================
-let ordersCache = []; // store orders for popup view
-
-async function fetchOrders() {
-  try {
-    const res = await fetch('https://correct-backend-gu05.onrender.com/orders');
-    if (!res.ok) throw new Error("Failed to fetch orders");
-
-    const orders = await res.json();
-    console.log("[DEBUG] Orders fetched:", orders);
-
-    // ✅ Save globally for viewOrderDetails
-    window.orders = orders;
-
-    const tbody = document.getElementById("orders-tbody");
-    tbody.innerHTML = "";
-
-    if (!orders || orders.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
-      return;
-    }
-
-    orders.forEach(order => {
-      const row = document.createElement("tr");
-
-      row.innerHTML = `
-        <td>${order._id}</td>
-        <td>
-          <strong>${order.billingInfo?.name || "N/A"}</strong><br>
-          <small>${order.billingInfo?.email || ""}</small><br>
-          <small>${order.billingInfo?.phone || ""}</small>
-        </td>
-        <td>
-          ${order.products && order.products.length > 0 
-            ? order.products.map(p => {
-                const productName = p.product?.name || p.snapshot?.name || "Unknown";
-                return `${productName} (x${p.quantity})`;
-              }).join("<br>")
-            : "No products"}
-        </td>
-        <td>$${order.total || 0}</td>
-        <td>${order.status || "pending"}</td>
-        <td>${new Date(order.createdAt).toLocaleString()}</td>
-        <td>
-          <button onclick="viewOrderDetails('${order._id}')">👁 View</button>
-          <button onclick="cancelOrder('${order._id}')">❌ Cancel</button>
-        </td>
-      `;
-
-      tbody.appendChild(row);
-    });
-  } catch (err) {
-    console.error("[ERROR] Fetching orders:", err);
-    const tbody = document.getElementById("orders-tbody");
-    if (tbody) {
-      tbody.innerHTML =
-        `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
-    }
-  }
-}
-
-// =======================
-// CANCEL ORDER (hard delete)
-// =======================
-async function cancelOrder(orderId) {
-  if (!confirm("Are you sure you want to delete this order permanently?")) return;
-
-  try {
-    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}`, {
-      method: "DELETE"
-    });
-
-    if (!res.ok) throw new Error("Failed to delete order");
-    alert("✅ Order deleted successfully!");
-    fetchOrders(); // Refresh the table
-  } catch (err) {
-    alert("❌ Error deleting order: " + err.message);
-  }
-}
-
-  getNotificationIcon(type) {
-        const icons = {
-            success: 'check-circle',
-            error: 'exclamation-circle',
-            info: 'info-circle',
-            warning: 'exclamation-triangle'
-        };
-        return icons[type] || 'info-circle';
-    }
-}
-// ======================
-// Shipping Functions
-// ======================
-
-// Load current shipping settings
-
+    // =======================
+    // SHIPPING
+    // =======================
     async loadShippingSettings() {
         try {
             const res = await fetch(`${API_BASE_URL}/api/shipping`);
@@ -622,105 +519,4 @@ async function cancelOrder(orderId) {
             if (data) {
                 document.getElementById("shipping-method").value = data.method || "";
                 document.getElementById("shipping-cost").value = data.cost || 0;
-                document.getElementById("shipping-estimated").value = data.estimatedDelivery || "";
-            }
-        } catch (err) {
-            console.error("Error loading shipping settings:", err);
-        }
-    }
-    async saveShippingSettings(e) {
-        e.preventDefault();
-        try {
-            const method = document.getElementById("shipping-method").value;
-            const cost = parseFloat(document.getElementById("shipping-cost").value);
-            const estimatedDelivery = document.getElementById("shipping-estimated").value;
-
-            const res = await fetch(`${API_BASE_URL}/api/shipping`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ method, cost, estimatedDelivery })
-            });
-
-            const data = await res.json();
-            alert("✅ Shipping settings updated!");
-        } catch (err) {
-            console.error("Error saving shipping settings:", err);
-            alert("❌ Failed to update shipping settings");
-        }
-    }
-}
-
-
-// =======================
-// VIEW ORDER DETAILS
-// =======================
-function viewOrderDetails(orderId) {
-  const order = window.orders?.find(o => o._id === orderId);
-  if (!order) return alert("Order not found");
-
-  const billing = order.billingInfo || {};
-  const products = order.products || [];
-
-  const productList = products.map(p => {
-    const productName = p.product?.name || p.snapshot?.name || "Unknown";
-    const productPrice = p.product?.price || p.snapshot?.price || 0;
-    return `${productName} (x${p.quantity}) - $${(productPrice * p.quantity).toFixed(2)}`;
-  }).join("<br>");
-
-  const detailsHtml = `
-    <h3>Order #${order._id}</h3>
-    <p><strong>Status:</strong> ${order.status}</p>
-    <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-    <hr>
-    <h4>Billing Info</h4>
-    <p><strong>Name:</strong> ${billing.name || "N/A"}</p>
-    <p><strong>Email:</strong> ${billing.email || "N/A"}</p>
-    <p><strong>Phone:</strong> ${billing.phone || "N/A"}</p>
-    <p><strong>Address:</strong> ${billing.address || ""}, ${billing.city || ""}, ${billing.country || ""}</p>
-    <hr>
-    <h4>Products</h4>
-    <p>${productList || "No products"}</p>
-    <hr>
-    <p><strong>Total:</strong> $${order.total || 0}</p>
-  `;
-
-  // Simple popup (you can style this later as a modal)
-  const popup = window.open("", "Order Details", "width=600,height=600");
-  popup.document.write(`<div style="font-family:sans-serif;padding:20px;">${detailsHtml}</div>`);
-  popup.document.close();
-}
-
-// =======================
-// Expose globally
-// =======================
-window.fetchOrders = fetchOrders;
-window.cancelOrder = cancelOrder;
-window.viewOrderDetails = viewOrderDetails;
-
-// Auto-run when admin panel loads
-document.addEventListener("DOMContentLoaded", fetchOrders);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                document.get
