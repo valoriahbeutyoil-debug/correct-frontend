@@ -653,6 +653,16 @@ async function saveShippingSettings(e) {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const shippingForm = document.getElementById("shipping-form");
+  if (shippingForm) {
+    shippingForm.addEventListener("submit", saveShippingSettings);
+  }
+
+  // Load current settings on page load
+  loadShippingSettings();
+});
+
 
 // =======================
 // VIEW ORDER DETAILS
@@ -702,6 +712,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
