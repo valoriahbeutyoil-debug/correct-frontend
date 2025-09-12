@@ -153,8 +153,6 @@ class AdminPanel {
             this.addProduct();
         });
     }
-}
-
        
         // Modal close buttons
         document.querySelectorAll('.modal-close').forEach(btn => {
@@ -624,7 +622,7 @@ async function cancelOrder(orderId) {
         } catch (err) {
             console.error("Error loading shipping settings:", err);
         }
-    }
+    
 
     async saveShippingSettings(e) {
         e.preventDefault();
