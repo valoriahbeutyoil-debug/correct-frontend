@@ -281,18 +281,22 @@ class AdminPanel {
         }
     }
 
-    renderProducts() {
-        const container = document.getElementById('products-grid');
-        const filter = document.getElementById('product-category-filter');
-          let filtered = this.products;
+  renderProducts() {
+    const container = document.getElementById('products-grid');
+    const filter = document.getElementById('product-category-filter');
+    let filtered = this.products;
+
+    const normalizeCategory = (cat) => {
+        return (cat || "").toLowerCase().replace(/\s+/g, "-");
+    };
 
     if (filter && filter.value) {
+        const selected = normalizeCategory(filter.value);
         filtered = this.products.filter(p =>
-            (p.category ? p.category.toLowerCase() : "") === filter.value.toLowerCase()
+            normalizeCategory(p.category) === selected
         );
     }
-
-            container.innerHTML = filtered.map(product => `
+           container.innerHTML = filtered.map(product => `
             <div class="product-card">
                 <div class="product-image">
                     <img src="${product.image}" alt="${product.name}" style="width: 220px; height: 220px; object-fit: cover;">
@@ -698,6 +702,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
