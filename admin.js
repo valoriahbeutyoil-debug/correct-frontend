@@ -17,147 +17,146 @@ class AdminPanel {
         this.loadProducts();
         this.loadUsers();
         this.loadShippingSettings();
-         fetchOrders();
-    }
-bindEvents() {
-    // Product category filter
-    const filter = document.getElementById('product-category-filter');
-    if (filter) {
-        filter.addEventListener('change', () => this.renderProducts());
+        fetchOrders();
     }
 
-    // Shipping form submit
-    const shippingForm = document.getElementById("shipping-form");
-    if (shippingForm) {
-        shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
-    }
-
-    // Close modal (clicking × specifically for payments)
-    const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            const modal = document.getElementById('payment-methods-modal');
-            if (modal) modal.style.display = 'none';
-        });
-    }   // ✅ this closes correctly
-
-    // Add user form
-    const addUserForm = document.getElementById('add-user-form');
-    if (addUserForm) {
-        addUserForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.addUser();
-        });
-    }
-
-    // Save content
-    const saveContentBtn = document.getElementById('save-content-btn');
-    if (saveContentBtn) {
-        saveContentBtn.addEventListener('click', () => {
-            this.saveContent();
-        });
-    }
-
-    // Payment methods save
-    const paymentForm = document.getElementById('payment-methods-form');
-    if (paymentForm) {
-        paymentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await this.saveSettings();
-        });
-    }
-}   // ✅ this properly closes bindEvents()
-
-
-    // Close modal (clicking outside payments modal)
-    window.addEventListener('click', (e) => {
-        const modal = document.getElementById('payment-methods-modal');
-        if (modal && e.target === modal) {
-            modal.style.display = 'none';
+    bindEvents() {
+        // Product category filter
+        const filter = document.getElementById('product-category-filter');
+        if (filter) {
+            filter.addEventListener('change', () => this.renderProducts());
         }
-    });
 
-    // Navigation
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const section = e.currentTarget.dataset.section;
-            this.showSection(section);
-        });
-    });
+        // Shipping form submit
+        const shippingForm = document.getElementById("shipping-form");
+        if (shippingForm) {
+            shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
+        }
 
-    // Sidebar toggle
-    const sidebar = document.querySelector('.admin-sidebar');
-    const backdrop = document.querySelector('.sidebar-backdrop');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            backdrop.classList.toggle('active');
-        });
-    }
-    if (backdrop) {
-        backdrop.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            backdrop.classList.remove('active');
-        });
-    }
+        // Close modal (clicking × specifically for payments)
+        const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                const modal = document.getElementById('payment-methods-modal');
+                if (modal) modal.style.display = 'none';
+            });
+        }
 
-    // Add product button
-    const addProductBtn = document.getElementById('add-product-btn');
-    if (addProductBtn) {
-        addProductBtn.addEventListener('click', () => {
-            this.showModal('add-product-modal');
-        });
-    }
+        // Add user form
+        const addUserForm = document.getElementById('add-user-form');
+        if (addUserForm) {
+            addUserForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addUser();
+            });
+        }
 
-    // Add user button
-    const addUserBtn = document.getElementById('add-user-btn');
-    if (addUserBtn) {
-        addUserBtn.addEventListener('click', () => {
-            this.showModal('add-user-modal');
-        });
-    }
+        // Save content
+        const saveContentBtn = document.getElementById('save-content-btn');
+        if (saveContentBtn) {
+            saveContentBtn.addEventListener('click', () => {
+                this.saveContent();
+            });
+        }
 
-    // Manage payment methods button
-    const managePaymentsBtn = document.getElementById('manage-payment-methods-btn');
-    if (managePaymentsBtn) {
-        managePaymentsBtn.addEventListener('click', async () => {
+        // Payment methods save
+        const paymentForm = document.getElementById('payment-methods-form');
+        if (paymentForm) {
+            paymentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await this.saveSettings();
+            });
+        }
+
+        // Close modal (clicking outside payments modal)
+        window.addEventListener('click', (e) => {
             const modal = document.getElementById('payment-methods-modal');
-            if (modal) modal.style.display = 'block';
-
-            try {
-                const res = await fetch(`${API_BASE_URL}/api/payment-methods`);
-                if (!res.ok) throw new Error("Failed to load payment methods");
-                const data = await res.json();
-
-                const bankInput = document.getElementById('bank');
-                if (bankInput) bankInput.value = data.bank || '';
-                const paypalInput = document.getElementById('paypal');
-                if (paypalInput) paypalInput.value = data.paypal || '';
-                const skypeInput = document.getElementById('skype');
-                if (skypeInput) skypeInput.value = data.skype || '';
-                const btcInput = document.getElementById('bitcoin');
-                if (btcInput) btcInput.value = data.bitcoin || '';
-                const ethInput = document.getElementById('eth-address');
-                if (ethInput) ethInput.value = data.ethereum || '';
-                const usdtInput = document.getElementById('usdt-address');
-                if (usdtInput) usdtInput.value = data.usdt || '';
-            } catch (err) {
-                window.adminPanel.showNotification("Error loading payment methods: " + err.message, "error");
+            if (modal && e.target === modal) {
+                modal.style.display = 'none';
             }
         });
-    }
 
-    // Add product form submission
-    const addProductForm = document.getElementById('add-product-form');
-    if (addProductForm) {
-        addProductForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.addProduct();
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = e.currentTarget.dataset.section;
+                this.showSection(section);
+            });
         });
-    }
-       
+
+        // Sidebar toggle
+        const sidebar = document.querySelector('.admin-sidebar');
+        const backdrop = document.querySelector('.sidebar-backdrop');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                backdrop.classList.toggle('active');
+            });
+        }
+        if (backdrop) {
+            backdrop.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                backdrop.classList.remove('active');
+            });
+        }
+
+        // Add product button
+        const addProductBtn = document.getElementById('add-product-btn');
+        if (addProductBtn) {
+            addProductBtn.addEventListener('click', () => {
+                this.showModal('add-product-modal');
+            });
+        }
+
+        // Add user button
+        const addUserBtn = document.getElementById('add-user-btn');
+        if (addUserBtn) {
+            addUserBtn.addEventListener('click', () => {
+                this.showModal('add-user-modal');
+            });
+        }
+
+        // Manage payment methods button
+        const managePaymentsBtn = document.getElementById('manage-payment-methods-btn');
+        if (managePaymentsBtn) {
+            managePaymentsBtn.addEventListener('click', async () => {
+                const modal = document.getElementById('payment-methods-modal');
+                if (modal) modal.style.display = 'block';
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/payment-methods`);
+                    if (!res.ok) throw new Error("Failed to load payment methods");
+                    const data = await res.json();
+
+                    const bankInput = document.getElementById('bank');
+                    if (bankInput) bankInput.value = data.bank || '';
+                    const paypalInput = document.getElementById('paypal');
+                    if (paypalInput) paypalInput.value = data.paypal || '';
+                    const skypeInput = document.getElementById('skype');
+                    if (skypeInput) skypeInput.value = data.skype || '';
+                    const btcInput = document.getElementById('bitcoin');
+                    if (btcInput) btcInput.value = data.bitcoin || '';
+                    const ethInput = document.getElementById('eth-address');
+                    if (ethInput) ethInput.value = data.ethereum || '';
+                    const usdtInput = document.getElementById('usdt-address');
+                    if (usdtInput) usdtInput.value = data.usdt || '';
+                } catch (err) {
+                    window.adminPanel.showNotification("Error loading payment methods: " + err.message, "error");
+                }
+            });
+        }
+
+        // Add product form submission
+        const addProductForm = document.getElementById('add-product-form');
+        if (addProductForm) {
+            addProductForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addProduct();
+            });
+        }
+
         // Modal close buttons
         document.querySelectorAll('.modal-close').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -180,6 +179,7 @@ bindEvents() {
                 this.hideAllModals();
             }
         });
+    }
 
         showSection(sectionName) {
         document.querySelectorAll('.content-section').forEach(section => {
