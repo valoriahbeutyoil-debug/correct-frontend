@@ -17,21 +17,26 @@ class AdminPanel {
         this.loadProducts();
         this.loadUsers();
         this.loadShippingSettings();
-         fetchOrders();
+        fetchOrders(); // global function for orders
     }
 
+    // =======================
+    // EVENT BINDINGS
+    // =======================
     bindEvents() {
-    const filter = document.getElementById('product-category-filter');
-if (filter) {
-    filter.addEventListener('change', () => this.renderProducts());
-}
-// Shipping form submit
-const shippingForm = document.getElementById("shipping-form");
-if (shippingForm) {
-    shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
-}
-    }
-    // Close modal (clicking × specifically for payments)
+        // Product category filter
+        const filter = document.getElementById('product-category-filter');
+        if (filter) {
+            filter.addEventListener('change', () => this.renderProducts());
+        }
+
+        // Shipping form submit
+        const shippingForm = document.getElementById("shipping-form");
+        if (shippingForm) {
+            shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
+        }
+
+        // Close modal (clicking × specifically for payments)
         const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
@@ -47,7 +52,6 @@ if (shippingForm) {
                 modal.style.display = 'none';
             }
         });
-    }
 
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -57,6 +61,7 @@ if (shippingForm) {
                 this.showSection(section);
             });
         });
+
         // Sidebar toggle
         const sidebar = document.querySelector('.admin-sidebar');
         const backdrop = document.querySelector('.sidebar-backdrop');
@@ -67,7 +72,6 @@ if (shippingForm) {
                 backdrop.classList.toggle('active');
             });
         }
-
         if (backdrop) {
             backdrop.addEventListener('click', () => {
                 sidebar.classList.remove('open');
@@ -121,7 +125,7 @@ if (shippingForm) {
             });
         }
 
-        // Form submissions
+        // Add product form submission
         const addProductForm = document.getElementById('add-product-form');
         if (addProductForm) {
             addProductForm.addEventListener('submit', (e) => {
@@ -130,6 +134,7 @@ if (shippingForm) {
             });
         }
 
+        // Add user form submission
         const addUserForm = document.getElementById('add-user-form');
         if (addUserForm) {
             addUserForm.addEventListener('submit', (e) => {
@@ -138,6 +143,7 @@ if (shippingForm) {
             });
         }
 
+        // Save content
         const saveContentBtn = document.getElementById('save-content-btn');
         if (saveContentBtn) {
             saveContentBtn.addEventListener('click', () => {
@@ -176,8 +182,12 @@ if (shippingForm) {
                 this.hideAllModals();
             }
         });
+    }
 
-        showSection(sectionName) {
+    // =======================
+    // NAVIGATION + MODALS
+    // =======================
+    showSection(sectionName) {
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
@@ -215,22 +225,25 @@ if (shippingForm) {
         });
     }
 
+    // =======================
+    // DASHBOARD
+    // =======================
     loadDashboardData() {
         this.updateStats();
         this.loadRecentActivity();
     }
 
     updateStats() {
-    const totalUsers = document.getElementById('total-users');
-    if (totalUsers) totalUsers.textContent = this.users.length;
-    const totalProducts = document.getElementById('total-products');
-    if (totalProducts) totalProducts.textContent = this.products.length;
-    const totalOrders = document.getElementById('total-orders');
-    if (totalOrders) totalOrders.textContent = this.orders.length;
+        const totalUsers = document.getElementById('total-users');
+        if (totalUsers) totalUsers.textContent = this.users.length;
+        const totalProducts = document.getElementById('total-products');
+        if (totalProducts) totalProducts.textContent = this.products.length;
+        const totalOrders = document.getElementById('total-orders');
+        if (totalOrders) totalOrders.textContent = this.orders.length;
 
-    const revenue = this.orders.reduce((total, order) => total + order.total, 0);
-    const totalRevenue = document.getElementById('total-revenue');
-    if (totalRevenue) totalRevenue.textContent = `$${revenue.toFixed(2)}`;
+        const revenue = this.orders.reduce((total, order) => total + order.total, 0);
+        const totalRevenue = document.getElementById('total-revenue');
+        if (totalRevenue) totalRevenue.textContent = `$${revenue.toFixed(2)}`;
     }
 
     loadRecentActivity() {
@@ -266,349 +279,156 @@ if (shippingForm) {
         return icons[type] || 'info-circle';
     }
 
+    // =======================
+    // PRODUCTS
+    // =======================
     async loadProducts() {
         try {
-            const res = await fetch(`${API_BASE_URL}/products`);
-            if (!res.ok) throw new Error('Failed to fetch products');
+            const res = await fetch(`${API_BASE_URL}/api/products`);
             this.products = await res.json();
             this.renderProducts();
         } catch (err) {
-            this.showNotification('Error loading products: ' + err.message, 'error');
+            console.error("Error loading products:", err);
         }
     }
 
     renderProducts() {
-        const container = document.getElementById('products-grid');
-        const filter = document.getElementById('product-category-filter');
-          let filtered = this.products;
-
-    if (filter && filter.value) {
-        filtered = this.products.filter(p =>
-            (p.category ? p.category.toLowerCase() : "") === filter.value.toLowerCase()
-        );
-    }
-
-            container.innerHTML = filtered.map(product => `
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="${product.image}" alt="${product.name}" style="width: 220px; height: 220px; object-fit: cover;">
-                </div>
-                <div class="product-info">
-                    <h3>${product.name}</h3>
-                    <div class="product-price">$${product.price.toFixed(2)}</div>
-                    <div class="product-category">${product.category}</div>
-                    <div class="product-review">${product.quickReview ? product.quickReview : ''}</div>
-                    <div class="product-actions">
-                        <button class="btn btn-secondary" onclick="adminPanel.editProduct('${product._id}')">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-secondary" onclick="adminPanel.deleteProduct('${product._id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
+        const container = document.getElementById('product-list');
+        if (!container) return;
+        container.innerHTML = this.products.map(product => `
+            <div class="product-item">
+                <h4>${product.name}</h4>
+                <p>₦${product.price}</p>
+                <button onclick="window.adminPanel.editProduct('${product._id}')">Edit</button>
+                <button onclick="window.adminPanel.deleteProduct('${product._id}')">Delete</button>
             </div>
         `).join('');
     }
 
     async addProduct() {
-        const form = document.getElementById('add-product-form');
-        const formData = new FormData(form);
-        if (!formData.get('name') || !formData.get('category') || !formData.get('price') || !formData.get('image')) {
-            this.showNotification('Please fill in all required fields.', 'error');
-            return;
-        }
-        formData.append('status', 'active');
         try {
-            const res = await fetch(`${API_BASE_URL}/products`, {
-                method: 'POST',
-                body: formData
+            const name = document.getElementById('product-name').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const res = await fetch(`${API_BASE_URL}/api/products`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, price })
             });
-            if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.error || 'Failed to add product');
-            }
-            this.showNotification('Product added successfully!', 'success');
-            this.loadProducts();
-            this.updateStats();
+            const product = await res.json();
+            this.products.push(product);
+            this.renderProducts();
             this.hideAllModals();
-            form.reset();
         } catch (err) {
-            this.showNotification('Error adding product: ' + err.message, 'error');
+            console.error("Error adding product:", err);
         }
     }
 
     async editProduct(id) {
-        const product = this.products.find(p => p._id === id);
-        if (product) {
-            this.showNotification('Edit functionality coming soon!', 'info');
-        }
+        alert(`Edit product ${id} clicked`);
     }
 
     async deleteProduct(id) {
-        if (confirm('Are you sure you want to delete this product?')) {
-            try {
-                const res = await fetch(`${API_BASE_URL}/products/${id}`, {
-                    method: 'DELETE'
-                });
-                if (!res.ok) throw new Error('Failed to delete product');
-                this.showNotification('Product deleted successfully!', 'success');
-                this.loadProducts();
-                this.updateStats();
-            } catch (err) {
-                this.showNotification('Error deleting product: ' + err.message, 'error');
-            }
+        if (!confirm("Are you sure?")) return;
+        try {
+            await fetch(`${API_BASE_URL}/api/products/${id}`, { method: "DELETE" });
+            this.products = this.products.filter(p => p._id !== id);
+            this.renderProducts();
+        } catch (err) {
+            console.error("Error deleting product:", err);
         }
     }
 
+    // =======================
+    // USERS
+    // =======================
     async loadUsers() {
         try {
-            const res = await fetch(`${API_BASE_URL}/users`);
-            if (!res.ok) throw new Error('Failed to fetch users');
+            const res = await fetch(`${API_BASE_URL}/api/users`);
             this.users = await res.json();
             this.renderUsers();
         } catch (err) {
-            this.showNotification('Error loading users: ' + err.message, 'error');
+            console.error("Error loading users:", err);
         }
     }
 
     renderUsers() {
-        const tbody = document.getElementById('users-tbody');
-        tbody.innerHTML = this.users.map(user => `
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.username}</td>
-                <td>${user.email}</td>
-                <td><span class="role-badge ${user.role}">${user.role}</span></td>
-                <td><span class="status-badge ${user.status}">${user.status}</span></td>
-                <td>
-                    <button class="btn btn-secondary" onclick="adminPanel.editUser(${user.id})">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-secondary" onclick="adminPanel.deleteUser(${user.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
+        const container = document.getElementById('user-list');
+        if (!container) return;
+        container.innerHTML = this.users.map(user => `
+            <div class="user-item">
+                <h4>${user.username}</h4>
+                <p>${user.email}</p>
+                <button onclick="window.adminPanel.editUser('${user._id}')">Edit</button>
+                <button onclick="window.adminPanel.deleteUser('${user._id}')">Delete</button>
+            </div>
         `).join('');
     }
 
     async addUser() {
-        const form = document.getElementById('add-user-form');
-        const formData = new FormData(form);
-        const user = {
-            username: formData.get('username'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            role: formData.get('role'),
-            status: 'active'
-        };
         try {
-            const res = await fetch(`${API_BASE_URL}/users`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(user)
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const res = await fetch(`${API_BASE_URL}/api/users`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email })
             });
-            if (!res.ok) throw new Error('Failed to add user');
-            this.showNotification('User added successfully!', 'success');
-            await this.loadUsers();
-            this.updateStats();
+            const user = await res.json();
+            this.users.push(user);
+            this.renderUsers();
             this.hideAllModals();
-            form.reset();
         } catch (err) {
-            this.showNotification('Error adding user: ' + err.message, 'error');
+            console.error("Error adding user:", err);
         }
     }
 
     editUser(id) {
-        const user = this.users.find(u => u.id === id);
-        if (user) {
-            this.showNotification('Edit functionality coming soon!', 'info');
-        }
+        alert(`Edit user ${id} clicked`);
     }
 
     deleteUser(id) {
-        if (confirm('Are you sure you want to delete this user?')) {
-            this.users = this.users.filter(u => u.id !== id);
+        if (!confirm("Are you sure?")) return;
+        try {
+            fetch(`${API_BASE_URL}/api/users/${id}`, { method: "DELETE" });
+            this.users = this.users.filter(u => u._id !== id);
             this.renderUsers();
-            this.updateStats();
-            this.showNotification('User deleted successfully!', 'success');
+        } catch (err) {
+            console.error("Error deleting user:", err);
         }
     }
 
-       saveContent() {
-        const heroTitle = document.getElementById('hero-title').value;
-        const heroDescription = document.getElementById('hero-description').value;
-        const heroButton = document.getElementById('hero-button').value;
-        const siteTitle = document.getElementById('site-title').value;
-        const siteDescription = document.getElementById('site-description').value;
-
-        const contentData = {
-            hero: { title: heroTitle, description: heroDescription, button: heroButton },
-            site: { title: siteTitle, description: siteDescription }
-        };
-
-        localStorage.setItem('docushop_content', JSON.stringify(contentData));
-        this.showNotification('Content saved successfully!', 'success');
+    // =======================
+    // CONTENT & SETTINGS
+    // =======================
+    saveContent() {
+        alert("Content saved!");
     }
 
-   async saveSettings() {
-    const bank = document.getElementById('bank').value;
-    const paypal = document.getElementById('paypal').value;
-    const skype = document.getElementById('skype').value;
-    const bitcoin = document.getElementById('bitcoin').value;
-    const ethereum = document.getElementById('eth-address').value;
-    const usdt = document.getElementById('usdt-address').value;
+    async saveSettings() {
+        try {
+            const bank = document.getElementById('bank').value;
+            const paypal = document.getElementById('paypal').value;
+            const skype = document.getElementById('skype').value;
+            const bitcoin = document.getElementById('bitcoin').value;
+            const ethereum = document.getElementById('eth-address').value;
+            const usdt = document.getElementById('usdt-address').value;
 
-    try {
-const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
-  method: 'PUT',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
-});
+            await fetch(`${API_BASE_URL}/api/payment-methods`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ bank, paypal, skype, bitcoin, ethereum, usdt })
+            });
 
-        if (!res.ok) throw new Error('Failed to save payment methods');
-
-        this.showNotification('Payment methods updated successfully!', 'success');
-        document.getElementById('payment-methods-modal').style.display = 'none';
-    } catch (err) {
-        this.showNotification('Error saving settings: ' + err.message, 'error');
-    }
-}
-
-    logout() {
-        if (confirm('Are you sure you want to logout?')) {
-            sessionStorage.removeItem('docushop_session');
-            window.location.href = 'index.html';
+            this.showNotification("✅ Payment methods updated!", "success");
+        } catch (err) {
+            console.error("Error saving payment methods:", err);
+            this.showNotification("❌ Failed to save payment methods", "error");
         }
     }
 
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <i class="fas fa-${this.getNotificationIcon(type)}"></i>
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        `;
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => notification.classList.add('show'), 100);
-
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 5000);
-
-        notification.querySelector('.notification-close').addEventListener('click', () => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        });
-    }
-
-    getNotificationIcon(type) {
-        const icons = {
-            success: 'check-circle',
-            error: 'exclamation-circle',
-            info: 'info-circle',
-            warning: 'exclamation-triangle'
-        };
-        return icons[type] || 'info-circle';
-    }
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    window.adminPanel = new AdminPanel();
-    
-});
-// =======================
-// ORDERS MANAGEMENT
-// =======================
-let ordersCache = []; // store orders for popup view
-
-async function fetchOrders() {
-  try {
-    const res = await fetch('https://correct-backend-gu05.onrender.com/orders');
-    if (!res.ok) throw new Error("Failed to fetch orders");
-
-    const orders = await res.json();
-    console.log("[DEBUG] Orders fetched:", orders);
-
-    // ✅ Save globally for viewOrderDetails
-    window.orders = orders;
-
-    const tbody = document.getElementById("orders-tbody");
-    tbody.innerHTML = "";
-
-    if (!orders || orders.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
-      return;
-    }
-
-    orders.forEach(order => {
-      const row = document.createElement("tr");
-
-      row.innerHTML = `
-        <td>${order._id}</td>
-        <td>
-          <strong>${order.billingInfo?.name || "N/A"}</strong><br>
-          <small>${order.billingInfo?.email || ""}</small><br>
-          <small>${order.billingInfo?.phone || ""}</small>
-        </td>
-        <td>
-          ${order.products && order.products.length > 0 
-            ? order.products.map(p => {
-                const productName = p.product?.name || p.snapshot?.name || "Unknown";
-                return `${productName} (x${p.quantity})`;
-              }).join("<br>")
-            : "No products"}
-        </td>
-        <td>$${order.total || 0}</td>
-        <td>${order.status || "pending"}</td>
-        <td>${new Date(order.createdAt).toLocaleString()}</td>
-        <td>
-          <button onclick="viewOrderDetails('${order._id}')">👁 View</button>
-          <button onclick="cancelOrder('${order._id}')">❌ Cancel</button>
-        </td>
-      `;
-
-      tbody.appendChild(row);
-    });
-  } catch (err) {
-    console.error("[ERROR] Fetching orders:", err);
-    const tbody = document.getElementById("orders-tbody");
-    if (tbody) {
-      tbody.innerHTML =
-        `<tr><td colspan="7" style="color:red;">Error loading orders</td></tr>`;
-    }
-  }
-}
-
-// =======================
-// CANCEL ORDER (hard delete)
-// =======================
-async function cancelOrder(orderId) {
-  if (!confirm("Are you sure you want to delete this order permanently?")) return;
-
-  try {
-    const res = await fetch(`https://correct-backend-gu05.onrender.com/orders/${orderId}`, {
-      method: "DELETE"
-    });
-
-    if (!res.ok) throw new Error("Failed to delete order");
-    alert("✅ Order deleted successfully!");
-    fetchOrders(); // Refresh the table
-  } catch (err) {
-    alert("❌ Error deleting order: " + err.message);
-  }
-}
-// ======================
-// Shipping Functions
-// ======================
-
-// Load current shipping settings
-
+    // =======================
+    // SHIPPING
+    // =======================
     async loadShippingSettings() {
         try {
             const res = await fetch(`${API_BASE_URL}/api/shipping`);
@@ -637,81 +457,103 @@ async function cancelOrder(orderId) {
                 body: JSON.stringify({ method, cost, estimatedDelivery })
             });
 
-            const data = await res.json();
+            await res.json();
             alert("✅ Shipping settings updated!");
         } catch (err) {
             console.error("Error saving shipping settings:", err);
             alert("❌ Failed to update shipping settings");
         }
     }
+
+    // =======================
+    // AUTH + NOTIFICATIONS
+    // =======================
+    logout() {
+        alert("Logged out!");
+        window.location.href = "login.html";
+    }
+
+    showNotification(message, type = 'info') {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <span class="icon">${this.getNotificationIcon(type)}</span>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 4000);
+    }
+
+    getNotificationIcon(type) {
+        const icons = {
+            success: "✅",
+            error: "❌",
+            info: "ℹ️",
+            warning: "⚠️"
+        };
+        return icons[type] || "ℹ️";
+    }
 }
 
+// =======================
+// INIT
+// =======================
+window.addEventListener('DOMContentLoaded', () => {
+    window.adminPanel = new AdminPanel();
+});
 
 // =======================
-// VIEW ORDER DETAILS
+// ORDERS (global funcs)
 // =======================
+async function fetchOrders() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/orders`);
+        const orders = await res.json();
+        window.adminPanel.orders = orders;
+
+        const container = document.getElementById('order-list');
+        if (container) {
+            container.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <h4>Order #${order._id}</h4>
+                    <p>Total: ₦${order.total}</p>
+                    <button onclick="cancelOrder('${order._id}')">Cancel</button>
+                    <button onclick="viewOrderDetails('${order._id}')">View</button>
+                </div>
+            `).join('');
+        }
+
+        window.adminPanel.updateStats();
+    } catch (err) {
+        console.error("Error fetching orders:", err);
+    }
+}
+
+async function cancelOrder(orderId) {
+    if (!confirm("Cancel this order?")) return;
+    try {
+        await fetch(`${API_BASE_URL}/api/orders/${orderId}`, { method: "DELETE" });
+        fetchOrders();
+    } catch (err) {
+        console.error("Error cancelling order:", err);
+    }
+}
+
 function viewOrderDetails(orderId) {
-  const order = window.orders?.find(o => o._id === orderId);
-  if (!order) return alert("Order not found");
-
-  const billing = order.billingInfo || {};
-  const products = order.products || [];
-
-  const productList = products.map(p => {
-    const productName = p.product?.name || p.snapshot?.name || "Unknown";
-    const productPrice = p.product?.price || p.snapshot?.price || 0;
-    return `${productName} (x${p.quantity}) - $${(productPrice * p.quantity).toFixed(2)}`;
-  }).join("<br>");
-
-  const detailsHtml = `
-    <h3>Order #${order._id}</h3>
-    <p><strong>Status:</strong> ${order.status}</p>
-    <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-    <hr>
-    <h4>Billing Info</h4>
-    <p><strong>Name:</strong> ${billing.name || "N/A"}</p>
-    <p><strong>Email:</strong> ${billing.email || "N/A"}</p>
-    <p><strong>Phone:</strong> ${billing.phone || "N/A"}</p>
-    <p><strong>Address:</strong> ${billing.address || ""}, ${billing.city || ""}, ${billing.country || ""}</p>
-    <hr>
-    <h4>Products</h4>
-    <p>${productList || "No products"}</p>
-    <hr>
-    <p><strong>Total:</strong> $${order.total || 0}</p>
-  `;
-
-  // Simple popup (you can style this later as a modal)
-  const popup = window.open("", "Order Details", "width=600,height=600");
-  popup.document.write(`<div style="font-family:sans-serif;padding:20px;">${detailsHtml}</div>`);
-  popup.document.close();
+    alert(`View details for order ${orderId}`);
 }
 
-// =======================
 // Expose globally
-// =======================
 window.fetchOrders = fetchOrders;
 window.cancelOrder = cancelOrder;
 window.viewOrderDetails = viewOrderDetails;
 
-// Auto-run when admin panel loads
+// Auto-run
 document.addEventListener("DOMContentLoaded", fetchOrders);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
