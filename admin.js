@@ -31,49 +31,23 @@ if (shippingForm) {
     shippingForm.addEventListener("submit", (e) => this.saveShippingSettings(e));
 }
     }
-
-// ======================
-// Shipping Functions
-// ======================
-
-// Load current shipping settings
-
-    async loadShippingSettings() {
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/shipping`);
-            const data = await res.json();
-
-            if (data) {
-                document.getElementById("shipping-method").value = data.method || "";
-                document.getElementById("shipping-cost").value = data.cost || 0;
-                document.getElementById("shipping-estimated").value = data.estimatedDelivery || "";
-            }
-        } catch (err) {
-            console.error("Error loading shipping settings:", err);
-        }
-    }
-
-    async saveShippingSettings(e) {
-        e.preventDefault();
-        try {
-            const method = document.getElementById("shipping-method").value;
-            const cost = parseFloat(document.getElementById("shipping-cost").value);
-            const estimatedDelivery = document.getElementById("shipping-estimated").value;
-
-            const res = await fetch(`${API_BASE_URL}/api/shipping`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ method, cost, estimatedDelivery })
+    // Close modal (clicking × specifically for payments)
+        const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                const modal = document.getElementById('payment-methods-modal');
+                if (modal) modal.style.display = 'none';
             });
-
-            const data = await res.json();
-            alert("✅ Shipping settings updated!");
-        } catch (err) {
-            console.error("Error saving shipping settings:", err);
-            alert("❌ Failed to update shipping settings");
         }
+
+        // Close modal (clicking outside payments modal)
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('payment-methods-modal');
+            if (modal && e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
     }
-}
 
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -203,25 +177,7 @@ if (shippingForm) {
             }
         });
 
-        // Close modal (clicking × specifically for payments)
-        const closeBtn = document.querySelector('#payment-methods-modal .modal-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                const modal = document.getElementById('payment-methods-modal');
-                if (modal) modal.style.display = 'none';
-            });
-        }
-
-        // Close modal (clicking outside payments modal)
-        window.addEventListener('click', (e) => {
-            const modal = document.getElementById('payment-methods-modal');
-            if (modal && e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    showSection(sectionName) {
+        showSection(sectionName) {
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
@@ -647,6 +603,50 @@ async function cancelOrder(orderId) {
     alert("❌ Error deleting order: " + err.message);
   }
 }
+// ======================
+// Shipping Functions
+// ======================
+
+// Load current shipping settings
+
+    async loadShippingSettings() {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/shipping`);
+            const data = await res.json();
+
+            if (data) {
+                document.getElementById("shipping-method").value = data.method || "";
+                document.getElementById("shipping-cost").value = data.cost || 0;
+                document.getElementById("shipping-estimated").value = data.estimatedDelivery || "";
+            }
+        } catch (err) {
+            console.error("Error loading shipping settings:", err);
+        }
+    }
+
+    async saveShippingSettings(e) {
+        e.preventDefault();
+        try {
+            const method = document.getElementById("shipping-method").value;
+            const cost = parseFloat(document.getElementById("shipping-cost").value);
+            const estimatedDelivery = document.getElementById("shipping-estimated").value;
+
+            const res = await fetch(`${API_BASE_URL}/api/shipping`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ method, cost, estimatedDelivery })
+            });
+
+            const data = await res.json();
+            alert("✅ Shipping settings updated!");
+        } catch (err) {
+            console.error("Error saving shipping settings:", err);
+            alert("❌ Failed to update shipping settings");
+        }
+    }
+}
+
+
 // =======================
 // VIEW ORDER DETAILS
 // =======================
@@ -695,6 +695,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
