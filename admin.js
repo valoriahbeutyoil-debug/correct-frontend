@@ -511,17 +511,7 @@ const res = await fetch(`${API_BASE_URL}/api/payment-methods`, {
         });
     }
 
-    getNotificationIcon(type) {
-        const icons = {
-            success: 'check-circle',
-            error: 'exclamation-circle',
-            info: 'info-circle',
-            warning: 'exclamation-triangle'
-        };
-        return icons[type] || 'info-circle';
-    }
-}
-
+  
 window.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
     
@@ -606,6 +596,17 @@ async function cancelOrder(orderId) {
   } catch (err) {
     alert("❌ Error deleting order: " + err.message);
   }
+}
+
+  getNotificationIcon(type) {
+        const icons = {
+            success: 'check-circle',
+            error: 'exclamation-circle',
+            info: 'info-circle',
+            warning: 'exclamation-triangle'
+        };
+        return icons[type] || 'info-circle';
+    }
 }
 // ======================
 // Shipping Functions
@@ -698,6 +699,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
