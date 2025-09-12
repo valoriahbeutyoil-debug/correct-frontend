@@ -19,8 +19,7 @@ class AdminPanel {
         this.loadShippingSettings();
          fetchOrders();
     }
-
-   bindEvents() {
+bindEvents() {
     // Product category filter
     const filter = document.getElementById('product-category-filter');
     if (filter) {
@@ -40,30 +39,35 @@ class AdminPanel {
             const modal = document.getElementById('payment-methods-modal');
             if (modal) modal.style.display = 'none';
         });
+    }   // ✅ this closes correctly
+
+    // Add user form
+    const addUserForm = document.getElementById('add-user-form');
+    if (addUserForm) {
+        addUserForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.addUser();
+        });
     }
- const addUserForm = document.getElementById('add-user-form');
-        if (addUserForm) {
-            addUserForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.addUser();
-            });
-        }
 
-        const saveContentBtn = document.getElementById('save-content-btn');
-        if (saveContentBtn) {
-            saveContentBtn.addEventListener('click', () => {
-                this.saveContent();
-            });
-        }
+    // Save content
+    const saveContentBtn = document.getElementById('save-content-btn');
+    if (saveContentBtn) {
+        saveContentBtn.addEventListener('click', () => {
+            this.saveContent();
+        });
+    }
 
-        // Payment methods save
-        const paymentForm = document.getElementById('payment-methods-form');
-        if (paymentForm) {
-            paymentForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                await this.saveSettings();
-            });
-        }
+    // Payment methods save
+    const paymentForm = document.getElementById('payment-methods-form');
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await this.saveSettings();
+        });
+    }
+}   // ✅ this properly closes bindEvents()
+
 
     // Close modal (clicking outside payments modal)
     window.addEventListener('click', (e) => {
@@ -695,6 +699,7 @@ window.viewOrderDetails = viewOrderDetails;
 
 // Auto-run when admin panel loads
 document.addEventListener("DOMContentLoaded", fetchOrders);
+
 
 
 
